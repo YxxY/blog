@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>pandaQ&#39;s Site</title>
+  <subtitle>pandaQ&#39;s Blog</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2017-05-14T09:49:20.033Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>pandaQ</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>蛋总帅不帅？</title>
+    <link href="http://yoursite.com/2017/05/11/test/"/>
+    <id>http://yoursite.com/2017/05/11/test/</id>
+    <published>2017-05-11T12:37:38.000Z</published>
+    <updated>2017-05-14T09:49:20.033Z</updated>
+    
+    <content type="html"><![CDATA[<font color="#0099ff" size="12" face="黑体">帅！</font>]]></content>
+    
+    <summary type="html">
+    
+      &lt;font color=&quot;#0099ff&quot; size=&quot;12&quot; face=&quot;黑体&quot;&gt;帅！&lt;/font&gt;
+    
+    </summary>
+    
+      <category term="生活" scheme="http://yoursite.com/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="蛋总" scheme="http://yoursite.com/tags/%E8%9B%8B%E6%80%BB/"/>
+    
+      <category term="扯淡" scheme="http://yoursite.com/tags/%E6%89%AF%E6%B7%A1/"/>
+    
+  </entry>
+  
+</feed>
