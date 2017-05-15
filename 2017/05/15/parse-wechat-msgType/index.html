@@ -1,0 +1,647 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>对微信消息内容类型的判断 | pandaQ&#39;s Blog</title>
+    <meta name="author" content="pandaQ">
+    
+    <meta name="description" content="share a story I just wrote with you">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="对微信消息内容类型的判断"/>
+    <meta property="og:site_name" content="pandaQ&#39;s Site"/>
+
+    
+    <meta property="og:image" content="undefined"/>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="pandaQ&#39;s Site" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="teal">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">pandaQ&#39;s Site</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            首页
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            时光轴
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            分类
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            关于
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav teal darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://opxo4bto2.bkt.clouddn.com/me.jpg" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">pandaQ</p>
+                        <p class="desc">Coder</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    首页
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    时光轴
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    分类
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    关于
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav teal darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/技术/">
+                    技术 <span class="right">1 篇</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Lua/">
+                    Lua <span class="right">1 篇</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">搜索</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper teal">
+        <span class="breadcrumb">当前位置（分类目录）</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/Lua/">Lua</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>对微信消息内容类型的判断</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2017-05-15T10:35:38.000Z"><a href="/2017/05/15/parse-wechat-msgType/">2017-05-15</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/wechat/" class="chip pink lighten-1">wechat</a>
+        
+            <a href="/tags/message-type/" class="chip pink lighten-1">message type</a>
+        
+            <a href="/tags/lua/" class="chip pink lighten-1">lua</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#实现步骤"><span class="section table-of-contents-text">实现步骤</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#特殊说明"><span class="section table-of-contents-text">特殊说明</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#抓包"><span class="section table-of-contents-text">抓包</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#解包"><span class="section table-of-contents-text">解包</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#获取Data部分数据"><span class="section table-of-contents-text">获取Data部分数据</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#过滤数据"><span class="section table-of-contents-text">过滤数据</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#解析数据"><span class="section table-of-contents-text">解析数据</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#结果展示"><span class="section table-of-contents-text">结果展示</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#总结"><span class="section table-of-contents-text">总结</span></a></li></ol></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>最近试着做些工作总结，这也是我开始写博客的初衷，少bb，just do it！</p>
+<p>这是我最早进公司做的一个小项目，需求是判断手机收发微信消息内容类型。就是手机发了一条微信消息之后，程序要能解析出发的是文本、语音还是图片等等，并且统计时延。接收也是如此，主要需求是对发送类型的判断。<br><a id="more"></a></p>
+<h2 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h2><pre><code>1. 抓包
+2. 解包
+3. 结果展示
+</code></pre><hr>
+<h3 id="特殊说明"><a href="#特殊说明" class="headerlink" title="特殊说明"></a>特殊说明</h3><pre><code>该工作主要建立在部门内部提供的类似高通的QXDM、QCAT的log解析工具。称之为DM。
+因此，离开这个定制工具，可实现度几乎为0，重新造轮子代价太大，因此全文只能是介绍解决问题的思路。
+</code></pre><hr>
+<h3 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h3><p>利用DM抓log。效果如下图所示：<br><img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/log.png" alt="log"></p>
+<hr>
+<h3 id="解包"><a href="#解包" class="headerlink" title="解包"></a>解包</h3><p>DM做的工作就是把二进制的码流按照协议解析成有意义的字段，如上图所示，可以看到<code>ProtocolID</code>字段值为<code>IP</code>，意思这是个IP数据包。而真正有意义的内容存储在后续的<code>Data</code>中，这一部分DM是无法解析的，它只知道只是数据部分。因此存成一个数组，每一个元素是一个字节，提供解析接口，方便后续获取这些数据，做进一步的解析。</p>
+<hr>
+<p>于是很自然的就可以知道后续工作步骤了：</p>
+<ul>
+<li><p>获取Data部分数据</p>
+</li>
+<li><p>过滤数据，剔除无效数据</p>
+</li>
+<li><p>按照协议解析这些数据</p>
+<hr>
+<h4 id="获取Data部分数据"><a href="#获取Data部分数据" class="headerlink" title="获取Data部分数据"></a>获取Data部分数据</h4><p>  DM既然能解析这些字段，自然提供了获取它们的API，接口语言为lua。</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">protocolDataHandler</span><span class="params">(mo, item)</span></span></div><div class="line">   	<span class="keyword">local</span> index, logBuffer = <span class="number">1</span>, &#123;&#125;</div><div class="line">   	<span class="keyword">for</span> i = <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span> <span class="keyword">do</span></div><div class="line">       	logBuffer[i], index = item:GetFieldValueByName( <span class="string">"Data["</span>.. i - <span class="number">1</span> ..<span class="string">"]"</span>, index)</div><div class="line">   	<span class="keyword">end</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<p>  这里稍作解释：<br>  处理函数接受两个参数，第一个是手机的id，第二个是一条log对象。<br>  重点就是这个log对象，它提供了接口函数<code>GetFieldValueByName</code>,参数为需要获取的字段名和内部查找的起始位置，返回字段值和它所在的位置，不存在则返回null和0。<br>  总之就是这个已经造好的轮子，大大减少了我的实际工作量，我可以很容易的获取Data内容。</p>
+<hr>
+<h4 id="过滤数据"><a href="#过滤数据" class="headerlink" title="过滤数据"></a>过滤数据</h4><p>  如何判断数据是否有效？答案是根据协议以及结合自身的需求<br>  Data部分就是IP数据包的全部内容，根据TCP/IP协议，数据包的格式是<code>Header + Data</code><br>  这里具体来说就是，<code>ipHeader + tcpHeader + data</code><br>  也就是说，我们前面获得的Data数据，其实是三个部分的数据:<br>  <code>Data = ipHeader + tcpHeader + data</code><br>  没错，Data中的data才是我们真正需要的解析目标。</p>
+<hr>
+<p>  这里简单数据包的组成格式,分别对应IP数据包格式和TCP数据包格式，图片来源于网络</p>
+<p>  <img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/IP_Package.png" alt="ip"></p>
+<p>  <img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/TCP_Package.png" alt="tcp"></p>
+<p>  根据协议，很清楚可以看到ipHeader和tcpHeader的固定部分都是20个字节，因此协议规则如下：</p>
+<hr>
+<ul>
+<li>ipHeader 至少20个字节</li>
+<li><p>tcpHeader 至少20个字节</p>
+<p>加上和业务定制的规则如下：</p>
+</li>
+<li><p>ipHeader 中的版本（0-4位对应的字段值）为4，即0100，用来表明IP协议实现的版本号，当前规定为IPv4，因此如果是连wifi发微信消息，那么就直接被过滤掉了</p>
+</li>
+<li>ipHeader中的协议（72-80位）为6，指明IP层所封装的上层协议类型，如ICMP（1）、IGMP（2） 、TCP（6）、UDP（17）等，当前为TCP</li>
+<li>data部分至少16个字节，这个是查资料获得，和微信消息类型相关的特征字信息，只在前16个字节中，后续字节内容应该表示的消息内容，虽然我也很感兴趣，但毕竟和本次工作无关，就不展开了</li>
+</ul>
+</li>
+</ul>
+<pre><code>总的来说过滤数据，就是把不符合这五条规则的数据直接丢掉不处理，直接进入下一条log的处理。
+这段就不贴代码了，实现并不复杂。
+</code></pre><hr>
+<h4 id="解析数据"><a href="#解析数据" class="headerlink" title="解析数据"></a>解析数据</h4><p>假设我们已经获取数据，并过滤，得到了我们需要的Data中的data，下面开始处理，这里贴出当时写的很挫的处理函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getDataTypeFromDataContent</span><span class="params">(mo, buf)</span></span></div><div class="line">    <span class="keyword">local</span> ls = stat[mo]</div><div class="line">    <span class="keyword">local</span> str, dataSN = <span class="string">''</span>, <span class="string">''</span></div><div class="line">    <span class="keyword">for</span> i = <span class="number">1</span>, <span class="number">12</span>, <span class="number">1</span> <span class="keyword">do</span></div><div class="line">    	str = str..buf[i]..<span class="string">' '</span></div><div class="line">    <span class="keyword">end</span></div><div class="line">    <span class="keyword">for</span> i = <span class="number">13</span>, <span class="number">16</span>, <span class="number">1</span> <span class="keyword">do</span></div><div class="line">    	dataSN = dataSN..buf[i]</div><div class="line">    <span class="keyword">end</span></div><div class="line">    ls.dataSNText = dataSN</div><div class="line"> 	</div><div class="line">    <span class="keyword">if</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 82 00 10 00 01 %x%x %x%x %x%x ED"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Text'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01 %x%x %x%x %x%x ED"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Text'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 7E 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 81 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 83 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 27 14 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Request'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 2A FC 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Request OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 27 10 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 2A F8 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 75 30 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Video'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span>    </div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 79 18 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Video'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span> </div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'WeChat'</span>..<span class="string">'-'</span>..<span class="string">'unknown'</span></div><div class="line">    <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure></p>
+<p>这种全是if/else的代码拿出来确实挺不好意思的，简单说明如下：</p>
+<pre><code>ls 为状态对象，是一个状态机的实现，用来记录每个手机实时的消息状态。
+将data数组拼接成字符串，以空格为间隔。
+可以看出，前12个字节用于判断类型，后四个字节用来记录序列号。
+然后就是正则匹配了，对应各自的消息类型。
+这些规则也是查阅资料论文和测试获得，毕竟我猜TX应该不会公开这些信息的吧。
+</code></pre><hr>
+<p>至此，已经可以获得消息类型了。当然只是常用的几种，文本，图片、语音及视频类型。但这里只完成了40%的任务，因为还需要统计发送消息的时延啊，例如发了一条消息，会马触发一条<code>Text-Send</code>的log，但直到有<code>Text-Send OK</code>的log上报，才会认定消息发送成功，二者之间的时间差就是需要记录的时延。</p>
+<p>但理想很丰满，上面的消息判断依旧是很粗糙的，总有一些意外情况，例如<code>Send-OK</code>消息的格式总是有意外情况，图片会有分包的情况，如何判断是一次而不是多次发送等等问。</p>
+<p>所以后来第二个迭代时就完全结束了这种不完全靠谱的做法，直接新定义两条log，在发送之前发一次，里面写好发送类型手机id等信息，发送完毕再发一条结束消息确认。这样来，一切就简单多了，相当于固定场景测试了。</p>
+<hr>
+<h3 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h3><p>最终部分结果如下图所示：<br>    <img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/stat.png" alt="stat"></p>
+<p>为了做debug，还做了一张数据流的展示，一行代表一条log所携带的信息解释<br>    <img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/flow.png" alt="flow"></p>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>做完这个工作给我带来做大的收获大概就是能够非常熟练的写lua脚本了吧，虽然写的可能不怎么好看，但得益于lua强大的性能，影响并不大。之后写其他需求的脚本都很轻松了。<br>同时也开阔了思维，对TCP/IP协议有了基本的认识。<br>另外，还有其他的一些收获。例如，这个当时是我和部长结对完成的，它负责提供资料，我负责写脚本实现。当时还隐隐有种优越感，看，我比你厉害吧。现在想想都忍不住笑出声，哈哈哈~</p>
+
+                
+
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href,
+        sourceId: "",
+        productKey: "4fc9566bfa494cb09ed9f70c2ecdb566",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect green" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse yellow darken-1"  data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer teal darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">社交</h5>
+                
+                    <a class="social-link" href="http://weibo.com/pilipalabeng" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/yxxy" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">友情链接</h5>
+                
+                    <a class="social-link" href="http://www.cqumzh.cn/bbs/frame.php" target="_blank">重庆大学民主湖论坛</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2017- All rights reserved.
+            <p class="right" style="margin-top: 0;">Powered by <a href="https://hexo.io">Hexo</a>  | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-search').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=62150905" charset="UTF-8"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>
