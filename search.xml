@@ -4,7 +4,7 @@
     
     <entry>
       <title><![CDATA[对微信消息内容类型的判断]]></title>
-      <url>/2017/05/15/parse-wechat-msgType/</url>
+      <url>/2017/05/15/parse_wechat_msgType/</url>
       <content type="html"><![CDATA[<p>最近试着做些工作总结，这也是我开始写博客的初衷，少bb，just do it！</p>
 <p>这是我最早进公司做的一个小项目，需求是判断手机收发微信消息内容类型。就是手机发了一条微信消息之后，程序要能解析出发的是文本、语音还是图片等等，并且统计时延。接收也是如此，主要需求是对发送类型的判断。<br><a id="more"></a></p>
 <h2 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h2><pre><code>1. 抓包
