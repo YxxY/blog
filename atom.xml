@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-05-20T13:32:22.009Z</updated>
+  <updated>2017-05-20T13:39:25.690Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,40 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>毕业十年</title>
-    <link href="http://yoursite.com/2017/05/20/ten_years_after_graduation%20/"/>
-    <id>http://yoursite.com/2017/05/20/ten_years_after_graduation /</id>
-    <published>2017-05-20T11:26:38.000Z</published>
-    <updated>2017-05-20T13:32:22.009Z</updated>
-    
-    <content type="html"><![CDATA[<p>做了一回标题党，毕业十年，指的是我初中毕业十年，不说清楚显老啊。<br>很久不写这种回忆式的东西了，总会让我想起来那些年被qq空间所支配的愚蠢，哈哈，想想都觉得太傻太年轻。<br>在十年这个节点上总是不时地冒出一些莫名的感慨。感慨时光荏苒，感慨世事变迁，感慨错失机遇，感慨人与人之间的差距，感慨珍贵无比的革命友谊……<br>然而这些总是很快被我掐灭，然后回归我的平凡日常。就像那句“快醒醒，工头喊你搬砖了”一样的效果，该干嘛接着干嘛。但十年前我是做不到这样的，这大概就是我这十年来最有用的收获吧。趁着今晚闲暇，谨以此文……写到这里时搜狗给我推荐了联想词“谨以此文献给消逝的青春”……啊，还是不要这种风格的吧！我就只想给它添个句号，真的。</p>
-<a id="more"></a>
-<p><span style="font-size:40px;color:red;">。</span></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;做了一回标题党，毕业十年，指的是我初中毕业十年，不说清楚显老啊。&lt;br&gt;很久不写这种回忆式的东西了，总会让我想起来那些年被qq空间所支配的愚蠢，哈哈，想想都觉得太傻太年轻。&lt;br&gt;在十年这个节点上总是不时地冒出一些莫名的感慨。感慨时光荏苒，感慨世事变迁，感慨错失机遇，感慨人与人之间的差距，感慨珍贵无比的革命友谊……&lt;br&gt;然而这些总是很快被我掐灭，然后回归我的平凡日常。就像那句“快醒醒，工头喊你搬砖了”一样的效果，该干嘛接着干嘛。但十年前我是做不到这样的，这大概就是我这十年来最有用的收获吧。趁着今晚闲暇，谨以此文……写到这里时搜狗给我推荐了联想词“谨以此文献给消逝的青春”……啊，还是不要这种风格的吧！我就只想给它添个句号，真的。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="生活" scheme="http://yoursite.com/categories/%E7%94%9F%E6%B4%BB/"/>
-    
-      <category term="随笔" scheme="http://yoursite.com/categories/%E7%94%9F%E6%B4%BB/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-      <category term="回忆" scheme="http://yoursite.com/tags/%E5%9B%9E%E5%BF%86/"/>
-    
-      <category term="成长" scheme="http://yoursite.com/tags/%E6%88%90%E9%95%BF/"/>
-    
-  </entry>
-  
-  <entry>
     <title>JavaScript箭头函数</title>
     <link href="http://yoursite.com/2017/05/18/arrow_function/"/>
     <id>http://yoursite.com/2017/05/18/arrow_function/</id>
     <published>2017-05-18T12:50:38.000Z</published>
-    <updated>2017-05-20T13:26:59.700Z</updated>
+    <updated>2017-05-20T13:39:25.690Z</updated>
     
     <content type="html"><![CDATA[<p>js从ES6开始引入一种新函数，箭头函数。<br>它拥有无比简洁优雅的写法，不用显式的写<code>function</code>，确实方便不少。但并非适应所有的函数应用场景，这里结合资料和个人理解做个总结。<br><a id="more"></a></p>
 <pre><code>An arrow function expression has a shorter syntax than a function expression 
@@ -88,7 +59,7 @@ and they cannot be used as constructors.
     
       <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="javaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/javaScript/"/>
+      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
     
     
       <category term="javaScript" scheme="http://yoursite.com/tags/javaScript/"/>
@@ -104,79 +75,54 @@ and they cannot be used as constructors.
     <link href="http://yoursite.com/2017/05/15/parse_wechat_msgType/"/>
     <id>http://yoursite.com/2017/05/15/parse_wechat_msgType/</id>
     <published>2017-05-15T10:35:38.000Z</published>
-    <updated>2017-05-18T12:58:17.871Z</updated>
+    <updated>2017-06-15T13:49:06.367Z</updated>
     
     <content type="html"><![CDATA[<p>最近试着做些工作总结，这也是我开始写博客的初衷，少bb，just do it！</p>
-<p>这是我最早进公司做的一个小项目，需求是判断手机收发微信消息内容类型。就是手机发了一条微信消息之后，程序要能解析出发的是文本、语音还是图片等等，并且统计时延。接收也是如此，主要需求是对发送类型的判断。<br><a id="more"></a></p>
+<p>这是我最早进公司做的一个小项目，需求是判断手机收发微信消息内容类型。就是手机发了一条微信消息之后，程序要能解析出发的是文本、语音还是图片等类型，并且统计时延。接收也是如此，主要需求是对发送类型的判断。<br><a id="more"></a></p>
 <h2 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h2><pre><code>1. 抓包
 2. 解包
 3. 结果展示
 </code></pre><hr>
-<h3 id="特殊说明"><a href="#特殊说明" class="headerlink" title="特殊说明"></a>特殊说明</h3><pre><code>该工作主要建立在部门内部提供的类似高通的QXDM、QCAT的log解析工具。称之为DM。
-因此，离开这个定制工具，可实现度几乎为0，重新造轮子代价太大，因此全文只能是介绍解决问题的思路。
+<h3 id="特殊说明"><a href="#特殊说明" class="headerlink" title="特殊说明"></a>特殊说明</h3><pre><code>该工作主要依赖部门内部高度定制的解析工具，可复现度几乎为0，因此全文只谈思路、方法与收获。
 </code></pre><hr>
-<h3 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h3><p>利用DM抓log。效果如下图所示：<br><img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/log.png" alt="log"></p>
+<h3 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h3><p>抓取终端发生微信消息时的消息包，根据3GPP协议可以获取该消息的id为0x11EB</p>
 <hr>
-<h3 id="解包"><a href="#解包" class="headerlink" title="解包"></a>解包</h3><p>DM做的工作就是把二进制的码流按照协议解析成有意义的字段，如上图所示，可以看到<code>ProtocolID</code>字段值为<code>IP</code>，意思这是个IP数据包。而真正有意义的内容存储在后续的<code>Data</code>中，这一部分DM是无法解析的，它只知道只是数据部分。因此存成一个数组，每一个元素是一个字节，提供解析接口，方便后续获取这些数据，做进一步的解析。</p>
+<h3 id="解包"><a href="#解包" class="headerlink" title="解包"></a>解包</h3><p>这个过程就是把二进制的码流按照协议解析成有意义的字段。再从中筛选实际需要的内容做二次解析。<br>这部分按照当时使用的工具，解析语言用的lua。<br>这里主要说明下数据的过滤和解析</p>
+<h4 id="过滤数据"><a href="#过滤数据" class="headerlink" title="过滤数据"></a>过滤数据</h4><p>如何判断数据是否有效？答案是根据协议数据结构和自身业务需求。<br>根据TCP/IP协议，数据包的格式是<code>Header + Data</code><br>这里具体来说就是，<code>ipHeader + tcpHeader + data</code>，其中data部分才是我们真正需要的解析目标。</p>
 <hr>
-<p>于是很自然的就可以知道后续工作步骤了：</p>
-<ul>
-<li><p>获取Data部分数据</p>
-</li>
-<li><p>过滤数据，剔除无效数据</p>
-</li>
-<li><p>按照协议解析这些数据</p>
-<hr>
-<h4 id="获取Data部分数据"><a href="#获取Data部分数据" class="headerlink" title="获取Data部分数据"></a>获取Data部分数据</h4><p>  DM既然能解析这些字段，自然提供了获取它们的API，接口语言为lua。</p>
-  <figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">protocolDataHandler</span><span class="params">(mo, item)</span></span></div><div class="line">   	<span class="keyword">local</span> index, logBuffer = <span class="number">1</span>, &#123;&#125;</div><div class="line">   	<span class="keyword">for</span> i = <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span> <span class="keyword">do</span></div><div class="line">       	logBuffer[i], index = item:GetFieldValueByName( <span class="string">"Data["</span>.. i - <span class="number">1</span> ..<span class="string">"]"</span>, index)</div><div class="line">   	<span class="keyword">end</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
-<p>  这里稍作解释：<br>  处理函数接受两个参数，第一个是手机的id，第二个是一条log对象。<br>  重点就是这个log对象，它提供了接口函数<code>GetFieldValueByName</code>,参数为需要获取的字段名和内部查找的起始位置，返回字段值和它所在的位置，不存在则返回null和0。<br>  总之就是这个已经造好的轮子，大大减少了我的实际工作量，我可以很容易的获取Data内容。</p>
-<hr>
-<h4 id="过滤数据"><a href="#过滤数据" class="headerlink" title="过滤数据"></a>过滤数据</h4><p>  如何判断数据是否有效？答案是根据协议以及结合自身的需求<br>  Data部分就是IP数据包的全部内容，根据TCP/IP协议，数据包的格式是<code>Header + Data</code><br>  这里具体来说就是，<code>ipHeader + tcpHeader + data</code><br>  也就是说，我们前面获得的Data数据，其实是三个部分的数据:<br>  <code>Data = ipHeader + tcpHeader + data</code><br>  没错，Data中的data才是我们真正需要的解析目标。</p>
-<hr>
-<p>  这里简单数据包的组成格式,分别对应IP数据包格式和TCP数据包格式，图片来源于网络</p>
-<p>  <img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/IP_Package.png" alt="ip"></p>
-<p>  <img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/TCP_Package.png" alt="tcp"></p>
-<p>  根据协议，很清楚可以看到ipHeader和tcpHeader的固定部分都是20个字节，因此协议规则如下：</p>
+<p>这里简单数据包的组成格式,分别对应IP数据包格式和TCP数据包格式，图片来源于网络</p>
+<p><img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/IP_Package.png" alt="ip"></p>
+<p><img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/TCP_Package.png" alt="tcp"></p>
+<p>根据协议，很清楚可以看到ipHeader和tcpHeader的固定部分都是20个字节，因此协议规则如下：</p>
 <hr>
 <ul>
 <li>ipHeader 至少20个字节</li>
-<li><p>tcpHeader 至少20个字节</p>
-<p>加上和业务定制的规则如下：</p>
-</li>
-<li><p>ipHeader 中的版本（0-4位对应的字段值）为4，即0100，用来表明IP协议实现的版本号，当前规定为IPv4，因此如果是连wifi发微信消息，那么就直接被过滤掉了</p>
-</li>
+<li>tcpHeader 至少20个字节<br>加上和业务定制的规则如下：</li>
+<li>ipHeader 中的版本（0-4位对应的字段值）为4，即0100，用来表明IP协议实现的版本号，当前规定为IPv4，因此如果是连wifi发微信消息，那么就直接被过滤掉了</li>
 <li>ipHeader中的协议（72-80位）为6，指明IP层所封装的上层协议类型，如ICMP（1）、IGMP（2） 、TCP（6）、UDP（17）等，当前为TCP</li>
-<li>data部分至少16个字节，这个是查资料获得，和微信消息类型相关的特征字信息，只在前16个字节中，后续字节内容应该表示的消息内容，虽然我也很感兴趣，但毕竟和本次工作无关，就不展开了</li>
+<li>data部分至少16个字节，这个是查资料获得，和微信消息类型相关的特征字信息，只在前16个字节中，后续字节内容应该表示的消息内容</li>
 </ul>
-</li>
-</ul>
-<pre><code>总的来说过滤数据，就是把不符合这五条规则的数据直接丢掉不处理，直接进入下一条log的处理。
-这段就不贴代码了，实现并不复杂。
-</code></pre><hr>
-<h4 id="解析数据"><a href="#解析数据" class="headerlink" title="解析数据"></a>解析数据</h4><p>假设我们已经获取数据，并过滤，得到了我们需要的Data中的data，下面开始处理，这里贴出当时写的很挫的处理函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getDataTypeFromDataContent</span><span class="params">(mo, buf)</span></span></div><div class="line">    <span class="keyword">local</span> ls = stat[mo]</div><div class="line">    <span class="keyword">local</span> str, dataSN = <span class="string">''</span>, <span class="string">''</span></div><div class="line">    <span class="keyword">for</span> i = <span class="number">1</span>, <span class="number">12</span>, <span class="number">1</span> <span class="keyword">do</span></div><div class="line">    	str = str..buf[i]..<span class="string">' '</span></div><div class="line">    <span class="keyword">end</span></div><div class="line">    <span class="keyword">for</span> i = <span class="number">13</span>, <span class="number">16</span>, <span class="number">1</span> <span class="keyword">do</span></div><div class="line">    	dataSN = dataSN..buf[i]</div><div class="line">    <span class="keyword">end</span></div><div class="line">    ls.dataSNText = dataSN</div><div class="line"> 	</div><div class="line">    <span class="keyword">if</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 82 00 10 00 01 %x%x %x%x %x%x ED"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Text'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01 %x%x %x%x %x%x ED"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Text'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 7E 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 81 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 83 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 27 14 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Request'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 2A FC 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Request OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 27 10 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 2A F8 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 75 30 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Video'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span>    </div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 79 18 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Video'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span> </div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'WeChat'</span>..<span class="string">'-'</span>..<span class="string">'unknown'</span></div><div class="line">    <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure></p>
-<p>这种全是if/else的代码拿出来确实挺不好意思的，简单说明如下：</p>
+<p>总的来说过滤数据，就是把不符合这五条规则的数据直接丢掉不处理，直接进入下一条log的处理。</p>
+<hr>
+<h4 id="解析数据"><a href="#解析数据" class="headerlink" title="解析数据"></a>解析数据</h4><p>假设我们已经获取数据，并过滤，得到了我们需要的data，下面开始处理，这里贴出当时写的很难看的处理函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getDataTypeFromDataContent</span><span class="params">(mo, buf)</span></span></div><div class="line">    <span class="keyword">local</span> ls = stat[mo]</div><div class="line">    <span class="keyword">local</span> str, dataSN = <span class="string">''</span>, <span class="string">''</span></div><div class="line">    <span class="keyword">for</span> i = <span class="number">1</span>, <span class="number">12</span>, <span class="number">1</span> <span class="keyword">do</span></div><div class="line">    	str = str..buf[i]..<span class="string">' '</span></div><div class="line">    <span class="keyword">end</span></div><div class="line">    <span class="keyword">for</span> i = <span class="number">13</span>, <span class="number">16</span>, <span class="number">1</span> <span class="keyword">do</span></div><div class="line">    	dataSN = dataSN..buf[i]</div><div class="line">    <span class="keyword">end</span></div><div class="line">    ls.dataSNText = dataSN</div><div class="line"> 	</div><div class="line">    <span class="keyword">if</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 82 00 10 00 01 %x%x %x%x %x%x ED"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Text'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01 %x%x %x%x %x%x ED"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Text'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 7E 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 81 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 83 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 27 14 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Request'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 2A FC 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Request OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 27 10 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 2A F8 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 75 30 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Video'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span>    </div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 79 18 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Video'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span> </div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'WeChat'</span>..<span class="string">'-'</span>..<span class="string">'unknown'</span></div><div class="line">    <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure></p>
+<p>这种全是if/else的代码着实难堪的，嗯，很符合当时的水平：</p>
 <pre><code>ls 为状态对象，是一个状态机的实现，用来记录每个手机实时的消息状态。
 将data数组拼接成字符串，以空格为间隔。
 可以看出，前12个字节用于判断类型，后四个字节用来记录序列号。
-然后就是正则匹配了，对应各自的消息类型。
-这些规则也是查阅资料论文和测试获得，毕竟我猜TX应该不会公开这些信息的吧。
+然后匹配对应各自的消息类型。
+这些规则也是查阅资料论文和测试获得，微信也暂未公开这些信息。
 </code></pre><hr>
 <p>至此，已经可以获得消息类型了。当然只是常用的几种，文本，图片、语音及视频类型。但这里只完成了40%的任务，因为还需要统计发送消息的时延啊，例如发了一条消息，会马触发一条<code>Text-Send</code>的log，但直到有<code>Text-Send OK</code>的log上报，才会认定消息发送成功，二者之间的时间差就是需要记录的时延。</p>
 <p>但理想很丰满，上面的消息判断依旧是很粗糙的，总有一些意外情况，例如<code>Send-OK</code>消息的格式总是有意外情况，图片会有分包的情况，如何判断是一次而不是多次发送等等问。</p>
-<p>所以后来第二个迭代时就完全结束了这种不完全靠谱的做法，直接新定义两条log，在发送之前发一次，里面写好发送类型手机id等信息，发送完毕再发一条结束消息确认。这样来，一切就简单多了，相当于固定场景测试了。</p>
-<hr>
-<h3 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h3><p>最终部分结果如下图所示：<br>    <img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/stat.png" alt="stat"></p>
-<p>为了做debug，还做了一张数据流的展示，一行代表一条log所携带的信息解释<br>    <img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/flow.png" alt="flow"></p>
+<p>所以后来第二个迭代时就完全结束了这种不完全靠谱的做法，直接自定义两条log，在发送之前发一次，里面写好发送类型手机id等信息，发送完毕再发一条结束消息确认。这样来，一切就简单多了，相当于固定场景测试了。</p>
 <hr>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>总结下此次开发任务的收获和心得体会</p>
 <ul>
-<li><p>熟练掌握了lua的基本语法和使用</p>
+<li><p>熟练掌握了lua的基本语法和使用，体验到了动态语言的优越性。</p>
 </li>
 <li><p>对IP数据包的结构有了基本认识，一切都是站在协议的肩膀上完成的</p>
 </li>
 <li><p>学会了如何分拆将一个稍微大点的任务分拆成小块，快速挖掘关注核心部分</p>
-</li>
-<li><p>熟悉业务比写代码重要！！(和领导结对完成，他找资料，我写代码 =。=)</p>
 </li>
 </ul>
 ]]></content>
@@ -184,7 +130,7 @@ and they cannot be used as constructors.
     <summary type="html">
     
       &lt;p&gt;最近试着做些工作总结，这也是我开始写博客的初衷，少bb，just do it！&lt;/p&gt;
-&lt;p&gt;这是我最早进公司做的一个小项目，需求是判断手机收发微信消息内容类型。就是手机发了一条微信消息之后，程序要能解析出发的是文本、语音还是图片等等，并且统计时延。接收也是如此，主要需求是对发送类型的判断。&lt;br&gt;
+&lt;p&gt;这是我最早进公司做的一个小项目，需求是判断手机收发微信消息内容类型。就是手机发了一条微信消息之后，程序要能解析出发的是文本、语音还是图片等类型，并且统计时延。接收也是如此，主要需求是对发送类型的判断。&lt;br&gt;
     
     </summary>
     
