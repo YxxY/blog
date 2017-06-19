@@ -156,7 +156,7 @@
 
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/技术/">
-                    技术 <span class="right">2 篇</span></a>
+                    技术 <span class="right">4 篇</span></a>
                 </a>
             </li>
 
@@ -165,6 +165,14 @@
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/技术/Lua/">
                     Lua <span class="right">1 篇</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Node-js/">
+                    Node-js <span class="right">2 篇</span></a>
                 </a>
             </li>
 
@@ -266,9 +274,9 @@
 <h3 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h3><p>抓取终端发生微信消息时的消息包，根据3GPP协议可以获取该消息的id为0x11EB</p>
 <hr>
 <h3 id="解包"><a href="#解包" class="headerlink" title="解包"></a>解包</h3><p>这个过程就是把二进制的码流按照协议解析成有意义的字段。再从中筛选实际需要的内容做二次解析。<br>这部分按照当时使用的工具，解析语言用的lua。<br>这里主要说明下数据的过滤和解析</p>
-<h4 id="过滤数据"><a href="#过滤数据" class="headerlink" title="过滤数据"></a>过滤数据</h4><p>如何判断数据是否有效？答案是根据协议数据结构和自身业务需求。<br>根据TCP/IP协议，数据包的格式是<code>Header + Data</code><br>这里具体来说就是，<code>ipHeader + tcpHeader + data</code>，其中data部分才是我们真正需要的解析目标。</p>
+<h4 id="过滤数据"><a href="#过滤数据" class="headerlink" title="过滤数据"></a>过滤数据</h4><p>如何判断数据是否有效？答案是<code>根据协议数据结构和自身业务需求</code>。<br>根据TCP/IP协议，数据包的格式是<code>Header + Data</code><br>这里具体来说就是，<code>ipHeader + tcpHeader + data</code>，其中data部分才是我们真正需要的解析目标。</p>
 <hr>
-<p>这里简单数据包的组成格式,分别对应IP数据包格式和TCP数据包格式，图片来源于网络</p>
+<p>贴一下数据包的数据结构,分别对应IP数据包格式和TCP数据包格式，图片来源于网络</p>
 <p><img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/IP_Package.png" alt="ip"></p>
 <p><img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/TCP_Package.png" alt="tcp"></p>
 <p>根据协议，很清楚可以看到ipHeader和tcpHeader的固定部分都是20个字节，因此协议规则如下：</p>
@@ -283,7 +291,7 @@
 <p>总的来说过滤数据，就是把不符合这五条规则的数据直接丢掉不处理，直接进入下一条log的处理。</p>
 <hr>
 <h4 id="解析数据"><a href="#解析数据" class="headerlink" title="解析数据"></a>解析数据</h4><p>假设我们已经获取数据，并过滤，得到了我们需要的data，下面开始处理，这里贴出当时写的很难看的处理函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getDataTypeFromDataContent</span><span class="params">(mo, buf)</span></span></div><div class="line">    <span class="keyword">local</span> ls = stat[mo]</div><div class="line">    <span class="keyword">local</span> str, dataSN = <span class="string">''</span>, <span class="string">''</span></div><div class="line">    <span class="keyword">for</span> i = <span class="number">1</span>, <span class="number">12</span>, <span class="number">1</span> <span class="keyword">do</span></div><div class="line">    	str = str..buf[i]..<span class="string">' '</span></div><div class="line">    <span class="keyword">end</span></div><div class="line">    <span class="keyword">for</span> i = <span class="number">13</span>, <span class="number">16</span>, <span class="number">1</span> <span class="keyword">do</span></div><div class="line">    	dataSN = dataSN..buf[i]</div><div class="line">    <span class="keyword">end</span></div><div class="line">    ls.dataSNText = dataSN</div><div class="line"> 	</div><div class="line">    <span class="keyword">if</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 82 00 10 00 01 %x%x %x%x %x%x ED"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Text'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01 %x%x %x%x %x%x ED"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Text'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 7E 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 81 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 83 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 27 14 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Request'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 2A FC 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Request OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 27 10 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 2A F8 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 75 30 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Video'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span>    </div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 79 18 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Video'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span> </div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'WeChat'</span>..<span class="string">'-'</span>..<span class="string">'unknown'</span></div><div class="line">    <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure></p>
-<p>这种全是if/else的代码着实难堪的，嗯，很符合当时的水平：</p>
+<p>这种全是if/else的代码着实难堪的，嗯，很符合当时的水平,说明如下：</p>
 <pre><code>ls 为状态对象，是一个状态机的实现，用来记录每个手机实时的消息状态。
 将data数组拼接成字符串，以空格为间隔。
 可以看出，前12个字节用于判断类型，后四个字节用来记录序列号。
@@ -301,6 +309,8 @@
 <li><p>对IP数据包的结构有了基本认识，一切都是站在协议的肩膀上完成的</p>
 </li>
 <li><p>学会了如何分拆将一个稍微大点的任务分拆成小块，快速挖掘关注核心部分</p>
+</li>
+<li><p>收集资料的也是一种能力，懂业务比写代码实现更重要</p>
 </li>
 </ul>
 

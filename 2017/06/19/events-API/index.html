@@ -1,0 +1,634 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>Node.js events模块(上) | pandaQ&#39;s Blog</title>
+    <meta name="author" content="pandaQ">
+    
+    <meta name="description" content="share a story I just wrote with you">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="Node.js events模块(上)"/>
+    <meta property="og:site_name" content="pandaQ&#39;s Site"/>
+
+    
+    <meta property="og:image" content="undefined"/>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="pandaQ&#39;s Site" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="teal">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">pandaQ&#39;s Site</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            首页
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            时光轴
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            分类
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            关于
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav teal darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://opxo4bto2.bkt.clouddn.com/me.jpg" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">pandaQ</p>
+                        <p class="desc">Coder/API搬运工</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    首页
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    时光轴
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    分类
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    关于
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav teal darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/技术/">
+                    技术 <span class="right">4 篇</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Lua/">
+                    Lua <span class="right">1 篇</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Node-js/">
+                    Node-js <span class="right">2 篇</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/JavaScript/">
+                    JavaScript <span class="right">1 篇</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">搜索</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper teal">
+        <span class="breadcrumb">当前位置（分类目录）</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/Node-js/">Node.js</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>Node.js events模块(上)</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2017-06-19T12:11:38.000Z"><a href="/2017/06/19/events-API/">2017-06-19</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/events/" class="chip pink lighten-1">events</a>
+        
+            <a href="/tags/EventEmitter/" class="chip pink lighten-1">EventEmitter</a>
+        
+            <a href="/tags/API/" class="chip pink lighten-1">API</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#快速使用"><span class="section table-of-contents-text">快速使用</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#事件对象"><span class="section table-of-contents-text">事件对象</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#传参"><span class="section table-of-contents-text">传参</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#同步还是异步"><span class="section table-of-contents-text">同步还是异步</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#监听器响应函数可仅运行一次"><span class="section table-of-contents-text">监听器响应函数可仅运行一次</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#错误事件"><span class="section table-of-contents-text">错误事件</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#API"><span class="section table-of-contents-text">API</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Event：’newListener’"><span class="section table-of-contents-text">Event：’newListener’</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Event：’removeListener’"><span class="section table-of-contents-text">Event：’removeListener’</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#EventEmitter-defaultMaxListeners"><span class="section table-of-contents-text">EventEmitter.defaultMaxListeners</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#emitter-addListener-eventName-listener"><span class="section table-of-contents-text">emitter.addListener(eventName, listener)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#emitter-emit-eventName-…args"><span class="section table-of-contents-text">emitter.emit(eventName[, …args])</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#emitter-eventNames"><span class="section table-of-contents-text">emitter.eventNames()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#emitter-getMaxListeners"><span class="section table-of-contents-text">emitter.getMaxListeners()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#emitter-listenerCount-eventName"><span class="section table-of-contents-text">emitter.listenerCount(eventName)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#emitter-listeners-eventName"><span class="section table-of-contents-text">emitter.listeners(eventName)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#emitter-on-eventName-listener"><span class="section table-of-contents-text">emitter.on(eventName, listener)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#emitter-once-eventName-listener"><span class="section table-of-contents-text">emitter.once(eventName, listener)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#emitter-prependListener-eventName-listener"><span class="section table-of-contents-text">emitter.prependListener(eventName, listener)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#emitter-prependOnceListener-eventName-listener"><span class="section table-of-contents-text">emitter.prependOnceListener(eventName, listener)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#emitter-removeAllListeners-eventName"><span class="section table-of-contents-text">emitter.removeAllListeners([eventName])</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#emitter-removeListener-eventName-listener"><span class="section table-of-contents-text">emitter.removeListener(eventName, listener)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#emitter-setMaxListeners-n"><span class="section table-of-contents-text">emitter.setMaxListeners(n)</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#总结"><span class="section table-of-contents-text">总结</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>node.js 基于异步事件驱动(Event-driven)，这无疑也是一种十分优秀的编程思想，这里总结下其中与之相关的一个核心模块——events模块。<br>本文主要总结使用的API，具体可参考<a href="https://nodejs.org/api/events.html" target="_blank" rel="external">官网API</a><br><a id="more"></a></p>
+<h2 id="快速使用"><a href="#快速使用" class="headerlink" title="快速使用"></a>快速使用</h2><p><code>events</code>是内置模块，但非全局变量，使用时需显示引用<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div></pre></td></tr></table></figure></p>
+<p><code>events</code> 提供的接口是一个类，所有调用时赋值变量需大写，且需要自行实例化。<br>官方给出的例子如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyEmitter</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> myEmitter = <span class="keyword">new</span> MyEmitter();</div><div class="line"></div><div class="line">myEmitter.on(<span class="string">'event'</span>, () =&gt; &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'an event occurred!'</span>);</div><div class="line">&#125;);</div><div class="line">myEmitter.emit(<span class="string">'event'</span>);</div></pre></td></tr></table></figure></p>
+<p>这里使用了ES6的语法，创建一个<code>MyEmitter</code>类继承自初始类<code>EventEmitter</code>,方便自定义修改。</p>
+<h2 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h2><p>myEmitter对象，可以当做一个事件触发器，发送一个特定事件。也可以当成一个事件监听器，侦听某一特定事件，并调用对应的事件响应函数。<br>打印一下对象,可以看到有四个属性<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">     <span class="attr">domain</span>: <span class="literal">null</span>, <span class="comment">/*ignore*/</span></div><div class="line">     _events: &#123; <span class="attr">event</span>: [<span class="built_in">Function</span>] &#125;, <span class="comment">/*注册事件的监听函数*/</span></div><div class="line">     _eventsCount: <span class="number">1</span>,  <span class="comment">/*监听到的事件个数*/</span></div><div class="line">     _maxListeners: <span class="literal">undefined</span> <span class="comment">/*最大监听数，默认是10个，超出会报错*/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="传参"><a href="#传参" class="headerlink" title="传参"></a>传参</h3><p>当作为触发器时，需要给处理函数传递参数。<br>如下例，其中特别说明回调函数中的this指向监听器对象，这里指的是myEmitter。如果使用箭头函数就不会这样了，这和箭头函数的特性有关，我之前已经总结过了。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyEmitter</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> myEmitter = <span class="keyword">new</span> MyEmitter();</div><div class="line"></div><div class="line">myEmitter.on(<span class="string">'event'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(a, b, <span class="keyword">this</span>);</div><div class="line">  <span class="comment">/*Prints:</span></div><div class="line">       a b MyEmitter &#123;</div><div class="line">         domain: null,</div><div class="line">         _events: &#123; event: [Function] &#125;,</div><div class="line">         _eventsCount: 1,</div><div class="line">         _maxListeners: undefined &#125;*/</div><div class="line">&#125;);</div><div class="line">myEmitter.emit(<span class="string">'event'</span>, <span class="string">'a'</span>, <span class="string">'b'</span>);</div></pre></td></tr></table></figure></p>
+<h3 id="同步还是异步"><a href="#同步还是异步" class="headerlink" title="同步还是异步"></a>同步还是异步</h3><p>一个监听器上可以绑定多个响应函数，监听器调用响应函数默认是按照事件注册的顺序<code>同步调用</code>的，这样可以保证原有的一些业务逻辑，先注册先调用。但如果多个响应函数之间没有任何联系，就可以使用<code>setImmediate()</code>或<code>process.nextTick()</code>切换到异步流程，如下例：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyEmitter</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> myEmitter = <span class="keyword">new</span> MyEmitter();</div><div class="line"></div><div class="line">myEmitter.on(<span class="string">'event'</span>, (a, b) =&gt; &#123;</div><div class="line">  setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'this happens asynchronously'</span>);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div><div class="line">myEmitter.on(<span class="string">'event'</span>, (a, b) =&gt; &#123;</div><div class="line">  process.nextTick(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'this happens asynchronously, too'</span>);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div><div class="line">myEmitter.emit(<span class="string">'event'</span>);</div></pre></td></tr></table></figure></p>
+<h3 id="监听器响应函数可仅运行一次"><a href="#监听器响应函数可仅运行一次" class="headerlink" title="监听器响应函数可仅运行一次"></a>监听器响应函数可仅运行一次</h3><p>当使用 <code>eventEmitter.on()</code>方法监听事件时，事件发生时，每次都会调用响应函数。但换成<code>eventEmitter.once()</code>就会仅处理一次。</p>
+<h3 id="错误事件"><a href="#错误事件" class="headerlink" title="错误事件"></a>错误事件</h3><p>当一个事件实例对象当发生错误时，会发出<code>error</code>事件，这将被Node.js当做特殊事件处理。<br>如果该对象未对错误事件注册任何处理函数，该错误就会上抛，打印堆栈信息，进而导致Node.js<code>进程退出</code>。所以说后果还是很严重的。<br>为防止进程崩溃，必须注册至少一个监听函数。如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyEmitter</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> myEmitter = <span class="keyword">new</span> MyEmitter();</div><div class="line"></div><div class="line">process.on(<span class="string">'uncaughtException'</span>, (err) =&gt; &#123;</div><div class="line">  <span class="built_in">console</span>.error(<span class="string">'whoops! there was an error'</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">/*myEmitter.on('error', (err) =&gt; &#123;</span></div><div class="line">  console.error('whoops! there was an error');</div><div class="line">&#125;);*/ adviced!</div><div class="line"></div><div class="line">myEmitter.emit(<span class="string">'error'</span>, <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'whoops!'</span>));</div><div class="line"><span class="comment">// Prints: whoops! there was an error</span></div></pre></td></tr></table></figure></p>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>截止到现在，官房API总共包括了2个事件，15个方法(一个即将废弃，不做说明)</p>
+<h3 id="Event：’newListener’"><a href="#Event：’newListener’" class="headerlink" title="Event：’newListener’"></a>Event：’newListener’</h3><p>当有新的监听函数注册时触发，回调函数有两个参数，监听函数名和监听函数<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyEmitter</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> myEmitter = <span class="keyword">new</span> MyEmitter();</div><div class="line"></div><div class="line">myEmitter.on(<span class="string">'newListener'</span>, (event, listener) =&gt; &#123;</div><div class="line">    <span class="built_in">console</span>.log(event, listener.name)</div><div class="line">    <span class="comment">/* print test testCb</span></div><div class="line">       and this callback will invoke before testCb*/</div><div class="line">&#125;);</div><div class="line"></div><div class="line">myEmitter.on(<span class="string">'test'</span>, testCb);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">testCb</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'A'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">myEmitter.emit(<span class="string">'test'</span>);</div></pre></td></tr></table></figure></p>
+<h3 id="Event：’removeListener’"><a href="#Event：’removeListener’" class="headerlink" title="Event：’removeListener’"></a>Event：’removeListener’</h3><p>类似’newListener’, 当某个事件的监听函数被移除时触发。<br>例如使用<code>myEmitter.once()</code>触发一次之后,监听函数就会被移除<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyEmitter</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> myEmitter = <span class="keyword">new</span> MyEmitter();</div><div class="line"></div><div class="line">myEmitter.on(<span class="string">'newListener'</span>, (event, listener) =&gt; &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`add <span class="subst">$&#123;event&#125;</span>, <span class="subst">$&#123;listener.name&#125;</span>`</span>)</div><div class="line">&#125;);</div><div class="line"></div><div class="line">myEmitter.on(<span class="string">'removeListener'</span>, (event, listener) =&gt; &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`remove <span class="subst">$&#123;event&#125;</span>, <span class="subst">$&#123;listener.name&#125;</span>`</span>)</div><div class="line">&#125;);</div><div class="line"></div><div class="line">myEmitter.once(<span class="string">'test'</span>, testCb);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">testCb</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'A'</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">myEmitter.emit(<span class="string">'test'</span>);</div></pre></td></tr></table></figure></p>
+<h3 id="EventEmitter-defaultMaxListeners"><a href="#EventEmitter-defaultMaxListeners" class="headerlink" title="EventEmitter.defaultMaxListeners"></a>EventEmitter.defaultMaxListeners</h3><p>类属性。最大默认监听数，缺省值为10，实例对象可以使用<code>emitter.setMaxListeners(n)</code>方法修改自身的最大监听数，如果直接修改<code>EventEmitter.defaultMaxListeners</code>则会影响所有实例。</p>
+<h3 id="emitter-addListener-eventName-listener"><a href="#emitter-addListener-eventName-listener" class="headerlink" title="emitter.addListener(eventName, listener)"></a>emitter.addListener(eventName, listener)</h3><p><code>emitter.on(eventName, listener)</code>的简写，没有区别</p>
+<h3 id="emitter-emit-eventName-…args"><a href="#emitter-emit-eventName-…args" class="headerlink" title="emitter.emit(eventName[, …args])"></a>emitter.emit(eventName[, …args])</h3><p>同步按注册顺序调用监听<code>eventName</code>的回调函数。<br>返回值为Boolean，如果该事件有监听器返回true，否则返回false</p>
+<h3 id="emitter-eventNames"><a href="#emitter-eventNames" class="headerlink" title="emitter.eventNames()"></a>emitter.eventNames()</h3><p>返回一个数组，包含该监听器上注册的所有事件名</p>
+<h3 id="emitter-getMaxListeners"><a href="#emitter-getMaxListeners" class="headerlink" title="emitter.getMaxListeners()"></a>emitter.getMaxListeners()</h3><p>返回当前最大监听数，该值可以由<code>emitter.setMaxListeners(n)</code>设置，默认等于<code>EventEmitter.defaultMaxListeners</code></p>
+<h3 id="emitter-listenerCount-eventName"><a href="#emitter-listenerCount-eventName" class="headerlink" title="emitter.listenerCount(eventName)"></a>emitter.listenerCount(eventName)</h3><p>返回事件名为<code>eventName</code>的监听数</p>
+<h3 id="emitter-listeners-eventName"><a href="#emitter-listeners-eventName" class="headerlink" title="emitter.listeners(eventName)"></a>emitter.listeners(eventName)</h3><p>返回一个事件名为<code>eventName</code>的所有监听函数的数组的拷贝</p>
+<h3 id="emitter-on-eventName-listener"><a href="#emitter-on-eventName-listener" class="headerlink" title="emitter.on(eventName, listener)"></a>emitter.on(eventName, listener)</h3><p>监听事件<code>eventName</code>,触发时调用回调函数<code>listener</code></p>
+<h3 id="emitter-once-eventName-listener"><a href="#emitter-once-eventName-listener" class="headerlink" title="emitter.once(eventName, listener)"></a>emitter.once(eventName, listener)</h3><p>监听事件<code>eventName</code>,首次触发时调用回调函数<code>listener</code>，然后移除监听该事件</p>
+<h3 id="emitter-prependListener-eventName-listener"><a href="#emitter-prependListener-eventName-listener" class="headerlink" title="emitter.prependListener(eventName, listener)"></a>emitter.prependListener(eventName, listener)</h3><p>将监听函数<code>listener</code>插入到事件<code>eventName</code>触发时处理函数队列的最前面。<br>返回值为<code>emitter</code>。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyEmitter</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> myEmitter = <span class="keyword">new</span> MyEmitter();</div><div class="line"></div><div class="line">myEmitter.on(<span class="string">'newListener'</span>, (event, listener) =&gt; &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`add <span class="subst">$&#123;event&#125;</span>, <span class="subst">$&#123;listener.name&#125;</span>`</span>)</div><div class="line">&#125;);</div><div class="line"></div><div class="line">myEmitter.once(<span class="string">'test'</span>, testCb);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">testCb</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'A'</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> that = myEmitter.prependListener(<span class="string">'test'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'someone connected!'</span>); <span class="comment">/* print before 'A' */</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span> === that); <span class="comment">/*true*/</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line">myEmitter.emit(<span class="string">'test'</span>);</div></pre></td></tr></table></figure></p>
+<h3 id="emitter-prependOnceListener-eventName-listener"><a href="#emitter-prependOnceListener-eventName-listener" class="headerlink" title="emitter.prependOnceListener(eventName, listener)"></a>emitter.prependOnceListener(eventName, listener)</h3><p>同上，区别不再赘述</p>
+<h3 id="emitter-removeAllListeners-eventName"><a href="#emitter-removeAllListeners-eventName" class="headerlink" title="emitter.removeAllListeners([eventName])"></a>emitter.removeAllListeners([eventName])</h3><p>移除某事件的所有监听<br>返回emitter</p>
+<h3 id="emitter-removeListener-eventName-listener"><a href="#emitter-removeListener-eventName-listener" class="headerlink" title="emitter.removeListener(eventName, listener)"></a>emitter.removeListener(eventName, listener)</h3><p>移除一个具体事件的监听，必须给出事件名和回调函数名。<br>因此，回调函数需要引用名。<br>值得注意的时，在触发某一事件后，注册在该事件上的回调函数就会按顺序执行一圈，在运行过程中再去删除监听器是不会生效的。因为……懒得写了,自己去官网看吧<br>返回emitter</p>
+<h3 id="emitter-setMaxListeners-n"><a href="#emitter-setMaxListeners-n" class="headerlink" title="emitter.setMaxListeners(n)"></a>emitter.setMaxListeners(n)</h3><p>设置默认最大监听数<br>返回emitter</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结完这块官网所有API，基本掌握了如何使用，但这还远远不够。<br>events作为Node.js核心模块之一，采用纯javascript编写，暴露的API简洁实用，源码修改至今加上copyright也不过五百多行,非常适合精读。<br>本次API的总结主要为下次解读这一块的源码做铺垫。详情可参考<a href="https://github.com/nodejs/node/blob/master/lib/events.js" target="_blank" rel="external">events.js</a></p>
+
+                
+
+
+<p class="pink-link-context">
+    <a href="/2017/06/19/events-Source/" rel="next" title="Node.js events模块(下)">
+    下一篇：Node.js events模块(下)
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href,
+        sourceId: "",
+        productKey: "4fc9566bfa494cb09ed9f70c2ecdb566",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect green" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse yellow darken-1"  data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer teal darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">社交</h5>
+                <br>
+                
+                    <a class="social-link" href="http://weibo.com/pilipalabeng" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/yxxy" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">友情链接</h5>
+                <br>
+                
+                    <a class="social-link" href="http://www.cqumzh.cn/bbs/frame.php" target="_blank">重庆大学民主湖论坛</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container center-align">
+            © 2017- All rights reserved.
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-search').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=62150905" charset="UTF-8"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>
