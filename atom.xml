@@ -157,7 +157,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
     <link href="http://yoursite.com/2017/06/19/events-Source/"/>
     <id>http://yoursite.com/2017/06/19/events-Source/</id>
     <published>2017-06-19T12:11:38.000Z</published>
-    <updated>2017-06-30T13:26:40.046Z</updated>
+    <updated>2017-06-30T15:14:10.687Z</updated>
     
     <content type="html"><![CDATA[<p>总结完<code>events</code>模块后会发现，这一块的API十分的简洁高效，对它的实现十分好奇。因为这块源码比较简短，代码编写十分规范，于是我选择更进一步，尝试下学习下源码<a href="https://github.com/nodejs/node/blob/master/lib/events.js" target="_blank" rel="external">events.js</a>。<br><a id="more"></a></p>
 <h2 id="模块的编写"><a href="#模块的编写" class="headerlink" title="模块的编写"></a>模块的编写</h2><p>通常我们都会自己写模块，但对比下这篇专业的，对自己以后写模块有些许启发<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">EventEmitter</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.init.call(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="built_in">module</span>.exports = EventEmitter;</div></pre></td></tr></table></figure></p>
@@ -206,11 +206,11 @@ code默认为`-9`,表示发送kill信号，另外提两个
       <category term="Node" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/Node/"/>
     
     
+      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
+    
       <category term="events" scheme="http://yoursite.com/tags/events/"/>
     
       <category term="EventEmitter" scheme="http://yoursite.com/tags/EventEmitter/"/>
-    
-      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
     
       <category term="Source" scheme="http://yoursite.com/tags/Source/"/>
     
