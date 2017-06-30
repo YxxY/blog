@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-30T13:27:59.026Z</updated>
+  <updated>2017-06-30T15:40:11.235Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/06/25/module/"/>
     <id>http://yoursite.com/2017/06/25/module/</id>
     <published>2017-06-25T13:15:38.000Z</published>
-    <updated>2017-06-30T13:27:59.026Z</updated>
+    <updated>2017-06-30T15:40:11.235Z</updated>
     
     <content type="html"><![CDATA[<p>Node.js 中的模块(module)是一开始就接触到的，但也许是因为它的API已足够简单，实际却从未深究过。另外在新的ES6标准里，之前所用的<code>require</code>、<code>exports</code>将被<code>import</code>、<code>export</code>取代成为新的标准。新旧更替如果两个都不懂就太尴尬了，我决定查下资料，稍微总结对比下新旧的不同，争取从不懂变成略懂。<br><a id="more"></a></p>
 <h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><p><code>require()</code> 参数为字符串，加载模块,返回被加载模块<code>module.exports</code>的内容<br><code>require.cache</code> 返回已加载模块的对象，key为模块绝对路径名，value为module对象<br><code>require.resolve()</code> 参数为字符串，运用require()的机制去查找模块并不加载，返回模块绝对路径名<br><code>require.main</code> 源码解释<code>require.main = process.mainModule</code> 指向主模块，当不存在入口文件时返回 undefined</p>
@@ -57,7 +57,7 @@
     
       <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="Node" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/Node/"/>
+      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
     
     
       <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
@@ -159,7 +159,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
     <link href="http://yoursite.com/2017/06/19/events-Source/"/>
     <id>http://yoursite.com/2017/06/19/events-Source/</id>
     <published>2017-06-19T12:11:38.000Z</published>
-    <updated>2017-06-30T15:14:10.687Z</updated>
+    <updated>2017-06-30T15:40:11.235Z</updated>
     
     <content type="html"><![CDATA[<p>总结完<code>events</code>模块后会发现，这一块的API十分的简洁高效，对它的实现十分好奇。因为这块源码比较简短，代码编写十分规范，于是我选择更进一步，尝试下学习下源码<a href="https://github.com/nodejs/node/blob/master/lib/events.js" target="_blank" rel="external">events.js</a>。<br><a id="more"></a></p>
 <h2 id="模块的编写"><a href="#模块的编写" class="headerlink" title="模块的编写"></a>模块的编写</h2><p>通常我们都会自己写模块，但对比下这篇专业的，对自己以后写模块有些许启发<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">EventEmitter</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.init.call(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="built_in">module</span>.exports = EventEmitter;</div></pre></td></tr></table></figure></p>
@@ -205,7 +205,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
     
       <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="Node" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/Node/"/>
+      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
     
     
       <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
@@ -223,7 +223,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
     <link href="http://yoursite.com/2017/06/18/events-API/"/>
     <id>http://yoursite.com/2017/06/18/events-API/</id>
     <published>2017-06-18T12:11:38.000Z</published>
-    <updated>2017-06-30T13:27:13.508Z</updated>
+    <updated>2017-06-30T15:40:11.219Z</updated>
     
     <content type="html"><![CDATA[<p>node.js 基于异步事件驱动(Event-driven)，这无疑也是一种十分优秀的编程思想，这里总结下其中与之相关的一个核心模块——events模块。<br>本文主要总结使用的API，具体可参考<a href="https://nodejs.org/api/events.html" target="_blank" rel="external">官网API</a><br><a id="more"></a></p>
 <h2 id="快速使用"><a href="#快速使用" class="headerlink" title="快速使用"></a>快速使用</h2><p><code>events</code>是内置模块，但非全局变量，使用时需显示引用<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div></pre></td></tr></table></figure></p>
@@ -262,8 +262,10 @@ code默认为`-9`,表示发送kill信号，另外提两个
     
       <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="Node" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/Node/"/>
+      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
     
+    
+      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
     
       <category term="events" scheme="http://yoursite.com/tags/events/"/>
     

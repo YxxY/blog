@@ -36,7 +36,7 @@
             
             <category> 技术 </category>
             
-            <category> Node </category>
+            <category> JavaScript </category>
             
         </categories>
         
@@ -180,7 +180,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
             
             <category> 技术 </category>
             
-            <category> Node </category>
+            <category> JavaScript </category>
             
         </categories>
         
@@ -235,12 +235,14 @@ code默认为`-9`,表示发送kill信号，另外提两个
             
             <category> 技术 </category>
             
-            <category> Node </category>
+            <category> JavaScript </category>
             
         </categories>
         
         
         <tags>
+            
+            <tag> Node.js </tag>
             
             <tag> events </tag>
             
