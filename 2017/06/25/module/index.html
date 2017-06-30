@@ -7,7 +7,7 @@
 
     
 
-    <title>this | pandaQ&#39;s Blog</title>
+    <title>Node.js 模块 | pandaQ&#39;s Blog</title>
     <meta name="author" content="pandaQ">
     
     <meta name="description" content="share a story I just wrote with you">
@@ -15,7 +15,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    
+    <meta property="og:title" content="Node.js 模块"/>
     <meta property="og:site_name" content="pandaQ&#39;s Site"/>
 
     
@@ -217,30 +217,116 @@
 
     <main>
         <div class="container main-container">
-    
-
-<nav class="page-nav hide-on-small-only">
+    <nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper teal">
-        <span class="breadcrumb">当前位置（标签）</span>
+        <span class="breadcrumb">当前位置（分类目录）</span>
         
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/Node/">Node</a>
+
 
         
-            <a class="breadcrumb" href="/tags/this/">this</a>
+
         
     </div>
 </nav>
 
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>Node.js 模块</h1>
+    
 
 
-    <div class="collection mt-0">
+            </div>
+            <time class="pink-link-context" datetime="2017-06-25T13:15:38.000Z"><a href="/2017/06/25/module/">2017-06-25</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
         
-            <a href="/2017/05/18/arrow_function/" class="collection-item purple-text text-darken-1">
-                <time datetime="2017-05-18T12:50:38.000Z">2017-05-18</time>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                JavaScript箭头函数
-            </a>
+            <a href="/tags/Node-js/" class="chip pink lighten-1">Node.js</a>
+        
+            <a href="/tags/module/" class="chip pink lighten-1">module</a>
+        
+            <a href="/tags/require/" class="chip pink lighten-1">require</a>
         
     </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#API"><span class="section table-of-contents-text">API</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#require-exports"><span class="section table-of-contents-text">require-exports</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#import-export"><span class="section table-of-contents-text">import-export</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#require-module"><span class="section table-of-contents-text">require-module</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#参考来源"><span class="section table-of-contents-text">参考来源</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>Node.js 中的模块(module)是一开始就接触到的，但也许是因为它的API已足够简单，实际却从未深究过。另外在新的ES6标准里，之前所用的<code>require</code>、<code>exports</code>将被<code>import</code>、<code>export</code>取代成为新的标准。新旧更替如果两个都不懂就太尴尬了，我决定查下资料，稍微总结对比下新旧的不同，争取从不懂变成略懂。<br><a id="more"></a></p>
+<h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><p><code>require()</code> 参数为字符串，加载模块,返回被加载模块<code>module.exports</code>的内容<br><code>require.cache</code> 返回已加载模块的对象，key为模块绝对路径名，value为module对象<br><code>require.resolve()</code> 参数为字符串，运用require()的机制去查找模块并不加载，返回模块绝对路径名<br><code>require.main</code> 源码解释<code>require.main = process.mainModule</code> 指向主模块，当不存在入口文件时返回 undefined</p>
+<h1 id="require-exports"><a href="#require-exports" class="headerlink" title="require-exports"></a>require-exports</h1><p>Node应用由模块组成，采用CommonJS模块规范。根据这个标准，每一个文件就是一个模块。在一个文件里面定义的变量、函数、类，都是私有的，对其他文件不可见。除非它主动对外提供接口。每个模块内部都有一个Module对象，代表当前模块，由模块内一个全局变量<code>module</code>表示。<br>自定义<code>module.exports</code>表示需要导出的接口。<code>exports</code>等同于module.exports的引用。<br><code>require</code>的用法：参数为字符串</p>
+<ul>
+<li>如果参数字符串以<code>&#39;/&#39;</code>开头，表示绝对路径</li>
+<li>如果参数字符串以<code>&#39;./&#39;</code>开头，表示相当路径</li>
+<li>如果参数字符串不含<code>&#39;/&#39;</code>或<code>&#39;./&#39;</code>，则表示加载的是一个默认提供的核心模块，或者一个位于各级node_modules目录的已安装模块（全局安装或局部安装）</li>
+<li>如果参数字符串表示的是一个目录，则会自动查看该目录的package.json文件，然后加载main字段指定的入口文件。如果package.json文件没有main字段，或者根本就没有package.json文件，则会加载该目录下的index.js文件或index.node文件</li>
+<li>如果指定的模块文件没有发现，Node会尝试为文件名添加<code>.js</code>、<code>.json</code>、<code>.node</code>后，再去搜索。.js件会以文本格式的JavaScript脚本文件解析，.json文件会以JSON格式的文本文件解析，.node文件会以编译后的二进制文件解析。</li>
+</ul>
+<p>require加载模块即加载被加载模块的<code>module.exports</code>部分内容，且存入缓存，再次加载时会优先从缓存加载，相当于原模块的copy，原模块的变化不会对已加载内容产生影响。同理，如果对加载内容进行修改，相当于修改内存数据，会影响到后续使用。</p>
+<h1 id="import-export"><a href="#import-export" class="headerlink" title="import-export"></a>import-export</h1><p>新的ES6标准，变化主要在于</p>
+<ul>
+<li>import 必须作用在顶层作用域, 不能动态加载，目前为止还不能完全取代require</li>
+<li>import命令加载其他模块，<code>.js</code>后缀不可省略</li>
+<li>ES6 模块不会缓存运行结果，而是动态地去被加载的模块取值，并且变量总是绑定其所在的模块</li>
+<li>ES6 输入的模块变量，只是一个“符号连接”，所以这个变量是只读的，对它进行重新赋值会报错</li>
+</ul>
+<p>相同的是</p>
+<ul>
+<li>同一个模块如果加载多次，将只执行一次</li>
+</ul>
+<h1 id="require-module"><a href="#require-module" class="headerlink" title="require-module"></a>require-module</h1><p><code>module</code>代表当前模块，是一个对象，它的父类是<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Module</span>(<span class="params">id, parent</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.id = id;</div><div class="line">  <span class="keyword">this</span>.exports = &#123;&#125;;</div><div class="line">  <span class="keyword">this</span>.parent = parent;</div><div class="line">  <span class="keyword">if</span> (parent &amp;&amp; parent.children) &#123;</div><div class="line">    parent.children.push(<span class="keyword">this</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">this</span>.filename = <span class="literal">null</span>;</div><div class="line">  <span class="keyword">this</span>.loaded = <span class="literal">false</span>;</div><div class="line">  <span class="keyword">this</span>.children = [];</div><div class="line">&#125;</div><div class="line"><span class="built_in">module</span>.exports = Module;</div></pre></td></tr></table></figure></p>
+<p>require 和 module 的关系是<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Loads a module at the given file path. Returns that module's</span></div><div class="line">   `exports` property. */</div><div class="line">Module.prototype.require = <span class="function"><span class="keyword">function</span>(<span class="params">path</span>) </span>&#123;</div><div class="line">  assert(path, <span class="string">'missing path'</span>);</div><div class="line">  assert(util.isString(path), <span class="string">'path must be a string'</span>);</div><div class="line">  <span class="keyword">return</span> Module._load(path, <span class="keyword">this</span>);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h1 id="参考来源"><a href="#参考来源" class="headerlink" title="参考来源"></a>参考来源</h1><p><a href="https://nodejs.org/api/globals.html#globals_require" target="_blank" rel="external">Node.js API</a><br><a href="http://javascript.ruanyifeng.com/nodejs/module.html#toc6" target="_blank" rel="external">CommonJS规范</a><br><a href="http://www.ruanyifeng.com/blog/2015/05/require.html" target="_blank" rel="external">require() 源码解读</a><br><a href="http://es6.ruanyifeng.com/#docs/module" target="_blank" rel="external">ECMAScript6 Module的语法</a></p>
+
+                
+
+
+<p class="pink-link-context">
+    <a href="/2017/06/20/ubuntu/" rel="next" title="Linux从入门到放弃">
+    下一篇：Linux从入门到放弃
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href,
+        sourceId: "",
+        productKey: "4fc9566bfa494cb09ed9f70c2ecdb566",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
 
 
 </div>

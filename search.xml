@@ -3,9 +3,142 @@
   
     
     <entry>
+      <title><![CDATA[Node.js 模块]]></title>
+      <url>/2017/06/25/module/</url>
+      <content type="html"><![CDATA[<p>Node.js 中的模块(module)是一开始就接触到的，但也许是因为它的API已足够简单，实际却从未深究过。另外在新的ES6标准里，之前所用的<code>require</code>、<code>exports</code>将被<code>import</code>、<code>export</code>取代成为新的标准。新旧更替如果两个都不懂就太尴尬了，我决定查下资料，稍微总结对比下新旧的不同，争取从不懂变成略懂。<br><a id="more"></a></p>
+<h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><p><code>require()</code> 参数为字符串，加载模块,返回被加载模块<code>module.exports</code>的内容<br><code>require.cache</code> 返回已加载模块的对象，key为模块绝对路径名，value为module对象<br><code>require.resolve()</code> 参数为字符串，运用require()的机制去查找模块并不加载，返回模块绝对路径名<br><code>require.main</code> 源码解释<code>require.main = process.mainModule</code> 指向主模块，当不存在入口文件时返回 undefined</p>
+<h1 id="require-exports"><a href="#require-exports" class="headerlink" title="require-exports"></a>require-exports</h1><p>Node应用由模块组成，采用CommonJS模块规范。根据这个标准，每一个文件就是一个模块。在一个文件里面定义的变量、函数、类，都是私有的，对其他文件不可见。除非它主动对外提供接口。每个模块内部都有一个Module对象，代表当前模块，由模块内一个全局变量<code>module</code>表示。<br>自定义<code>module.exports</code>表示需要导出的接口。<code>exports</code>等同于module.exports的引用。<br><code>require</code>的用法：参数为字符串</p>
+<ul>
+<li>如果参数字符串以<code>&#39;/&#39;</code>开头，表示绝对路径</li>
+<li>如果参数字符串以<code>&#39;./&#39;</code>开头，表示相当路径</li>
+<li>如果参数字符串不含<code>&#39;/&#39;</code>或<code>&#39;./&#39;</code>，则表示加载的是一个默认提供的核心模块，或者一个位于各级node_modules目录的已安装模块（全局安装或局部安装）</li>
+<li>如果参数字符串表示的是一个目录，则会自动查看该目录的package.json文件，然后加载main字段指定的入口文件。如果package.json文件没有main字段，或者根本就没有package.json文件，则会加载该目录下的index.js文件或index.node文件</li>
+<li>如果指定的模块文件没有发现，Node会尝试为文件名添加<code>.js</code>、<code>.json</code>、<code>.node</code>后，再去搜索。.js件会以文本格式的JavaScript脚本文件解析，.json文件会以JSON格式的文本文件解析，.node文件会以编译后的二进制文件解析。</li>
+</ul>
+<p>require加载模块即加载被加载模块的<code>module.exports</code>部分内容，且存入缓存，再次加载时会优先从缓存加载，相当于原模块的copy，原模块的变化不会对已加载内容产生影响。同理，如果对加载内容进行修改，相当于修改内存数据，会影响到后续使用。</p>
+<h1 id="import-export"><a href="#import-export" class="headerlink" title="import-export"></a>import-export</h1><p>新的ES6标准，变化主要在于</p>
+<ul>
+<li>import 必须作用在顶层作用域, 不能动态加载，目前为止还不能完全取代require</li>
+<li>import命令加载其他模块，<code>.js</code>后缀不可省略</li>
+<li>ES6 模块不会缓存运行结果，而是动态地去被加载的模块取值，并且变量总是绑定其所在的模块</li>
+<li>ES6 输入的模块变量，只是一个“符号连接”，所以这个变量是只读的，对它进行重新赋值会报错</li>
+</ul>
+<p>相同的是</p>
+<ul>
+<li>同一个模块如果加载多次，将只执行一次</li>
+</ul>
+<h1 id="require-module"><a href="#require-module" class="headerlink" title="require-module"></a>require-module</h1><p><code>module</code>代表当前模块，是一个对象，它的父类是<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Module</span>(<span class="params">id, parent</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.id = id;</div><div class="line">  <span class="keyword">this</span>.exports = &#123;&#125;;</div><div class="line">  <span class="keyword">this</span>.parent = parent;</div><div class="line">  <span class="keyword">if</span> (parent &amp;&amp; parent.children) &#123;</div><div class="line">    parent.children.push(<span class="keyword">this</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">this</span>.filename = <span class="literal">null</span>;</div><div class="line">  <span class="keyword">this</span>.loaded = <span class="literal">false</span>;</div><div class="line">  <span class="keyword">this</span>.children = [];</div><div class="line">&#125;</div><div class="line"><span class="built_in">module</span>.exports = Module;</div></pre></td></tr></table></figure></p>
+<p>require 和 module 的关系是<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Loads a module at the given file path. Returns that module's</span></div><div class="line">   `exports` property. */</div><div class="line">Module.prototype.require = <span class="function"><span class="keyword">function</span>(<span class="params">path</span>) </span>&#123;</div><div class="line">  assert(path, <span class="string">'missing path'</span>);</div><div class="line">  assert(util.isString(path), <span class="string">'path must be a string'</span>);</div><div class="line">  <span class="keyword">return</span> Module._load(path, <span class="keyword">this</span>);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h1 id="参考来源"><a href="#参考来源" class="headerlink" title="参考来源"></a>参考来源</h1><p><a href="https://nodejs.org/api/globals.html#globals_require" target="_blank" rel="external">Node.js API</a><br><a href="http://javascript.ruanyifeng.com/nodejs/module.html#toc6" target="_blank" rel="external">CommonJS规范</a><br><a href="http://www.ruanyifeng.com/blog/2015/05/require.html" target="_blank" rel="external">require() 源码解读</a><br><a href="http://es6.ruanyifeng.com/#docs/module" target="_blank" rel="external">ECMAScript6 Module的语法</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> 技术 </category>
+            
+            <category> Node </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Node.js </tag>
+            
+            <tag> module </tag>
+            
+            <tag> require </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Linux从入门到放弃]]></title>
+      <url>/2017/06/20/ubuntu/</url>
+      <content type="html"><![CDATA[<p>很早就有学linux的想法，曾经也尝试过，特地装了双系统，但可能打开的姿势和时机不对，没过多久就不了了之了。如今已经工作一段时间了，感觉这是一项必须掌握的技能了。本着talk is cheap， just do it的实用主义原则，仅以使用目标为导向，逐步先达到我操作windows的水平，其他以后再说，捞着芝麻算芝麻，西瓜如果抱不动就不要了。以下以ubutun16.04为实验机，全程百度必应，行文仅为学习的总结及备忘录，内容逐步补充，内容无增加之时，则实现点题。<br><a id="more"></a></p>
+<h2 id="认识目录"><a href="#认识目录" class="headerlink" title="认识目录"></a>认识目录</h2><pre><code>windows下目录就是C盘D盘之类，很好理解，系统盘和非系统盘。
+</code></pre><p>那linux下呢？盗图一张如下：<br><img src="http://opxo4bto2.bkt.clouddn.com/linux_dir.png" alt="dir"><br>意思就是说只有一块盘，相当于windows下只有一个C盘。<br>根目录就是<code>/</code>，相当于windows下的<code>C:\</code>。该目录下<code>/etc</code>存放系统各种配置文件，<code>/root</code>为管理员目录，非管理员用户目录都在<code>/home</code>下等等。</p>
+<h2 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h2><pre><code>windows下win+R 打开命令行时，显示当前用户目录路径
+</code></pre><p>但linux下win+alt+T打开terminal时，显示的符号是啥意思呢？<br>普通用户登录会显示<code>~$</code>，root用户登录显示<code>~#</code>。<br>非root（管理员）用户的符号会显示$，而root用户则会显示#（代表权力至高无上）。<br><code>~</code>代表当前用户目录，root用户则是<code>/root/</code>，非root则是<code>/home/name/</code>。<br><code>-</code>代表之前操作的目录，非常有用。</p>
+<h2 id="文件编辑"><a href="#文件编辑" class="headerlink" title="文件编辑"></a>文件编辑</h2><pre><code>windows下编辑文件，右击选择文件打开方式，编辑，ctrl+S保存，关闭文件。
+</code></pre><p>linux下键盘操作是主力。以下总结vi编辑器的基本使用。当然可以用gedit等GUI编辑器，应该就没有学习成本了。</p>
+<h3 id="打开-新建文件"><a href="#打开-新建文件" class="headerlink" title="打开|新建文件"></a>打开|新建文件</h3><pre><code>可以右键打开或新建，和windows下一样，如果是命令模式，推荐使用vi
+</code></pre><h3 id="vi使用"><a href="#vi使用" class="headerlink" title="vi使用"></a>vi使用</h3><p><code>vi filename</code> 不存在该文件则新建</p>
+<pre><code>vi filename    （此时光标在第一行首）
+vi + filename （光标在最后一行首，输入时注意加号两边空格）
+vi +/pattern filename （匹配模式，光标置于匹配的第一个字段处，无匹配项会提示）
+</code></pre><p>进入文件后此时是命令模式，输入字符不会显示。<br>在命令模式下输入插入命令i（insert）、附加命令a （append）、打开命令o（open）、修改命令c（change）、取代命令r或替换命令s都可以进入文本输入模式，此时编辑器下方会显示<code>-- INSERT --</code>样式,如无则需设置<code>set showmode</code>, 同理设置行号<code>set nu</code><br>在命令模式下敲【: / ?】中任一个可进入末行模式，执行完命令回到命令模式，或敲ESC退出到命令模式。<br>命令模式和末行模式我个人觉得没有明确界限，大概就是末行模式可以在屏幕上看到命令符吧<br>vi的操作的命令需熟练掌握，自行查找。</p>
+<h3 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h3><p><code>rm -fir file|dir</code><br><code>rm file1 file2</code> 删除多个文件</p>
+<pre><code>-f 强制删除，忽略不存在的文件
+-i 删除前确认
+-r 递归删除文件目录
+</code></pre><h3 id="复制剪切文件"><a href="#复制剪切文件" class="headerlink" title="复制剪切文件"></a>复制剪切文件</h3><p><code>cp src dest</code> cp命令可自行了解<br><code>cat file1 &gt; file2</code> 也能达到复制文件的目的<br><code>mv fp1 fp2</code> 剪切意味着移动move，也可以起到更名的作用<br>针对mv说明：</p>
+<pre><code>-b ：若需覆盖文件，则覆盖前先行备份。备份文件名为`filename~` 
+-f ：force 强制的意思，如果目标文件已经存在，不会询问而直接覆盖
+-i ：若目标文件 (destination) 已经存在时，就会询问是否覆盖！
+-u ：若目标文件已经存在，且 source 比较新，才会更新(update)
+-t ：--target-directory=DIRECTORY 即指定mv的目标目录，
+    该选项适用于移动多个源文件到一个目录的情况，此时目标目录在前，源文件在后。
+</code></pre><p>mv -u file1 file2</p>
+<h3 id="合并文件"><a href="#合并文件" class="headerlink" title="合并文件"></a>合并文件</h3><p><code>cat file1 file2 &gt; file</code><br>当<code>file</code>不存在会新建，若存在已有内容会被覆盖<br>参数：</p>
+<pre><code>-n 或 --number 由 1 开始对所有输出的行数编号
+-b 或 --number-nonblank 和 -n 相似，只不过对于空白行不编号
+-s 或 --squeeze-blank 当遇到有连续两行以上的空白行，就代换为一行的空白行
+-v 或 --show-nonprinting 展现出非打印字符
+</code></pre><p>eg：把 file1 和 file2的文件内容加上行号后依次输入 file3 文件<br>    cat -n file1 file2 &gt; file3</p>
+<h3 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h3><p>可以使用系统自带的搜索功能，输入关键字即可，另外也可使用find命令<br><code>find /home -name &quot;*abc*&quot;</code><br><code>locate filename</code> 同样支持匹配</p>
+<h3 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h3><p><code>ls -l filename|dirname</code> 查看权限<br>权限分为读、写、执行。权限针对的三组人员，文件拥有者、用户群组、其他人<br>更改权限使用<code>chmod</code>命令，使用时 <code>chmod --help</code>查看说明<br>记住其中一种使用方法就好 <code>chmod abc file</code>,其中a,b,c各为一个数字，分别表示User、Group、及Other的权限。</p>
+<pre><code>r=4，w=2，x=1 
+</code></pre><p>chmod a=rwx file 和 chmod 777 file 效果相同<br>修改目录下所有文件权限则使用<code>chmod -R 777 *</code></p>
+<p>修改文件拥有者和群组，使用 <code>chown</code>命令，普通用户不能将自己的文件改变成其他的拥有者。其操作权限一般为管理员<br><code>chown [option] [new_owner]:[new_group] file</code></p>
+<pre><code>-c 显示更改的部分的信息
+-f 忽略错误信息
+-h 修复符号链接
+-R 处理指定目录以及其子目录下的所有文件
+-v 显示详细的处理信息
+</code></pre><p>eg: <code>chown -R -v root:admin test</code>将test目录下所有文件拥有者改为root，群组改为admin</p>
+<h2 id="windows远程linux"><a href="#windows远程linux" class="headerlink" title="windows远程linux"></a>windows远程linux</h2><p>命令行远程当然是用SSH，客户端很多，推荐Xshell<br>GUI远程 也有很多选择, 例如vnc、nomachine，这里说下另一种：<br>xRDP + Xfce 实现Windows远程桌面连接</p>
+<ol>
+<li>安装xRDP及vncserver<br>sudo apt-get install xrdp<br>sudo apt-get install vnc4server tightvncserver</li>
+<li>安装Xfce桌面环境<br>sudo apt-get install xubuntu-desktop</li>
+<li>设置xRDP<br>echo xfce4-session &gt;~/.xsession</li>
+<li>设置配置文件<br>sudo gedit /etc/xrdp/startwm.sh<br>在. /etc/X11/Xsession 前一行插入 xfce4-session</li>
+<li>重启 xrdp<br>sudo service xrdp restart</li>
+<li>windows通过mstsc连接</li>
+</ol>
+<p>Xface桌面tab不能自动补全的问题<br>settting-&gt;window manager-&gt;Keyboard，清除tab快捷键占用</p>
+<h2 id="查杀进程"><a href="#查杀进程" class="headerlink" title="查杀进程"></a>查杀进程</h2><pre><code>`ps -e ` 查看所有进程，慢慢找吧……
+`ps aux|grep &lt;key&gt;` 通过关键字查找目标进程
+`sudo kill [code] &lt;PID&gt;` PID 为进程id，这个和windows下差不多
+code默认为`-9`,表示发送kill信号，另外提两个
+`-STOP` 停止进程，但不结束
+`-CONT` 继续运行已停止的进程
+</code></pre><h2 id="shell脚本"><a href="#shell脚本" class="headerlink" title="shell脚本"></a>shell脚本</h2><p>对应windows的批处理<br>若执行失败时，尝试sudo执行</p>
+<p>仍未放弃，待续！</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Ubutun </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Node.js events模块(下)]]></title>
       <url>/2017/06/19/events-Source/</url>
-      <content type="html"><![CDATA[<p>总结完<code>event</code>模块后会发现，这一块的API十分的简洁高效，对它的实现十分好奇。好在这块源码比较简短，代码编写十分规范，于是我选择更进一步，尝试下学习下源码<a href="https://github.com/nodejs/node/blob/master/lib/events.js" target="_blank" rel="external">event.js</a>。<br><a id="more"></a></p>
+      <content type="html"><![CDATA[<p>总结完<code>events</code>模块后会发现，这一块的API十分的简洁高效，对它的实现十分好奇。因为这块源码比较简短，代码编写十分规范，于是我选择更进一步，尝试下学习下源码<a href="https://github.com/nodejs/node/blob/master/lib/events.js" target="_blank" rel="external">events.js</a>。<br><a id="more"></a></p>
 <h2 id="模块的编写"><a href="#模块的编写" class="headerlink" title="模块的编写"></a>模块的编写</h2><p>通常我们都会自己写模块，但对比下这篇专业的，对自己以后写模块有些许启发<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">EventEmitter</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.init.call(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="built_in">module</span>.exports = EventEmitter;</div></pre></td></tr></table></figure></p>
 <p>这是最开头的部分，<code>module.exports</code>写在文件开头，导出的部分一目了然，我个人比较习惯这种方式，不喜欢手动拉到最后去看这块信息。<br>另外，将要导出的函数模块化，没有把所有的内容都写到函数里面，解耦带来的好处不用赘述，也是非常合理的。<br>函数的call方法忘记的话参考<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call" target="_blank" rel="external">Function.prototype.call()</a></p>
 <h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>EventEmitter类实例化就是调用<code>EventEmitter.init()</code>函数<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">EventEmitter.prototype._events = <span class="literal">undefined</span>;</div><div class="line">EventEmitter.prototype._maxListeners = <span class="literal">undefined</span>;</div><div class="line"></div><div class="line">EventEmitter.init = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.domain = <span class="literal">null</span>;</div><div class="line">  <span class="keyword">if</span> (EventEmitter.usingDomains) &#123;</div><div class="line">    <span class="comment">/* if there is an active domain, then attach to it. */</span></div><div class="line">    domain = domain || <span class="built_in">require</span>(<span class="string">'domain'</span>);</div><div class="line">    <span class="keyword">if</span> (domain.active &amp;&amp; !(<span class="keyword">this</span> <span class="keyword">instanceof</span> domain.Domain)) &#123;</div><div class="line">      <span class="keyword">this</span>.domain = domain.active;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (!<span class="keyword">this</span>._events || <span class="keyword">this</span>._events === <span class="built_in">Object</span>.getPrototypeOf(<span class="keyword">this</span>)._events) &#123;</div><div class="line">    <span class="keyword">this</span>._events = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</div><div class="line">    <span class="keyword">this</span>._eventsCount = <span class="number">0</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">this</span>._maxListeners = <span class="keyword">this</span>._maxListeners || <span class="literal">undefined</span>;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
@@ -45,7 +178,7 @@
             
             <category> 技术 </category>
             
-            <category> Node.js </category>
+            <category> Node </category>
             
         </categories>
         
@@ -55,6 +188,8 @@
             <tag> events </tag>
             
             <tag> EventEmitter </tag>
+            
+            <tag> Node.js </tag>
             
             <tag> Source </tag>
             
@@ -98,7 +233,7 @@
             
             <category> 技术 </category>
             
-            <category> Node.js </category>
+            <category> Node </category>
             
         </categories>
         
@@ -184,8 +319,7 @@ and they cannot be used as constructors.
 <h3 id="解包"><a href="#解包" class="headerlink" title="解包"></a>解包</h3><p>这个过程就是把二进制的码流按照协议解析成有意义的字段。再从中筛选实际需要的内容做二次解析。<br>这部分按照当时使用的工具，解析语言用的lua。<br>这里主要说明下数据的过滤和解析</p>
 <h4 id="过滤数据"><a href="#过滤数据" class="headerlink" title="过滤数据"></a>过滤数据</h4><p>如何判断数据是否有效？答案是<code>根据协议数据结构和自身业务需求</code>。<br>根据TCP/IP协议，数据包的格式是<code>Header + Data</code><br>这里具体来说就是，<code>ipHeader + tcpHeader + data</code>，其中data部分才是我们真正需要的解析目标。</p>
 <hr>
-<p>贴一下数据包的数据结构,分别对应IP数据包格式和TCP数据包格式，图片来源于网络</p>
-<p><img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/IP_Package.png" alt="ip"></p>
+<p>贴一下数据包的数据结构,分别对应IP数据包格式和TCP数据包格式，图片来源于网络<br>。更多内容可参考这篇文章<a href="http://www.ruanyifeng.com/blog/2017/06/tcp-protocol.html" target="_blank" rel="external">TCP协议</a><br><img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/IP_Package.png" alt="ip"></p>
 <p><img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/TCP_Package.png" alt="tcp"></p>
 <p>根据协议，很清楚可以看到ipHeader和tcpHeader的固定部分都是20个字节，因此协议规则如下：</p>
 <hr>

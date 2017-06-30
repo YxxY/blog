@@ -7,7 +7,7 @@
 
     
 
-    <title>this | pandaQ&#39;s Blog</title>
+    <title>Linux从入门到放弃 | pandaQ&#39;s Blog</title>
     <meta name="author" content="pandaQ">
     
     <meta name="description" content="share a story I just wrote with you">
@@ -15,7 +15,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    
+    <meta property="og:title" content="Linux从入门到放弃"/>
     <meta property="og:site_name" content="pandaQ&#39;s Site"/>
 
     
@@ -217,30 +217,155 @@
 
     <main>
         <div class="container main-container">
-    
-
-<nav class="page-nav hide-on-small-only">
+    <nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper teal">
-        <span class="breadcrumb">当前位置（标签）</span>
+        <span class="breadcrumb">当前位置（分类目录）</span>
         
+            
+    
+    
+    <a class="breadcrumb" href="/categories/Linux/">Linux</a>
+
 
         
-            <a class="breadcrumb" href="/tags/this/">this</a>
+
         
     </div>
 </nav>
 
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>Linux从入门到放弃</h1>
+    
 
 
-    <div class="collection mt-0">
+            </div>
+            <time class="pink-link-context" datetime="2017-06-20T12:35:38.000Z"><a href="/2017/06/20/ubuntu/">2017-06-20</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
         
-            <a href="/2017/05/18/arrow_function/" class="collection-item purple-text text-darken-1">
-                <time datetime="2017-05-18T12:50:38.000Z">2017-05-18</time>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                JavaScript箭头函数
-            </a>
+            <a href="/tags/Linux/" class="chip pink lighten-1">Linux</a>
+        
+            <a href="/tags/Ubutun/" class="chip pink lighten-1">Ubutun</a>
         
     </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#认识目录"><span class="section table-of-contents-text">认识目录</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#执行命令"><span class="section table-of-contents-text">执行命令</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#文件编辑"><span class="section table-of-contents-text">文件编辑</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#打开-新建文件"><span class="section table-of-contents-text">打开|新建文件</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#vi使用"><span class="section table-of-contents-text">vi使用</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#删除文件"><span class="section table-of-contents-text">删除文件</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#复制剪切文件"><span class="section table-of-contents-text">复制剪切文件</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#合并文件"><span class="section table-of-contents-text">合并文件</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#查找文件"><span class="section table-of-contents-text">查找文件</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#文件权限"><span class="section table-of-contents-text">文件权限</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#windows远程linux"><span class="section table-of-contents-text">windows远程linux</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#查杀进程"><span class="section table-of-contents-text">查杀进程</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#shell脚本"><span class="section table-of-contents-text">shell脚本</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>很早就有学linux的想法，曾经也尝试过，特地装了双系统，但可能打开的姿势和时机不对，没过多久就不了了之了。如今已经工作一段时间了，感觉这是一项必须掌握的技能了。本着talk is cheap， just do it的实用主义原则，仅以使用目标为导向，逐步先达到我操作windows的水平，其他以后再说，捞着芝麻算芝麻，西瓜如果抱不动就不要了。以下以ubutun16.04为实验机，全程百度必应，行文仅为学习的总结及备忘录，内容逐步补充，内容无增加之时，则实现点题。<br><a id="more"></a></p>
+<h2 id="认识目录"><a href="#认识目录" class="headerlink" title="认识目录"></a>认识目录</h2><pre><code>windows下目录就是C盘D盘之类，很好理解，系统盘和非系统盘。
+</code></pre><p>那linux下呢？盗图一张如下：<br><img src="http://opxo4bto2.bkt.clouddn.com/linux_dir.png" alt="dir"><br>意思就是说只有一块盘，相当于windows下只有一个C盘。<br>根目录就是<code>/</code>，相当于windows下的<code>C:\</code>。该目录下<code>/etc</code>存放系统各种配置文件，<code>/root</code>为管理员目录，非管理员用户目录都在<code>/home</code>下等等。</p>
+<h2 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h2><pre><code>windows下win+R 打开命令行时，显示当前用户目录路径
+</code></pre><p>但linux下win+alt+T打开terminal时，显示的符号是啥意思呢？<br>普通用户登录会显示<code>~$</code>，root用户登录显示<code>~#</code>。<br>非root（管理员）用户的符号会显示$，而root用户则会显示#（代表权力至高无上）。<br><code>~</code>代表当前用户目录，root用户则是<code>/root/</code>，非root则是<code>/home/name/</code>。<br><code>-</code>代表之前操作的目录，非常有用。</p>
+<h2 id="文件编辑"><a href="#文件编辑" class="headerlink" title="文件编辑"></a>文件编辑</h2><pre><code>windows下编辑文件，右击选择文件打开方式，编辑，ctrl+S保存，关闭文件。
+</code></pre><p>linux下键盘操作是主力。以下总结vi编辑器的基本使用。当然可以用gedit等GUI编辑器，应该就没有学习成本了。</p>
+<h3 id="打开-新建文件"><a href="#打开-新建文件" class="headerlink" title="打开|新建文件"></a>打开|新建文件</h3><pre><code>可以右键打开或新建，和windows下一样，如果是命令模式，推荐使用vi
+</code></pre><h3 id="vi使用"><a href="#vi使用" class="headerlink" title="vi使用"></a>vi使用</h3><p><code>vi filename</code> 不存在该文件则新建</p>
+<pre><code>vi filename    （此时光标在第一行首）
+vi + filename （光标在最后一行首，输入时注意加号两边空格）
+vi +/pattern filename （匹配模式，光标置于匹配的第一个字段处，无匹配项会提示）
+</code></pre><p>进入文件后此时是命令模式，输入字符不会显示。<br>在命令模式下输入插入命令i（insert）、附加命令a （append）、打开命令o（open）、修改命令c（change）、取代命令r或替换命令s都可以进入文本输入模式，此时编辑器下方会显示<code>-- INSERT --</code>样式,如无则需设置<code>set showmode</code>, 同理设置行号<code>set nu</code><br>在命令模式下敲【: / ?】中任一个可进入末行模式，执行完命令回到命令模式，或敲ESC退出到命令模式。<br>命令模式和末行模式我个人觉得没有明确界限，大概就是末行模式可以在屏幕上看到命令符吧<br>vi的操作的命令需熟练掌握，自行查找。</p>
+<h3 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h3><p><code>rm -fir file|dir</code><br><code>rm file1 file2</code> 删除多个文件</p>
+<pre><code>-f 强制删除，忽略不存在的文件
+-i 删除前确认
+-r 递归删除文件目录
+</code></pre><h3 id="复制剪切文件"><a href="#复制剪切文件" class="headerlink" title="复制剪切文件"></a>复制剪切文件</h3><p><code>cp src dest</code> cp命令可自行了解<br><code>cat file1 &gt; file2</code> 也能达到复制文件的目的<br><code>mv fp1 fp2</code> 剪切意味着移动move，也可以起到更名的作用<br>针对mv说明：</p>
+<pre><code>-b ：若需覆盖文件，则覆盖前先行备份。备份文件名为`filename~` 
+-f ：force 强制的意思，如果目标文件已经存在，不会询问而直接覆盖
+-i ：若目标文件 (destination) 已经存在时，就会询问是否覆盖！
+-u ：若目标文件已经存在，且 source 比较新，才会更新(update)
+-t ：--target-directory=DIRECTORY 即指定mv的目标目录，
+    该选项适用于移动多个源文件到一个目录的情况，此时目标目录在前，源文件在后。
+</code></pre><p>mv -u file1 file2</p>
+<h3 id="合并文件"><a href="#合并文件" class="headerlink" title="合并文件"></a>合并文件</h3><p><code>cat file1 file2 &gt; file</code><br>当<code>file</code>不存在会新建，若存在已有内容会被覆盖<br>参数：</p>
+<pre><code>-n 或 --number 由 1 开始对所有输出的行数编号
+-b 或 --number-nonblank 和 -n 相似，只不过对于空白行不编号
+-s 或 --squeeze-blank 当遇到有连续两行以上的空白行，就代换为一行的空白行
+-v 或 --show-nonprinting 展现出非打印字符
+</code></pre><p>eg：把 file1 和 file2的文件内容加上行号后依次输入 file3 文件<br>    cat -n file1 file2 &gt; file3</p>
+<h3 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h3><p>可以使用系统自带的搜索功能，输入关键字即可，另外也可使用find命令<br><code>find /home -name &quot;*abc*&quot;</code><br><code>locate filename</code> 同样支持匹配</p>
+<h3 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h3><p><code>ls -l filename|dirname</code> 查看权限<br>权限分为读、写、执行。权限针对的三组人员，文件拥有者、用户群组、其他人<br>更改权限使用<code>chmod</code>命令，使用时 <code>chmod --help</code>查看说明<br>记住其中一种使用方法就好 <code>chmod abc file</code>,其中a,b,c各为一个数字，分别表示User、Group、及Other的权限。</p>
+<pre><code>r=4，w=2，x=1 
+</code></pre><p>chmod a=rwx file 和 chmod 777 file 效果相同<br>修改目录下所有文件权限则使用<code>chmod -R 777 *</code></p>
+<p>修改文件拥有者和群组，使用 <code>chown</code>命令，普通用户不能将自己的文件改变成其他的拥有者。其操作权限一般为管理员<br><code>chown [option] [new_owner]:[new_group] file</code></p>
+<pre><code>-c 显示更改的部分的信息
+-f 忽略错误信息
+-h 修复符号链接
+-R 处理指定目录以及其子目录下的所有文件
+-v 显示详细的处理信息
+</code></pre><p>eg: <code>chown -R -v root:admin test</code>将test目录下所有文件拥有者改为root，群组改为admin</p>
+<h2 id="windows远程linux"><a href="#windows远程linux" class="headerlink" title="windows远程linux"></a>windows远程linux</h2><p>命令行远程当然是用SSH，客户端很多，推荐Xshell<br>GUI远程 也有很多选择, 例如vnc、nomachine，这里说下另一种：<br>xRDP + Xfce 实现Windows远程桌面连接</p>
+<ol>
+<li>安装xRDP及vncserver<br>sudo apt-get install xrdp<br>sudo apt-get install vnc4server tightvncserver</li>
+<li>安装Xfce桌面环境<br>sudo apt-get install xubuntu-desktop</li>
+<li>设置xRDP<br>echo xfce4-session &gt;~/.xsession</li>
+<li>设置配置文件<br>sudo gedit /etc/xrdp/startwm.sh<br>在. /etc/X11/Xsession 前一行插入 xfce4-session</li>
+<li>重启 xrdp<br>sudo service xrdp restart</li>
+<li>windows通过mstsc连接</li>
+</ol>
+<p>Xface桌面tab不能自动补全的问题<br>settting-&gt;window manager-&gt;Keyboard，清除tab快捷键占用</p>
+<h2 id="查杀进程"><a href="#查杀进程" class="headerlink" title="查杀进程"></a>查杀进程</h2><pre><code>`ps -e ` 查看所有进程，慢慢找吧……
+`ps aux|grep &lt;key&gt;` 通过关键字查找目标进程
+`sudo kill [code] &lt;PID&gt;` PID 为进程id，这个和windows下差不多
+code默认为`-9`,表示发送kill信号，另外提两个
+`-STOP` 停止进程，但不结束
+`-CONT` 继续运行已停止的进程
+</code></pre><h2 id="shell脚本"><a href="#shell脚本" class="headerlink" title="shell脚本"></a>shell脚本</h2><p>对应windows的批处理<br>若执行失败时，尝试sudo执行</p>
+<p>仍未放弃，待续！</p>
+
+                
+<p class="pink-link-context">
+    <a href="/2017/06/25/module/" rel="next" title="Node.js 模块">
+    上一篇：Node.js 模块
+  </a>
+</p>
+
+
+
+<p class="pink-link-context">
+    <a href="/2017/06/19/events-Source/" rel="next" title="Node.js events模块(下)">
+    下一篇：Node.js events模块(下)
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href,
+        sourceId: "",
+        productKey: "4fc9566bfa494cb09ed9f70c2ecdb566",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
 
 
 </div>

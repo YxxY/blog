@@ -156,7 +156,15 @@
 
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/技术/">
-                    技术 <span class="right">4 篇</span></a>
+                    技术 <span class="right">5 篇</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Node/">
+                    Node <span class="right">3 篇</span></a>
                 </a>
             </li>
 
@@ -171,16 +179,16 @@
         
 
             <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/技术/Node-js/">
-                    Node-js <span class="right">2 篇</span></a>
+                <a class="no-padding" href="/categories/技术/Lua/">
+                    Lua <span class="right">1 篇</span></a>
                 </a>
             </li>
 
         
 
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/技术/Lua/">
-                    Lua <span class="right">1 篇</span></a>
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Linux/">
+                    Linux <span class="right">1 篇</span></a>
                 </a>
             </li>
 
@@ -216,7 +224,7 @@
             
     
     
-    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/Node-js/">Node.js</a>
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/Node/">Node</a>
 
 
         
@@ -252,6 +260,8 @@
         
             <a href="/tags/EventEmitter/" class="chip pink lighten-1">EventEmitter</a>
         
+            <a href="/tags/Node-js/" class="chip pink lighten-1">Node.js</a>
+        
             <a href="/tags/Source/" class="chip pink lighten-1">Source</a>
         
     </div>
@@ -263,7 +273,7 @@
 
 
             <div class="entry pink-link-context">
-                <p>总结完<code>event</code>模块后会发现，这一块的API十分的简洁高效，对它的实现十分好奇。好在这块源码比较简短，代码编写十分规范，于是我选择更进一步，尝试下学习下源码<a href="https://github.com/nodejs/node/blob/master/lib/events.js" target="_blank" rel="external">event.js</a>。<br><a id="more"></a></p>
+                <p>总结完<code>events</code>模块后会发现，这一块的API十分的简洁高效，对它的实现十分好奇。因为这块源码比较简短，代码编写十分规范，于是我选择更进一步，尝试下学习下源码<a href="https://github.com/nodejs/node/blob/master/lib/events.js" target="_blank" rel="external">events.js</a>。<br><a id="more"></a></p>
 <h2 id="模块的编写"><a href="#模块的编写" class="headerlink" title="模块的编写"></a>模块的编写</h2><p>通常我们都会自己写模块，但对比下这篇专业的，对自己以后写模块有些许启发<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">EventEmitter</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.init.call(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="built_in">module</span>.exports = EventEmitter;</div></pre></td></tr></table></figure></p>
 <p>这是最开头的部分，<code>module.exports</code>写在文件开头，导出的部分一目了然，我个人比较习惯这种方式，不喜欢手动拉到最后去看这块信息。<br>另外，将要导出的函数模块化，没有把所有的内容都写到函数里面，解耦带来的好处不用赘述，也是非常合理的。<br>函数的call方法忘记的话参考<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call" target="_blank" rel="external">Function.prototype.call()</a></p>
 <h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>EventEmitter类实例化就是调用<code>EventEmitter.init()</code>函数<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">EventEmitter.prototype._events = <span class="literal">undefined</span>;</div><div class="line">EventEmitter.prototype._maxListeners = <span class="literal">undefined</span>;</div><div class="line"></div><div class="line">EventEmitter.init = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.domain = <span class="literal">null</span>;</div><div class="line">  <span class="keyword">if</span> (EventEmitter.usingDomains) &#123;</div><div class="line">    <span class="comment">/* if there is an active domain, then attach to it. */</span></div><div class="line">    domain = domain || <span class="built_in">require</span>(<span class="string">'domain'</span>);</div><div class="line">    <span class="keyword">if</span> (domain.active &amp;&amp; !(<span class="keyword">this</span> <span class="keyword">instanceof</span> domain.Domain)) &#123;</div><div class="line">      <span class="keyword">this</span>.domain = domain.active;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (!<span class="keyword">this</span>._events || <span class="keyword">this</span>._events === <span class="built_in">Object</span>.getPrototypeOf(<span class="keyword">this</span>)._events) &#123;</div><div class="line">    <span class="keyword">this</span>._events = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</div><div class="line">    <span class="keyword">this</span>._eventsCount = <span class="number">0</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">this</span>._maxListeners = <span class="keyword">this</span>._maxListeners || <span class="literal">undefined</span>;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
@@ -299,6 +309,12 @@
 <p>最后一点是最体现能力的，推荐一个可以自己动手实践的工具<a href="https://github.com/logicalparadox/matcha" target="_blank" rel="external">matcha</a>，没有什么比自己动手更实用的方式了。</p>
 
                 
+<p class="pink-link-context">
+    <a href="/2017/06/20/ubuntu/" rel="next" title="Linux从入门到放弃">
+    上一篇：Linux从入门到放弃
+  </a>
+</p>
+
 
 
 <p class="pink-link-context">
@@ -383,14 +399,6 @@
             </div>
             
 
-            
-            <div class="col m8 s12">
-                <h5 class="white-text">友情链接</h5>
-                <br>
-                
-                    <a class="social-link" href="http://www.cqumzh.cn/bbs/frame.php" target="_blank">重庆大学民主湖论坛</a>
-                
-            </div>
             
         </div>
     </div>
