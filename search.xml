@@ -120,6 +120,8 @@ code默认为`-9`,表示发送kill信号，另外提两个
       
         <categories>
             
+            <category> 技术 </category>
+            
             <category> Linux </category>
             
         </categories>
@@ -185,11 +187,11 @@ code默认为`-9`,表示发送kill信号，另外提两个
         
         <tags>
             
-            <tag> Node.js </tag>
-            
             <tag> events </tag>
             
             <tag> EventEmitter </tag>
+            
+            <tag> Node.js </tag>
             
             <tag> Source </tag>
             

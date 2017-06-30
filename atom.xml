@@ -73,7 +73,7 @@
     <link href="http://yoursite.com/2017/06/20/ubuntu/"/>
     <id>http://yoursite.com/2017/06/20/ubuntu/</id>
     <published>2017-06-20T12:35:38.000Z</published>
-    <updated>2017-06-30T15:10:51.435Z</updated>
+    <updated>2017-06-30T15:23:41.559Z</updated>
     
     <content type="html"><![CDATA[<p>很早就有学linux的想法，曾经也尝试过，特地装了双系统，但可能打开的姿势和时机不对，没过多久就不了了之了。如今已经工作一段时间了，感觉这是一项必须掌握的技能了。本着talk is cheap， just do it的实用主义原则，仅以使用目标为导向，逐步先达到我操作windows的水平，其他以后再说，捞着芝麻算芝麻，西瓜如果抱不动就不要了。以下以ubutun16.04为实验机，全程百度必应，行文仅为学习的总结及备忘录，内容逐步补充，内容无增加之时，则实现点题。<br><a id="more"></a></p>
 <h2 id="认识目录"><a href="#认识目录" class="headerlink" title="认识目录"></a>认识目录</h2><pre><code>windows下目录就是C盘D盘之类，很好理解，系统盘和非系统盘。
@@ -143,7 +143,9 @@ code默认为`-9`,表示发送kill信号，另外提两个
     
     </summary>
     
-      <category term="Linux" scheme="http://yoursite.com/categories/Linux/"/>
+      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Linux" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/Linux/"/>
     
     
       <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
@@ -206,11 +208,11 @@ code默认为`-9`,表示发送kill信号，另外提两个
       <category term="Node" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/Node/"/>
     
     
-      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
-    
       <category term="events" scheme="http://yoursite.com/tags/events/"/>
     
       <category term="EventEmitter" scheme="http://yoursite.com/tags/EventEmitter/"/>
+    
+      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
     
       <category term="Source" scheme="http://yoursite.com/tags/Source/"/>
     
@@ -276,7 +278,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
     <link href="http://yoursite.com/2017/05/18/arrow_function/"/>
     <id>http://yoursite.com/2017/05/18/arrow_function/</id>
     <published>2017-05-18T12:50:38.000Z</published>
-    <updated>2017-06-19T12:23:09.773Z</updated>
+    <updated>2017-06-30T15:23:52.985Z</updated>
     
     <content type="html"><![CDATA[<p>js从ES6开始引入一种新函数，箭头函数。<br>它拥有无比简洁优雅的写法，不用显式的写<code>function</code>，确实方便不少。但并非适应所有的函数应用场景，这里结合资料和个人理解做个总结。<br><a id="more"></a></p>
 <pre><code>An arrow function expression has a shorter syntax than a function expression 
