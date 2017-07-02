@@ -261,8 +261,6 @@ code默认为`-9`,表示发送kill信号，另外提两个
             
             <tag> EventEmitter </tag>
             
-            <tag> Source </tag>
-            
         </tags>
         
     </entry>
@@ -440,9 +438,7 @@ and they cannot be used as constructors.
         
         <tags>
             
-            <tag> wechat </tag>
-            
-            <tag> message type </tag>
+            <tag> wechat-message </tag>
             
             <tag> lua </tag>
             
