@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-02T11:40:00.929Z</updated>
+  <updated>2017-07-02T12:01:05.557Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>消息队列之rabbitMQ</title>
+    <title>消息队列之RabbitMQ</title>
     <link href="http://yoursite.com/2017/06/30/rabbitmq/"/>
     <id>http://yoursite.com/2017/06/30/rabbitmq/</id>
     <published>2017-06-30T12:11:38.000Z</published>
-    <updated>2017-07-02T11:40:00.929Z</updated>
+    <updated>2017-07-02T12:01:05.557Z</updated>
     
     <content type="html"><![CDATA[<p>最近项目上开始部署了消息队列，手头的工作基本围绕着它展开。消息队列已经是比较成熟的技术了，例如使用中我们最终选择的rabbitMQ，已经诞生10年了。那这是我们选择它的原因吗？不全是，还因为它的库多……总结下这块内容以备忘！<br><a id="more"></a></p>
 <h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>我工作中的使用主要是使用MQ重构了原来的需求，改进的主要是</p>
@@ -40,12 +40,13 @@
 <li><code>vhost</code>: broker的最小组成粒度，一个broker可以有多个vhost</li>
 <li><code>connection</code>: 程序和broker之间的TCP连接，最大连接数取决于系统能够接受的socket连接数</li>
 <li><code>channel</code>: 基于connection的虚拟连接，断开重连不需要重新建立TCP连接，减少了开销。一个connection里能建的最大channel数可以设置，服务端默认128，设为0代表无限制。channel是消息真正的操作载体，绝大多数操作都是基于channel的。</li>
-<li><code>heartbeat</code>: 心跳，用于检测客户端与服务端之间的tcp链接是否正常的发包间隔，服务端默认600秒，客户端如果设置，双方会连接后会协定以客户端为主，如果客户端设置为0表示不启用该功能。</li>
+<li><code>heartbeat</code>: 用于检测客户端与服务端之间的tcp链接是否正常的发包间隔，服务端默认600秒，客户端如果设置，双方会连接后会协定以客户端为主，如果客户端设置为0表示不启用该功能。</li>
 </ul>
 <h2 id="结构图"><a href="#结构图" class="headerlink" title="结构图"></a>结构图</h2><p><img src="http://opxo4bto2.bkt.clouddn.com/rabbitmq.png" alt="rabbitmq"></p>
 <h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>rabbitMQ官网以6个例子当做入门教程，详见<a href="http://www.rabbitmq.com/getstarted.html" target="_blank" rel="external">RabbitMQ Tutorials</a>，提供多种客户端接口，跟着走一遍就能入门了。</p>
 <p>官方的六个实例基本概括了rabbitMQ的使用场景，熟悉以后我觉得总的来说可以分为两部分，即生产者和消费者。<br>生产者不用管自己发出的消息被谁处理，怎么处理，只需要发给按约定规则（routing key）发到指定exchange即可，消费者按照自己的需求去订阅消息，不用关心消息的来源。让双线联系变成和MQ的单线联系，从而达到解耦的目的。大部分场景只要分清当前程序是producer还是consumer，逻辑就能变得简单。<br>有时需要consumer返回处理完消息的结果，即consumer需要动态的切换成producer，这个就是RPC的应用场景了，重点还是分清自己的角色就好了。</p>
-<h3 id="Producer"><a href="#Producer" class="headerlink" title="Producer"></a>Producer</h3><p>如果当前程序是Producer，那么只需关心自己和exchange之间的交互即可。<br>exchange 有四种类型，分别对应不同的使用场景，</p>
+<h3 id="Producer"><a href="#Producer" class="headerlink" title="Producer"></a>Producer</h3><pre><code>如果当前程序是Producer，那么只需关心自己和`exchange`之间的交互即可。
+</code></pre><p>exchange 有四种类型，分别对应不同的使用场景，</p>
 <ul>
 <li><code>direct</code>: 一对一模式，一般以queue的名字作为key，向指定queue转发消息</li>
 <li><code>fanout</code>: 广播模式，向所有绑定的queue转发消息</li>
@@ -53,7 +54,8 @@
 <li><code>header</code>: 一种类似topic的扩展，完全可以用topic取代</li>
 </ul>
 <p>需注意的是，发送时一般会先确认exchange存在，如果传递的exchange option和实际不符会引发错误，导致channel关闭</p>
-<h3 id="Consumer"><a href="#Consumer" class="headerlink" title="Consumer"></a>Consumer</h3><p>当前程序是consumer，监听queue即可。<br>queue的创建和绑定可以协商由谁来完成，二次确认时主要保持参数一致，否则也会产生错误，导致channel关闭。<br>RPC模式我认为更像是消费者模式的一种。<br>消息处理程序监听在一个协定好的队列(queue1)上，收到消息时处理完之后，发送结果到消息里指定的队列(queue2)。<br>对于消息的发送者，先将消息发出,保证消息能被转发至queue1，随后监听在队列queue2，等待处理结果返回。<br>这里涉及到的两个队列，queue1和queue2的创建和绑定由谁来做都可以，一般为了方便就直接采取direct的消息转发机制了。</p>
+<h3 id="Consumer"><a href="#Consumer" class="headerlink" title="Consumer"></a>Consumer</h3><pre><code>当前程序是Consumer，监听`queue`即可。
+</code></pre><p>queue的创建和绑定可以协商由谁来完成，二次确认时主要保持参数一致，否则也会产生错误，导致channel关闭。<br>RPC模式我认为更像是消费者模式的一种。<br>消息处理程序监听在一个协定好的队列(queue1)上，收到消息时处理完之后，发送结果到消息里指定的队列(queue2)。<br>对于消息的发送者，先将消息发出,保证消息能被转发至queue1，随后监听在队列queue2，等待处理结果返回。<br>这里涉及到的两个队列，queue1和queue2的创建和绑定由谁来做都可以，一般为了方便就直接采取direct的消息转发机制了。</p>
 <h2 id="API使用"><a href="#API使用" class="headerlink" title="API使用"></a>API使用</h2><p>我选用的是javascript客户端，用的包是<a href="https://github.com/squaremo/amqp.node" target="_blank" rel="external">amqplib</a>, API参考<a href="http://www.squaremobius.net/amqp.node/channel_api.html#channel_bindExchange" target="_blank" rel="external">AMQP 0-9-1 library and client for Node.JS</a><br>总结使用中遇到的一些坑：</p>
 <ul>
 <li>最容易出现是exchange和queue二次确认时，参数不一致导致channel关闭</li>
@@ -74,12 +76,12 @@
     
       <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="rabbitMQ" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/rabbitMQ/"/>
+      <category term="RabbitMQ" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/RabbitMQ/"/>
     
     
       <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
     
-      <category term="rabbitMQ" scheme="http://yoursite.com/tags/rabbitMQ/"/>
+      <category term="RabbitMQ" scheme="http://yoursite.com/tags/RabbitMQ/"/>
     
   </entry>
   
@@ -88,7 +90,7 @@
     <link href="http://yoursite.com/2017/06/25/module/"/>
     <id>http://yoursite.com/2017/06/25/module/</id>
     <published>2017-06-25T13:15:38.000Z</published>
-    <updated>2017-06-30T15:44:42.643Z</updated>
+    <updated>2017-07-02T12:01:10.066Z</updated>
     
     <content type="html"><![CDATA[<p>Node.js 中的模块(module)是一开始就接触到的，但也许是因为它的API已足够简单，实际却从未深究过。另外在新的ES6标准里，之前所用的<code>require</code>、<code>exports</code>将被<code>import</code>、<code>export</code>取代成为新的标准。新旧更替如果两个都不懂就太尴尬了，我决定查下资料，稍微总结对比下新旧的不同，争取从不懂变成略懂。<br><a id="more"></a></p>
 <h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><p><code>require()</code> 参数为字符串，加载模块,返回被加载模块<code>module.exports</code>的内容<br><code>require.cache</code> 返回已加载模块的对象，key为模块绝对路径名，value为module对象<br><code>require.resolve()</code> 参数为字符串，运用require()的机制去查找模块并不加载，返回模块绝对路径名<br><code>require.main</code> 源码解释<code>require.main = process.mainModule</code> 指向主模块，当不存在入口文件时返回 undefined</p>
@@ -125,7 +127,7 @@
     
       <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="JS" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JS/"/>
+      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
     
     
       <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
@@ -141,7 +143,7 @@
     <link href="http://yoursite.com/2017/06/20/ubuntu/"/>
     <id>http://yoursite.com/2017/06/20/ubuntu/</id>
     <published>2017-06-20T12:35:38.000Z</published>
-    <updated>2017-06-30T15:23:41.559Z</updated>
+    <updated>2017-07-02T11:54:56.662Z</updated>
     
     <content type="html"><![CDATA[<p>很早就有学linux的想法，曾经也尝试过，特地装了双系统，但可能打开的姿势和时机不对，没过多久就不了了之了。如今已经工作一段时间了，感觉这是一项必须掌握的技能了。本着talk is cheap， just do it的实用主义原则，仅以使用目标为导向，逐步先达到我操作windows的水平，其他以后再说，捞着芝麻算芝麻，西瓜如果抱不动就不要了。以下以ubutun16.04为实验机，全程百度必应，行文仅为学习的总结及备忘录，内容逐步补充，内容无增加之时，则实现点题。<br><a id="more"></a></p>
 <h2 id="认识目录"><a href="#认识目录" class="headerlink" title="认识目录"></a>认识目录</h2><pre><code>windows下目录就是C盘D盘之类，很好理解，系统盘和非系统盘。
@@ -227,7 +229,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
     <link href="http://yoursite.com/2017/06/19/events-Source/"/>
     <id>http://yoursite.com/2017/06/19/events-Source/</id>
     <published>2017-06-19T12:11:38.000Z</published>
-    <updated>2017-06-30T15:44:42.641Z</updated>
+    <updated>2017-07-02T12:01:11.586Z</updated>
     
     <content type="html"><![CDATA[<p>总结完<code>events</code>模块后会发现，这一块的API十分的简洁高效，对它的实现十分好奇。因为这块源码比较简短，代码编写十分规范，于是我选择更进一步，尝试下学习下源码<a href="https://github.com/nodejs/node/blob/master/lib/events.js" target="_blank" rel="external">events.js</a>。<br><a id="more"></a></p>
 <h2 id="模块的编写"><a href="#模块的编写" class="headerlink" title="模块的编写"></a>模块的编写</h2><p>通常我们都会自己写模块，但对比下这篇专业的，对自己以后写模块有些许启发<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">EventEmitter</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.init.call(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="built_in">module</span>.exports = EventEmitter;</div></pre></td></tr></table></figure></p>
@@ -273,7 +275,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
     
       <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="JS" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JS/"/>
+      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
     
     
       <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
@@ -291,7 +293,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
     <link href="http://yoursite.com/2017/06/18/events-API/"/>
     <id>http://yoursite.com/2017/06/18/events-API/</id>
     <published>2017-06-18T12:11:38.000Z</published>
-    <updated>2017-06-30T15:44:42.638Z</updated>
+    <updated>2017-07-02T12:01:16.359Z</updated>
     
     <content type="html"><![CDATA[<p>node.js 基于异步事件驱动(Event-driven)，这无疑也是一种十分优秀的编程思想，这里总结下其中与之相关的一个核心模块——events模块。<br>本文主要总结使用的API，具体可参考<a href="https://nodejs.org/api/events.html" target="_blank" rel="external">官网API</a><br><a id="more"></a></p>
 <h2 id="快速使用"><a href="#快速使用" class="headerlink" title="快速使用"></a>快速使用</h2><p><code>events</code>是内置模块，但非全局变量，使用时需显示引用<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div></pre></td></tr></table></figure></p>
@@ -330,7 +332,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
     
       <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="JS" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JS/"/>
+      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
     
     
       <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
@@ -348,7 +350,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
     <link href="http://yoursite.com/2017/05/18/arrow_function/"/>
     <id>http://yoursite.com/2017/05/18/arrow_function/</id>
     <published>2017-05-18T12:50:38.000Z</published>
-    <updated>2017-06-30T15:44:42.636Z</updated>
+    <updated>2017-07-02T12:01:19.044Z</updated>
     
     <content type="html"><![CDATA[<p>js从ES6开始引入一种新函数，箭头函数。<br>它拥有无比简洁优雅的写法，不用显式的写<code>function</code>，确实方便不少。但并非适应所有的函数应用场景，这里结合资料和个人理解做个总结。<br><a id="more"></a></p>
 <pre><code>An arrow function expression has a shorter syntax than a function expression 
@@ -387,7 +389,7 @@ and they cannot be used as constructors.
     
       <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="JS" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JS/"/>
+      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
     
     
       <category term="JavaScript" scheme="http://yoursite.com/tags/JavaScript/"/>
@@ -403,7 +405,7 @@ and they cannot be used as constructors.
     <link href="http://yoursite.com/2017/05/15/parse_wechat_msgType/"/>
     <id>http://yoursite.com/2017/05/15/parse_wechat_msgType/</id>
     <published>2017-05-15T10:35:38.000Z</published>
-    <updated>2017-06-22T13:39:31.123Z</updated>
+    <updated>2017-07-02T12:01:13.154Z</updated>
     
     <content type="html"><![CDATA[<p>最近试着做些工作总结，这也是我开始写博客的初衷，少bb，just do it！</p>
 <p>这是我最早进公司做的一个小项目，需求是判断手机收发微信消息内容类型。就是手机发了一条微信消息之后，程序要能解析出发的是文本、语音还是图片等类型，并且统计时延。接收也是如此，主要需求是对发送类型的判断。<br><a id="more"></a></p>
