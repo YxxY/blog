@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-02T12:11:00.974Z</updated>
+  <updated>2017-07-02T12:18:13.844Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/06/30/rabbitmq/"/>
     <id>http://yoursite.com/2017/06/30/rabbitmq/</id>
     <published>2017-06-30T12:11:38.000Z</published>
-    <updated>2017-07-02T12:11:00.974Z</updated>
+    <updated>2017-07-02T12:18:13.844Z</updated>
     
     <content type="html"><![CDATA[<p>最近项目上开始部署了消息队列，手头的工作基本围绕着它展开。消息队列已经是比较成熟的技术了，例如使用中我们最终选择的rabbitMQ，已经诞生10年了。那这是我们选择它的原因吗？不全是，还因为它的库多……总结下这块内容以备忘！<br><a id="more"></a></p>
 <h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>我工作中的使用主要是使用MQ重构了原来的需求，改进的主要是</p>
@@ -76,7 +76,7 @@
     
       <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="RabbitMQ" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/RabbitMQ/"/>
+      <category term="MessageQueue" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/MessageQueue/"/>
     
     
       <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
