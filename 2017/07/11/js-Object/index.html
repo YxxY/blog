@@ -1,0 +1,710 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>JavaScript Object | pandaQ&#39;s Blog</title>
+    <meta name="author" content="pandaQ">
+    
+    <meta name="description" content="share a story I just wrote with you">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="JavaScript Object"/>
+    <meta property="og:site_name" content="pandaQ&#39;s Site"/>
+
+    
+    <meta property="og:image" content="undefined"/>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="pandaQ&#39;s Site" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="teal">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">pandaQ&#39;s Site</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            首页
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            时光轴
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            分类
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            关于
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav teal darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://opxo4bto2.bkt.clouddn.com/me.jpg" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">pandaQ</p>
+                        <p class="desc">Coder/API搬运工</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    首页
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    时光轴
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    分类
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    关于
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav teal darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/技术/">
+                    技术 <span class="right">8 篇</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/JavaScript/">
+                    JavaScript <span class="right">5 篇</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/RabbitMQ/">
+                    RabbitMQ <span class="right">1 篇</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Lua/">
+                    Lua <span class="right">1 篇</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Linux/">
+                    Linux <span class="right">1 篇</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">搜索</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper teal">
+        <span class="breadcrumb">当前位置（分类目录）</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/JavaScript/">JavaScript</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>JavaScript Object</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2017-07-11T12:50:38.000Z"><a href="/2017/07/11/js-Object/">2017-07-11</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/JavaScript/" class="chip pink lighten-1">JavaScript</a>
+        
+            <a href="/tags/Object/" class="chip pink lighten-1">Object</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#用法"><span class="section table-of-contents-text">用法</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#键值对初始化"><span class="section table-of-contents-text">键值对初始化</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#用作构造器"><span class="section table-of-contents-text">用作构造器</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#Object属性"><span class="section table-of-contents-text">Object属性</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-length"><span class="section table-of-contents-text">Object.length</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-prototype"><span class="section table-of-contents-text">Object.prototype</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Object-prototype-constructor"><span class="section table-of-contents-text">Object.prototype.constructor</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Object-prototype-proto"><span class="section table-of-contents-text">Object.prototype.__proto__</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Object-prototype-defineGetter"><span class="section table-of-contents-text">Object.prototype.__defineGetter__()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Object-prototype-defineSetter"><span class="section table-of-contents-text">Object.prototype.__defineSetter__()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Object-prototype-lookupGetter"><span class="section table-of-contents-text">Object.prototype.__lookupGetter__()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Object-prototype-lookupSetter"><span class="section table-of-contents-text">Object.prototype.__lookupSetter__()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Object-prototype-hasOwnProperty"><span class="section table-of-contents-text">Object.prototype.hasOwnProperty()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Object-prototype-isPrototypeOf"><span class="section table-of-contents-text">Object.prototype.isPrototypeOf()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Object-prototype-propertyIsEnumerable"><span class="section table-of-contents-text">Object.prototype.propertyIsEnumerable()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Object-prototype-toString"><span class="section table-of-contents-text">Object.prototype.toString()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Object-prototype-valueOf"><span class="section table-of-contents-text">Object.prototype.valueOf()</span></a></li></ol></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#Object方法"><span class="section table-of-contents-text">Object方法</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-defineProperty"><span class="section table-of-contents-text">Object.defineProperty()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-defineProperties"><span class="section table-of-contents-text">Object.defineProperties()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-create-proto-propertiesObject"><span class="section table-of-contents-text">Object.create(proto[, propertiesObject])</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-assign"><span class="section table-of-contents-text">Object.assign()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-getOwnPropertyDescriptor"><span class="section table-of-contents-text">Object.getOwnPropertyDescriptor()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-getOwnPropertyDescriptors"><span class="section table-of-contents-text">Object.getOwnPropertyDescriptors()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-keys"><span class="section table-of-contents-text">Object.keys()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-getOwnPropertyNames"><span class="section table-of-contents-text">Object.getOwnPropertyNames()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-getOwnPropertySymbols"><span class="section table-of-contents-text">Object.getOwnPropertySymbols()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-getPrototypeOf"><span class="section table-of-contents-text">Object.getPrototypeOf()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-setPrototypeOf"><span class="section table-of-contents-text">Object.setPrototypeOf()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-is"><span class="section table-of-contents-text">Object.is()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-freeze"><span class="section table-of-contents-text">Object.freeze()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-seal"><span class="section table-of-contents-text">Object.seal()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-preventExtensions"><span class="section table-of-contents-text">Object.preventExtensions()</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Object-isExtensible"><span class="section table-of-contents-text">Object.isExtensible()</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#总结"><span class="section table-of-contents-text">总结</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>javascript里的对象是我一直没认真研究过的，每次看到Object的调用总觉得是高级语法。然而其实它一直都在那里，不难不易，只是我没有去了解。查了下MDN，仍旧是做下API层面的总结。<br><a id="more"></a></p>
+<h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><h2 id="键值对初始化"><a href="#键值对初始化" class="headerlink" title="键值对初始化"></a>键值对初始化</h2><pre><code>@param name String 
+@param value Any
+</code></pre><p>其中对于name参数，必须是String。<br>如果不是String会被转化为String类型。1会转为’1’、null会被转为’null’, undefined 会被转为’undefined’, true将被转为’true’。如果是对象，则调用对象的toString方法返回String。<br>特别说明下<code>__proto__</code>。如果使用它作为name，对象不会创建一个以该字符串命名的属性。因为它存在默认值，指向Object.prototype。除非提供的value是一个对象或者null，否则默认值不会改变。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>: <span class="string">'foo'</span>, <span class="attr">b</span>: <span class="number">42</span>, <span class="attr">c</span>: &#123;&#125;&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="string">'foo'</span>, b = <span class="number">42</span>, c = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>: a, <span class="attr">b</span>: b, <span class="attr">c</span>: c&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">  <span class="attr">test</span>: <span class="number">5</span>;</div><div class="line">  get property() &#123;<span class="keyword">return</span> <span class="keyword">this</span>.test&#125;,</div><div class="line">  set property(value) &#123;<span class="keyword">if</span>(value&gt;<span class="number">10</span>) <span class="keyword">this</span>.test = value&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> obj1 = &#123;&#125;;</div><div class="line">assert(<span class="built_in">Object</span>.getPrototypeOf(obj1) === <span class="built_in">Object</span>.prototype);</div><div class="line"></div><div class="line"><span class="keyword">var</span> obj2 = &#123;<span class="attr">__proto__</span>: <span class="literal">null</span>&#125;;</div><div class="line">assert(<span class="built_in">Object</span>.getPrototypeOf(obj2) === <span class="literal">null</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> protoObj = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> obj3 = &#123;<span class="string">'__proto__'</span>: protoObj&#125;;</div><div class="line">assert(<span class="built_in">Object</span>.getPrototypeOf(obj3) === protoObj);</div><div class="line"></div><div class="line"><span class="keyword">var</span> obj4 = &#123;<span class="attr">__proto__</span>: <span class="string">'not an object or null'</span>&#125;;</div><div class="line">assert(<span class="built_in">Object</span>.getPrototypeOf(obj4) === <span class="built_in">Object</span>.prototype);</div><div class="line">assert(!obj4.hasOwnProperty(<span class="string">'__proto__'</span>));</div></pre></td></tr></table></figure></p>
+<p>除此之外，ES6新增了语法特性<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Shorthand property names */</span></div><div class="line"><span class="keyword">var</span> a = <span class="string">'foo'</span>, b = <span class="number">42</span>, c = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> o = &#123;a, b, c&#125;;</div><div class="line"><span class="comment">/* o.a =&gt; 'foo' */</span></div><div class="line"></div><div class="line"><span class="comment">/* Shorthand method names */</span></div><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">  property([parameters]) &#123;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">/* Computed property names */</span></div><div class="line"><span class="keyword">var</span> prop = <span class="string">'foo'</span>;</div><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">  [prop]: <span class="string">'hey'</span>,</div><div class="line">  [<span class="string">'b'</span> + <span class="string">'ar'</span>]: <span class="string">'there'</span></div><div class="line">&#125;;</div><div class="line"><span class="comment">/* However, JSON.parse() will reject computed property names </span></div><div class="line">and an error will be thrown */</div></pre></td></tr></table></figure></p>
+<p>总之一个对象的初始化就是一个表达式，用来描述一个对象的初始化过程。对象由属性组成，属性是用来描述对象的。对象的属性值可以是基本数据类型值（即js六大基本数据类型，string、number、boolean、undefined、null、symbol），也可以是对象</p>
+<h2 id="用作构造器"><a href="#用作构造器" class="headerlink" title="用作构造器"></a>用作构造器</h2><pre><code>new Object([value])
+根据所给的value，返回一个对象包装器。
+</code></pre><p>如果value的值为null或者undefined，会构造返回一个空对象；如果value是一个对象，则返回value；否则返回所给定value类型对应的对象。</p>
+<h1 id="Object属性"><a href="#Object属性" class="headerlink" title="Object属性"></a>Object属性</h1><h2 id="Object-length"><a href="#Object-length" class="headerlink" title="Object.length"></a>Object.length</h2><pre><code>返回 1
+</code></pre><h2 id="Object-prototype"><a href="#Object-prototype" class="headerlink" title="Object.prototype"></a>Object.prototype</h2><pre><code>返回一个对象，包含的属性被其他对象继承，几乎所有对象都从这里继承。
+Object.prototype对象的属性不可枚举(not enumerable), 不可赋值(not writable), 
+不可更改或删除(not configurable),可通过 `in` 来确定是否存在某一属性。
+</code></pre><h3 id="Object-prototype-constructor"><a href="#Object-prototype-constructor" class="headerlink" title="Object.prototype.constructor"></a>Object.prototype.constructor</h3><pre><code>返回一个访问描述符(accessor property)，对象的构造函数
+</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;&#125;;</div><div class="line">o.constructor === <span class="built_in">Object</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>;</div><div class="line">o.constructor === <span class="built_in">Object</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = [];</div><div class="line">a.constructor === <span class="built_in">Array</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Array</span>;</div><div class="line">a.constructor === <span class="built_in">Array</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> n = <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">3</span>);</div><div class="line">n.constructor === <span class="built_in">Number</span>;</div></pre></td></tr></table></figure>
+<p>其中对象的构造函数可以被改变，<br>但对基本类型数据number、boolean、string的构造函数进行更改不会生效。</p>
+<pre><code>undefined、null不含有constructor属性
+</code></pre><h3 id="Object-prototype-proto"><a href="#Object-prototype-proto" class="headerlink" title="Object.prototype.__proto__"></a><code>Object.prototype.__proto__</code></h3><pre><code>非标准规范，但被广泛实现。返回当前对象的原型对象，也是一个访问描述符，
+可以获取也可以修改，但是修改非常影响性能，不鼓励使用。
+</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> shape = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</div><div class="line"><span class="keyword">let</span> p = &#123;</div><div class="line">    <span class="attr">a</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'aaa'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">shape.prototype.__proto__ = p;</div><div class="line"></div><div class="line"><span class="keyword">let</span> circle = <span class="keyword">new</span> shape();</div><div class="line"></div><div class="line">shape.prototype.a() <span class="comment">/* aaa */</span></div><div class="line"><span class="built_in">console</span>.log(shape.prototype.hasOwnProperty(<span class="string">'a'</span>)); <span class="comment">/* false */</span></div><div class="line">circle.a(); <span class="comment">// aaa</span></div></pre></td></tr></table></figure>
+<h3 id="Object-prototype-defineGetter"><a href="#Object-prototype-defineGetter" class="headerlink" title="Object.prototype.__defineGetter__()"></a><code>Object.prototype.__defineGetter__()</code></h3><h3 id="Object-prototype-defineSetter"><a href="#Object-prototype-defineSetter" class="headerlink" title="Object.prototype.__defineSetter__()"></a><code>Object.prototype.__defineSetter__()</code></h3><pre><code>设置对象的getter和setter，非标准，可以被类方法Object.defineProperty代替
+</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;&#125;;</div><div class="line">o.__defineGetter__(<span class="string">'gimmeFive'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">5</span>; &#125;);</div><div class="line"><span class="built_in">console</span>.log(o.gimmeFive); <span class="comment">/* 5  */</span></div><div class="line">o.gimmeFive = <span class="number">10</span></div><div class="line"><span class="built_in">console</span>.log(o.gimmeFive); <span class="comment">/* 5 */</span></div><div class="line"></div><div class="line">o.__defineSetter__(<span class="string">'value'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;<span class="keyword">this</span>.test = val;&#125;);</div><div class="line">o.value = <span class="number">10</span></div><div class="line"><span class="built_in">console</span>.log(o.value); <span class="comment">/* undefined */</span></div><div class="line"><span class="built_in">console</span>.log(o.test); <span class="comment">/* 10 */</span></div><div class="line"></div><div class="line"><span class="comment">/* Using Object.defineProperty instead */</span></div><div class="line"><span class="keyword">var</span> o = &#123;&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(o, <span class="string">'foo'</span>, &#123;</div><div class="line">  <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.anotherValue;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.anotherValue = val;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(o.foo)          <span class="comment">/* undefined */</span></div><div class="line"><span class="built_in">console</span>.log(o.anotherValue) <span class="comment">/* undefined */</span></div><div class="line">o.foo = <span class="number">10</span></div><div class="line"><span class="built_in">console</span>.log(o.foo)          <span class="comment">/* 10 */</span></div><div class="line"><span class="built_in">console</span>.log(o.anotherValue) <span class="comment">/* 10 */</span></div></pre></td></tr></table></figure>
+<h3 id="Object-prototype-lookupGetter"><a href="#Object-prototype-lookupGetter" class="headerlink" title="Object.prototype.__lookupGetter__()"></a><code>Object.prototype.__lookupGetter__()</code></h3><h3 id="Object-prototype-lookupSetter"><a href="#Object-prototype-lookupSetter" class="headerlink" title="Object.prototype.__lookupSetter__()"></a><code>Object.prototype.__lookupSetter__()</code></h3><pre><code>返回对象的getter和setter函数，非标准，可以被类方法Object.getOwnPropertyDescriptor代替
+</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">  get foo() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.random() &gt; <span class="number">0.5</span> ? <span class="string">'foo'</span> : <span class="string">'bar'</span>;</div><div class="line">  &#125;，</div><div class="line">  set foo(value) &#123;</div><div class="line">    <span class="keyword">this</span>.bar = value;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">/*  Non-standard and deprecated way */</span></div><div class="line">obj.__lookupGetter__(<span class="string">'foo'</span>);</div><div class="line"><span class="comment">/*  (function() &#123; return Math.random() &gt; 0.5 ? 'foo' : 'bar'; &#125;) */</span></div><div class="line">obj.__lookupSetter__(<span class="string">'foo'</span>)</div><div class="line"><span class="comment">/*  (function(value) &#123; this.bar = value; &#125;) */</span></div><div class="line"></div><div class="line"><span class="comment">/*  Standard-compliant way */</span></div><div class="line"><span class="built_in">Object</span>.getOwnPropertyDescriptor(obj, <span class="string">"foo"</span>).get;</div><div class="line"><span class="comment">/*  (function() &#123; return Math.random() &gt; 0.5 ? 'foo' : 'bar'; &#125;) */</span></div><div class="line"><span class="built_in">Object</span>.getOwnPropertyDescriptor(obj, <span class="string">'foo'</span>).set;</div><div class="line"><span class="comment">/*  (function(value) &#123; this.bar = value; &#125;) */</span></div></pre></td></tr></table></figure>
+<h3 id="Object-prototype-hasOwnProperty"><a href="#Object-prototype-hasOwnProperty" class="headerlink" title="Object.prototype.hasOwnProperty()"></a>Object.prototype.hasOwnProperty()</h3><pre><code>@param prop String|Symbol
+返回bool，判断该对象是否有某自定义属性，排除继承选项。
+</code></pre><p>允许对象改写改方法，因此可用下面的方式调用更加安全<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(&#123;&#125;).hasOwnProperty.call(obj, prop)</div><div class="line"><span class="comment">/* or this way */</span></div><div class="line"><span class="built_in">Object</span>.prototype.hasOwnProperty.call(obj, prop);</div></pre></td></tr></table></figure></p>
+<h3 id="Object-prototype-isPrototypeOf"><a href="#Object-prototype-isPrototypeOf" class="headerlink" title="Object.prototype.isPrototypeOf()"></a>Object.prototype.isPrototypeOf()</h3><pre><code>@param object Object
+返回bool，判断函数调用对象是否在参数对象的原型链上
+</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Test = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line"><span class="keyword">var</span> test = <span class="keyword">new</span> Test()</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(Test.prototype.isPrototypeOf(test));</div><div class="line"><span class="comment">/* true /*</span></div><div class="line">console.log(Object.prototype.isPrototypeOf(&#123;&#125;));</div><div class="line">//true</div></pre></td></tr></table></figure>
+<h3 id="Object-prototype-propertyIsEnumerable"><a href="#Object-prototype-propertyIsEnumerable" class="headerlink" title="Object.prototype.propertyIsEnumerable()"></a>Object.prototype.propertyIsEnumerable()</h3><pre><code>obj.propertyIsEnumerable(prop)
+判断对象属性是否可枚举
+</code></pre><h3 id="Object-prototype-toString"><a href="#Object-prototype-toString" class="headerlink" title="Object.prototype.toString()"></a>Object.prototype.toString()</h3><pre><code>返回字符串代表对象，Array, Number, Date 对象重写了该方法
+</code></pre><h3 id="Object-prototype-valueOf"><a href="#Object-prototype-valueOf" class="headerlink" title="Object.prototype.valueOf()"></a>Object.prototype.valueOf()</h3><pre><code>返回对象的基本数据类型值，一般用在需要将对象转换成基本类型值的场景，比如运算操作。
+</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyNumberType</span>(<span class="params">n</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.number = n;</div><div class="line">&#125;</div><div class="line"></div><div class="line">MyNumberType.prototype.valueOf = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.number;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> myObj = <span class="keyword">new</span> MyNumberType(<span class="number">4</span>);</div><div class="line">myObj + <span class="number">3</span>; <span class="comment">// 7</span></div></pre></td></tr></table></figure>
+<h1 id="Object方法"><a href="#Object方法" class="headerlink" title="Object方法"></a>Object方法</h1><p>相当于类方法</p>
+<h2 id="Object-defineProperty"><a href="#Object-defineProperty" class="headerlink" title="Object.defineProperty()"></a>Object.defineProperty()</h2><pre><code>用法：Object.defineProperty(obj, prop, descriptor)
+返回传入的对象
+</code></pre><p>可以给一个对象定义新属性，也可以修改已有属性，返回传入的对象<br>普通的对象属性赋值使得它的属性可以被枚举，属性值可以被修改还可以被delete删除。但该方法允许一些更细节的操作，比如通过该方法增加的属性默认不可枚举也不能删除。<br>@descriptor 参数有两种呈现风格，数据描述符(data descriptors) 和 访问描述符(accessor descriptors)。<br>共同点是，二者都是对象，因此不可缺省。且都有如下属性</p>
+<pre><code>configurable：默认false，只有当为true时，该属性才能被修改和删除,
+            修改指不能二次修改定义，和writeable为true时的修改值不冲突
+enumerable：默认为false，只有当为true时，才会在枚举时出现
+</code></pre><p>数据描述符还有以下可选属性：</p>
+<pre><code>value：属性值，可以是任何合法数据类型，对象或函数等等，默认undefined
+writable：默认false，只有当true时，属性值才能被赋值运算符改变
+</code></pre><p>访问描述符有以下可选属性：</p>
+<pre><code>get：属性的getter函数，函数返回值将作为属性值，默认为undefined
+set：属性的setter函数，默认为undefined
+</code></pre><p>以上可选属性都不是必要的，如果要使用，有且只能使用二者中的一个。定义属性时，也要考虑对象的原型链继承，如需得到一个纯净的对象可以使用<code>Object.create(null)</code></p>
+<h2 id="Object-defineProperties"><a href="#Object-defineProperties" class="headerlink" title="Object.defineProperties()"></a>Object.defineProperties()</h2><pre><code>Object.defineProperties(obj, props)
+</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperties(obj, &#123;</div><div class="line">  <span class="string">'property1'</span>: &#123;</div><div class="line">    <span class="attr">value</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">writable</span>: <span class="literal">true</span></div><div class="line">  &#125;,</div><div class="line">  <span class="string">'property2'</span>: &#123;</div><div class="line">    <span class="attr">value</span>: <span class="string">'Hello'</span>,</div><div class="line">    <span class="attr">writable</span>: <span class="literal">false</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// etc. etc.</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="Object-create-proto-propertiesObject"><a href="#Object-create-proto-propertiesObject" class="headerlink" title="Object.create(proto[, propertiesObject])"></a>Object.create(proto[, propertiesObject])</h2><pre><code>返回一个新对象，它有着具体的原型和属性
+@param proto Object|null //创建的新对象的prototype
+@param propertiesObject Object|null 
+//可选，如果给定且不为undefined，那么它的值只能个对象，否则会报TypeError。
+该对象的自定义属性会以对应的属性名添加到新建的对象应Object.defineProperties()的第二个参数。
+</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = <span class="built_in">Object</span>.create(<span class="built_in">Object</span>.prototype)  </div><div class="line"><span class="comment">/* equals to: */</span></div><div class="line"><span class="keyword">var</span> o = &#123;&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Constructor</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">o = <span class="keyword">new</span> Constructor();</div><div class="line"><span class="comment">/* is equivalent to: */</span></div><div class="line">o = <span class="built_in">Object</span>.create(Constructor.prototype);</div><div class="line"></div><div class="line">o = <span class="built_in">Object</span>.create(&#123;&#125;, &#123; <span class="attr">p</span>: &#123; <span class="attr">value</span>: <span class="number">42</span> &#125; &#125;);</div><div class="line">o2 = <span class="built_in">Object</span>.create(&#123;&#125;, &#123;</div><div class="line">  <span class="attr">p</span>: &#123;</div><div class="line">    <span class="attr">value</span>: <span class="number">42</span>,</div><div class="line">    <span class="attr">writable</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">enumerable</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">configurable</span>: <span class="literal">true</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>使用场景:</p>
+<ol>
+<li>创建一个空对象，<code>Object.create(null)</code>, 返回的对象无继承属性，连<code>__proto__</code>都没有</li>
+<li>实现对象的继承<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyClass</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  SuperClass.call(<span class="keyword">this</span>);</div><div class="line">  OtherSuperClass.call(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* 从一个类继承 */</span></div><div class="line">MyClass.prototype = <span class="built_in">Object</span>.create(SuperClass.prototype);</div><div class="line"></div><div class="line">MyClass.prototype.myMethod = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// do a thing</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="Object-assign"><a href="#Object-assign" class="headerlink" title="Object.assign()"></a>Object.assign()</h2><pre><code>用法：Object.assign(target, ...sources)
+向target对象上增加一个或多个source对象自身的可枚举属性，
+如果有相同的属性，后续的对象会覆盖前面的属性，返回target对象
+assign的机制是赋值，调用source的getter，调用target的setter。而不是复制或者定义新属性。
+</code></pre><p>assign的赋值不同于深度克隆<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> obj1 = &#123; <span class="attr">a</span>: <span class="number">0</span> , <span class="attr">b</span>: &#123; <span class="attr">c</span>: <span class="number">0</span>&#125;&#125;;</div><div class="line"></div><div class="line"><span class="keyword">let</span> obj2 = <span class="built_in">Object</span>.assign(&#123;&#125;, obj1);</div><div class="line">obj2.a = <span class="number">2</span>;</div><div class="line">obj2.b.c = <span class="number">3</span>;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(obj1)); <span class="comment">/* &#123; a: 0, b: &#123; c: 3&#125;&#125; */</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(obj2)); <span class="comment">/* &#123; a: 2, b: &#123; c: 3&#125;&#125; */</span></div><div class="line"></div><div class="line"><span class="comment">/* Deep Clone */</span></div><div class="line">obj1 = &#123; <span class="attr">a</span>: <span class="number">0</span> , <span class="attr">b</span>: &#123; <span class="attr">c</span>: <span class="number">0</span>&#125;&#125;;</div><div class="line"><span class="keyword">let</span> obj3 = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(obj1));</div><div class="line">obj1.a = <span class="number">4</span>;</div><div class="line">obj1.b.c = <span class="number">4</span>;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(obj1)); <span class="comment">/* &#123; a: 4, b: &#123; c: 4&#125;&#125; */</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(obj3)); <span class="comment">/* &#123; a: 0, b: &#123; c: 0&#125;&#125; */</span></div></pre></td></tr></table></figure></p>
+<p>基本类型会被包装成对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> v1 = <span class="string">'abc'</span>;</div><div class="line"><span class="keyword">var</span> v2 = <span class="literal">true</span>;</div><div class="line"><span class="keyword">var</span> v3 = <span class="number">10</span>;</div><div class="line"><span class="keyword">var</span> v4 = <span class="built_in">Symbol</span>(<span class="string">'foo'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> obj = <span class="built_in">Object</span>.assign(&#123;&#125;, v1, <span class="literal">null</span>, v2, <span class="literal">undefined</span>, v3, v4); </div><div class="line"><span class="comment">/* Primitives will be wrapped, null and undefined will be ignored.</span></div><div class="line">   Note, only string wrappers can have own enumerable properties. */</div><div class="line"><span class="built_in">console</span>.log(obj); <span class="comment">// &#123; "0": "a", "1": "b", "2": "c" &#125;</span></div></pre></td></tr></table></figure>
+<h2 id="Object-getOwnPropertyDescriptor"><a href="#Object-getOwnPropertyDescriptor" class="headerlink" title="Object.getOwnPropertyDescriptor()"></a>Object.getOwnPropertyDescriptor()</h2><pre><code>Object.getOwnPropertyDescriptor(obj, prop)
+@return a property descriptor if exists， undefined otherwise
+</code></pre><h2 id="Object-getOwnPropertyDescriptors"><a href="#Object-getOwnPropertyDescriptors" class="headerlink" title="Object.getOwnPropertyDescriptors()"></a>Object.getOwnPropertyDescriptors()</h2><pre><code>Object.getOwnPropertyDescriptors(obj)
+返回对象所有属性描述符
+</code></pre><h2 id="Object-keys"><a href="#Object-keys" class="headerlink" title="Object.keys()"></a>Object.keys()</h2><pre><code>Object.keys(obj)
+返回数组，存储着对象自身的可枚举属性
+</code></pre><h2 id="Object-getOwnPropertyNames"><a href="#Object-getOwnPropertyNames" class="headerlink" title="Object.getOwnPropertyNames()"></a>Object.getOwnPropertyNames()</h2><pre><code>Object.getOwnPropertyNames(obj)
+返回一个数组，包含所有自身的属性名，包括不可枚举的属性
+</code></pre><p>如果是数组对象，则返回所有的key以及’length’</p>
+<h2 id="Object-getOwnPropertySymbols"><a href="#Object-getOwnPropertySymbols" class="headerlink" title="Object.getOwnPropertySymbols()"></a>Object.getOwnPropertySymbols()</h2><p>同上，只是返回的是symbol</p>
+<h2 id="Object-getPrototypeOf"><a href="#Object-getPrototypeOf" class="headerlink" title="Object.getPrototypeOf()"></a>Object.getPrototypeOf()</h2><pre><code>Object.getPrototypeOf(obj)
+返回对象的原型对象，是相对于`__proto__`的正规用法
+</code></pre><p>ES5里参数如果不是对象会报TypeError,ES6会将参数包装成对象，并返回其原型对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Proto = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> Proto();</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(obj) === Proto.prototype); <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(obj) === obj.__proto__); <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="built_in">Object</span>.getPrototypeOf(<span class="string">'foo'</span>);</div><div class="line"><span class="comment">// TypeError: "foo" is not an object (ES5 code)</span></div><div class="line"><span class="built_in">Object</span>.getPrototypeOf(<span class="string">'foo'</span>);</div><div class="line"><span class="comment">// String.prototype                  (ES6 code)</span></div></pre></td></tr></table></figure>
+<h2 id="Object-setPrototypeOf"><a href="#Object-setPrototypeOf" class="headerlink" title="Object.setPrototypeOf()"></a>Object.setPrototypeOf()</h2><pre><code>Object.setPrototypeOf(obj, prototype);
+修改对象的原型对象，返回该对象。
+</code></pre><p>修改对象原型存在性能问题，应尽量避免，可以使用Object.create()创建一个新对象</p>
+<h2 id="Object-is"><a href="#Object-is" class="headerlink" title="Object.is()"></a>Object.is()</h2><pre><code>Object.is(value1, value2);
+@return bool 判断两个值是否为同一个值，和`==`、`===`均不同
+</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.is(<span class="string">'foo'</span>, <span class="string">'foo'</span>);     <span class="comment">// true</span></div><div class="line"><span class="built_in">Object</span>.is(<span class="built_in">window</span>, <span class="built_in">window</span>);   <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="built_in">Object</span>.is([], []);           <span class="comment">// false</span></div><div class="line"><span class="built_in">Object</span>.is(&#123;&#125;, &#123;&#125;);           <span class="comment">// false</span></div><div class="line"><span class="keyword">var</span> test = &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;;</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.is(test, test);       <span class="comment">// true</span></div><div class="line"><span class="built_in">Object</span>.is(<span class="literal">null</span>, <span class="literal">null</span>);       <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="built_in">Object</span>.is(<span class="literal">NaN</span>, <span class="number">0</span>/<span class="number">0</span>);         <span class="comment">// true</span></div><div class="line"><span class="built_in">Object</span>.is(<span class="literal">NaN</span>, <span class="literal">NaN</span>);         <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<h2 id="Object-freeze"><a href="#Object-freeze" class="headerlink" title="Object.freeze()"></a>Object.freeze()</h2><pre><code>用法：Object.freeze(obj)
+返回一个对象处于不可修改的状态。修改不会生效，在Strict模式下会报错
+ES5对参数不是一个对象会报错，ES6则不会，返回输入值。
+</code></pre><p>然而freeze对子对象的修改并不生效</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">obj1 = &#123;</div><div class="line">  <span class="attr">internal</span>: &#123;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.freeze(obj1);</div><div class="line">obj1.internal.a = <span class="string">'aValue'</span>;</div><div class="line"></div><div class="line">obj1.internal.a <span class="comment">// 'aValue'</span></div></pre></td></tr></table></figure>
+<p>当然也是有办法做到递归freeze<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* To do so, we use this function. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepFreeze</span>(<span class="params">obj</span>) </span>&#123;</div><div class="line">  <span class="comment">/* Retrieve the property names defined on obj */</span></div><div class="line">  <span class="keyword">var</span> propNames = <span class="built_in">Object</span>.getOwnPropertyNames(obj);</div><div class="line">  <span class="comment">/*  Freeze properties before freezing self */</span></div><div class="line">  propNames.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> prop = obj[name];</div><div class="line">    <span class="comment">/*  Freeze prop if it is an object */</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> prop == <span class="string">'object'</span> &amp;&amp; prop !== <span class="literal">null</span>)</div><div class="line">      deepFreeze(prop);</div><div class="line">  &#125;);</div><div class="line">  <span class="comment">/*  Freeze self (no-op if already frozen) */</span></div><div class="line">  <span class="keyword">return</span> <span class="built_in">Object</span>.freeze(obj);</div><div class="line">&#125;</div><div class="line"></div><div class="line">obj2 = &#123;</div><div class="line">  <span class="attr">internal</span>: &#123;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">deepFreeze(obj2);</div><div class="line">obj2.internal.a = <span class="string">'anotherValue'</span>;</div><div class="line">obj2.internal.a; <span class="comment">// undefined</span></div></pre></td></tr></table></figure></p>
+<h2 id="Object-seal"><a href="#Object-seal" class="headerlink" title="Object.seal()"></a>Object.seal()</h2><pre><code>Object.seal(obj)
+返回被封装的对象，阻止增加新属性，并将已有属性改成non-configurable，如果writable为true则属性值仍旧可以修改
+</code></pre><h2 id="Object-preventExtensions"><a href="#Object-preventExtensions" class="headerlink" title="Object.preventExtensions()"></a>Object.preventExtensions()</h2><pre><code>Object.preventExtensions(obj)
+返回被禁止增加新属性的对象，不影响对现在属性的修改
+</code></pre><h2 id="Object-isExtensible"><a href="#Object-isExtensible" class="headerlink" title="Object.isExtensible()"></a>Object.isExtensible()</h2><pre><code>Object.isExtensible(obj)
+@return bool 判断一个对象是否可扩展
+</code></pre><p>一般对象都是默认可扩展的，能增加新属性，也能被修改，但通过一些方法可禁止这些特性，如Object.preventExtensions(), Object.seal(), or Object.freeze().</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>没啥可说的，理解了就不会觉得神奇。</p>
+<p>参考：<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank" rel="external">Object</a></p>
+
+                
+
+
+<p class="pink-link-context">
+    <a href="/2017/06/30/rabbitmq/" rel="next" title="消息队列之RabbitMQ">
+    下一篇：消息队列之RabbitMQ
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href,
+        sourceId: "",
+        productKey: "4fc9566bfa494cb09ed9f70c2ecdb566",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect green" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse yellow darken-1"  data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer teal darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">社交</h5>
+                <br>
+                
+                    <a class="social-link" href="http://weibo.com/pilipalabeng" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/yxxy" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container center-align">
+            © 2017- All rights reserved.
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-search').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=62150905" charset="UTF-8"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>
