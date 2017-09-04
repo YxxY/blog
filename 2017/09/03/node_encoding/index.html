@@ -7,7 +7,7 @@
 
     
 
-    <title>module | pandaQ&#39;s Blog</title>
+    <title>Node.js 中的编码问题 | pandaQ&#39;s Blog</title>
     <meta name="author" content="pandaQ">
     
     <meta name="description" content="share a story I just wrote with you">
@@ -15,7 +15,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    
+    <meta property="og:title" content="Node.js 中的编码问题"/>
     <meta property="og:site_name" content="pandaQ&#39;s Site"/>
 
     
@@ -217,30 +217,117 @@
 
     <main>
         <div class="container main-container">
-    
-
-<nav class="page-nav hide-on-small-only">
+    <nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper teal">
-        <span class="breadcrumb">当前位置（标签）</span>
+        <span class="breadcrumb">当前位置（分类目录）</span>
         
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/JavaScript/">JavaScript</a>
+
 
         
-            <a class="breadcrumb" href="/tags/module/">module</a>
+
         
     </div>
 </nav>
 
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>Node.js 中的编码问题</h1>
+    
 
 
-    <div class="collection mt-0">
+            </div>
+            <time class="pink-link-context" datetime="2017-09-03T12:25:14.000Z"><a href="/2017/09/03/node_encoding/">2017-09-03</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
         
-            <a href="/2017/06/25/module/" class="collection-item purple-text text-darken-1">
-                <time datetime="2017-06-25T13:15:38.000Z">2017-06-25</time>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                Node.js 模块
-            </a>
+            <a href="/tags/Node-js/" class="chip pink lighten-1">Node.js</a>
+        
+            <a href="/tags/encoding/" class="chip pink lighten-1">encoding</a>
         
     </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#浅谈编码"><span class="section table-of-contents-text">浅谈编码</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#从源头解决问题"><span class="section table-of-contents-text">从源头解决问题</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#实践"><span class="section table-of-contents-text">实践</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#tips"><span class="section table-of-contents-text">tips</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#总结"><span class="section table-of-contents-text">总结</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>编码问题本不是一个问题，直到它主动找上你，它就是个大问题<br><a id="more"></a></p>
+<p>Node用到的默认编码格式是utf8，支持的编码格式在<a href="https://nodejs.org/api/buffer.html#buffer_buffers_and_character_encodings" target="_blank" rel="external">Buffer API</a>中可见，<br>默认支持的有<img src="http://opxo4bto2.bkt.clouddn.com/node_encoding_type.png" alt="supported_encoding_type"></p>
+<p>很显然没有windows常用的GBK编码，那么这样就很容易产生两种不同的编码格式，只能一方迁就另一方。<br>之前的一个小项目就遇到这样一个问题，需要用户提供数据，但要求一个只会excel记录数据的普通人提供utf8编码的json格式数据实在太难为他了。最后折中的办法采用了CSV格式，原因无它，支持excel打开编辑。<br>但仍然存在一个问题，excel编辑完保存，会以默认非uf8编码格式保存，自带的保存转换也不生效，只能用一个土办法，记事本打开，另存为时指定utf8编码格式。但仅多这一个步骤也让用户叫苦不迭，偶尔忘记转码就会导致中文显示乱码。<br>因此，这个问题不得不解决。</p>
+<h1 id="浅谈编码"><a href="#浅谈编码" class="headerlink" title="浅谈编码"></a>浅谈编码</h1><p>老实说，我对编码的了解无穷趋近于一无所知，所以真的是浅谈。我只知道编码不同是以不同的二进制数字表示字符，具体什么规则我真的是记不住，也无心去了解。从Node操作文件的API，我大胆来<code>猜测</code>一下它的工作流程。<br>读取文件时，API不管是<code>fs.readFile</code> 还是<code>fs.createReadStream</code><br>encoding默认均为null，即无编码，那就是不做任何处理，将码流原封不动的读取出来暂存。<br>但处理数据时，将buffer数据转为字符串处理时，默认是utf8, 并且node未提供GBK的转码方式（支持的转码格式见上图），那么问题就出现了，如果初始编码格式不是utf8，用utf8格式去解码，当然会出问题，就算我不懂编码我也知道，用一把锁的钥匙去开另一把不同的锁，打不开才是正常的。</p>
+<h1 id="从源头解决问题"><a href="#从源头解决问题" class="headerlink" title="从源头解决问题"></a>从源头解决问题</h1><p>当出现乱码问题时，要知道问题的源头是用了解码格式与编码格式不匹配造成的，所有解决的问题就要两种</p>
+<ul>
+<li>改文件的编码方式，与解码格式匹配</li>
+<li>该文件解析时的解码方式， 与编码格式匹配</li>
+</ul>
+<p>第一种是让数据的生产者去改，前面已经说过了，代价太大，成本过高，不切实际。<br>第二种就更头疼了，我也没办法让node支持GBK的转码啊。<br>因此，只能曲线救国了，中间加一层转码，得到用户的数据后先把它从GBK的码流转成utf8的码流，再进行解析操作，完美！</p>
+<h1 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h1><p>搜一下能将将gbk转成utf8格式的包，搜到一个<code>iconv-lite</code>, 测试可用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> iconv = <span class="built_in">require</span>(<span class="string">'iconv-lite'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> readableStream = fs.createReadStream(remote)</div><div class="line"><span class="keyword">var</span> writableStream = fs.createWriteStream(local)</div><div class="line"></div><div class="line">readableStream.on(<span class="string">'data'</span>,(chunk)=&gt;&#123;</div><div class="line">    <span class="keyword">var</span> unicodeString = iconv.decode(chunk, <span class="string">'GBK'</span>)</div><div class="line">    <span class="keyword">var</span> buf = Buffer.from(unicodeString)</div><div class="line">    <span class="keyword">if</span> (!writableStream.write(buf)) &#123;</div><div class="line">        readableStream.pause()</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">writableStream.on(<span class="string">'drain'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    readableStream.resume()</div><div class="line">&#125;);</div><div class="line"></div><div class="line">readableStream.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    writableStream.end()</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>核心就两句，先将码流以GBK的解码方式解成字符串，这很符合逻辑，GBK编码，GBK解码。<br><code>var unicodeString = iconv.decode(chunk, &#39;GBK&#39;)</code><br>再将字符串再转换成utf8码流。<br><code>var buf = Buffer.from(unicodeString)</code><br>你没有猜错，Buffer.from默认utf8编码，node中的输出应该都是默认这样的操作。</p>
+<h1 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h1><p>这种写法必须保证数据来源必须始终是gbk编码的，如果提供了一个utf8编码的就会出问题，那怎么解决呢？说过了我也不懂。<br>但应该能很自然想到有没有一种方式判断文件的编码方式呢，尝试搜了一下，果然还是有的，测试可用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs=<span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line"></div><div class="line">fs.readFile(<span class="string">'code.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,buffer</span>)</span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(buffer[<span class="number">0</span>]==<span class="number">0xff</span>&amp;&amp;buffer[<span class="number">1</span>]==<span class="number">0xfe</span>)&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'unicode'</span>)</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(buffer[<span class="number">0</span>]==<span class="number">0xfe</span>&amp;&amp;buffer[<span class="number">1</span>]==<span class="number">0xff</span>)&#123;</div><div class="line">   　　<span class="built_in">console</span>.log(<span class="string">'unicode big endian'</span>)</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(buffer[<span class="number">0</span>]==<span class="number">0xef</span>&amp;&amp;buffer[<span class="number">1</span>]==<span class="number">0xbb</span>)&#123;</div><div class="line">　　　 <span class="built_in">console</span>.log(<span class="string">'utf8'</span>)</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">   　　<span class="built_in">console</span>.log(<span class="string">'else'</span>)</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>差不多意思就是，文件开头的2个字节可以判断是utf8还是unicode，虽然没有GBK的判断方法，但排除法勉强能解决问题。<br>因此，之前的代码可以重构下，先判断文件编码格式，如果是utf8就不用转码了，如果不是那就认为是gbk，需要转码。<br>如果仍然出现了乱码问题，那就甩锅给用户，肯定是他们打开的方式不对，绝对不是我的bug！</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这次经历对编码、解码、转码的概念基本了解了。</p>
+<ul>
+<li>编码：字符串-&gt; 码流</li>
+<li>解码：码流 -&gt; 字符串</li>
+<li>转码：码流 -&gt; 字符串 -&gt; 码流<br>也就是说目前还没有把一种编码格式的码流直接转成另一种的手段，只能用相应的解码方式先还原，再重新编码，这也是符合逻辑的。</li>
+</ul>
+
+                
+<p class="pink-link-context">
+    <a href="/2017/09/04/express-basic/" rel="next" title="express框架学习(上)">
+    上一篇：express框架学习(上)
+  </a>
+</p>
+
+
+
+<p class="pink-link-context">
+    <a href="/2017/09/01/events-final/" rel="next" title="Node.js events模块(下)">
+    下一篇：Node.js events模块(下)
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href,
+        sourceId: "",
+        productKey: "4fc9566bfa494cb09ed9f70c2ecdb566",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
 
 
 </div>

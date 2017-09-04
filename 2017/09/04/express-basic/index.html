@@ -7,7 +7,7 @@
 
     
 
-    <title>module | pandaQ&#39;s Blog</title>
+    <title>express框架学习(上) | pandaQ&#39;s Blog</title>
     <meta name="author" content="pandaQ">
     
     <meta name="description" content="share a story I just wrote with you">
@@ -15,7 +15,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    
+    <meta property="og:title" content="express框架学习(上)"/>
     <meta property="og:site_name" content="pandaQ&#39;s Site"/>
 
     
@@ -217,30 +217,101 @@
 
     <main>
         <div class="container main-container">
-    
-
-<nav class="page-nav hide-on-small-only">
+    <nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper teal">
-        <span class="breadcrumb">当前位置（标签）</span>
+        <span class="breadcrumb">当前位置（分类目录）</span>
         
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/JavaScript/">JavaScript</a>
+
 
         
-            <a class="breadcrumb" href="/tags/module/">module</a>
+
         
     </div>
 </nav>
 
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>express框架学习(上)</h1>
+    
 
 
-    <div class="collection mt-0">
+            </div>
+            <time class="pink-link-context" datetime="2017-09-04T12:46:55.000Z"><a href="/2017/09/04/express-basic/">2017-09-04</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
         
-            <a href="/2017/06/25/module/" class="collection-item purple-text text-darken-1">
-                <time datetime="2017-06-25T13:15:38.000Z">2017-06-25</time>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                Node.js 模块
-            </a>
+            <a href="/tags/Node-js/" class="chip pink lighten-1">Node.js</a>
+        
+            <a href="/tags/express/" class="chip pink lighten-1">express</a>
         
     </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#express是做什么的"><span class="section table-of-contents-text">express是做什么的</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>项目中选用的web框架是express，总结下经验<br><a id="more"></a></p>
+<h1 id="express是做什么的"><a href="#express是做什么的" class="headerlink" title="express是做什么的"></a>express是做什么的</h1><p>从官网所得描述是基于node.js的一个简洁灵活的web框架，性能上没有对node进行二次抽象，也就是说express的性能的上限就是node本身的性能。<br>那就先从node本身说起。</p>
+<p>网络编程这块，node代表性的有两大模块，<code>net</code>和<code>http</code>，（<code>https</code>基于<code>http</code>先不提）</p>
+<p>使用<code>net</code>模块写一个简单的<code>hello world</code>服务器如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> net = <span class="built_in">require</span>(<span class="string">'net'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = <span class="keyword">new</span> net.Server()</div><div class="line"></div><div class="line">server.listen(<span class="number">3329</span>)</div><div class="line"></div><div class="line">server.on(<span class="string">'connection'</span>, (socket)=&gt;&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`receive a connection from <span class="subst">$&#123;socket.address().address&#125;</span>`</span>)</div><div class="line">    socket.on(<span class="string">'data'</span>, (data)=&gt;&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">`receive:\n<span class="subst">$&#123;data&#125;</span>`</span>)</div><div class="line">        socket.write(<span class="string">"HTTP/1.1 200 OK \n\nHello World!\r\n"</span>)</div><div class="line">        socket.destroy()</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>node运行后，可以在浏览器访问<code>http://localhost:3329/</code>,没什么意外的话就能看到熟悉的hello world。这里运用的是socket编程。<br>浏览器每一次的http请求和服务器建立一次socket连接。从收到的内容打印看，收到的确实是http格式的请求，服务器的回复也是符合http的响应格式的。<br>响应头加两个换行符后接响应体，少一个换行符就看不到hello world了。<br>但这个服务器太简陋了，它分不清不同的请求，所有都回复相同的内容。原因当然是没有解析请求的数据了，需要解析打印出来的<code>data</code>内容。</p>
+<p>于是就有了下面这段代码。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = http.createServer(<span class="function">(<span class="params">req, res</span>)=&gt;</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`receive a request: <span class="subst">$&#123;req.method&#125;</span> <span class="subst">$&#123;req.url&#125;</span> HTTP<span class="subst">$&#123;req.httpVersion&#125;</span>`</span>);</div><div class="line">    res.write(<span class="string">"Hello, World!"</span>)</div><div class="line">    res.end()</div><div class="line">&#125;);</div><div class="line"></div><div class="line">server.listen(<span class="number">3329</span>)</div></pre></td></tr></table></figure>
+<p>和上面功能相同，但仿佛更加简洁了。可以直接得到请求的url，以及回响应时不用关心响应的格式，直接写我们最关注的响应体就可以了。这些方便正是http模块相对于net模块，做了更多的封装，完成了解析请求数据的工作，并提供十分便捷的API。<br>到这个版本就可以针对不同的访问请求回复不同的响应了，如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = http.createServer(<span class="function">(<span class="params">req, res</span>)=&gt;</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`receive a request: <span class="subst">$&#123;req.method&#125;</span> <span class="subst">$&#123;req.url&#125;</span> HTTP<span class="subst">$&#123;req.httpVersion&#125;</span>`</span>);</div><div class="line">    <span class="keyword">if</span>(req.method === <span class="string">'GET'</span> &amp;&amp; req.url === <span class="string">'/'</span>)&#123;</div><div class="line">        res.write(<span class="string">"Welcome Home!"</span>)</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        res.write(<span class="string">"Hello, World!"</span>)</div><div class="line">    &#125;</div><div class="line">    res.end()</div><div class="line">&#125;);</div><div class="line"></div><div class="line">server.listen(<span class="number">3329</span>)</div></pre></td></tr></table></figure></p>
+<p>当访问<code>`http://localhost:3329/hello</code>时返回<code>Hello, World!</code>，访问<code>http://localhost:3329/</code>, 返回<code>Welcome Home!</code>。<br>当然这是一个非常粗糙的实现，如果页面较多时代码将变得极其难看和很难维护。</p>
+<p>下面该<code>express</code>登场了。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>)</div><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line"><span class="keyword">var</span> server = http.createServer(app)</div><div class="line">server.listen(<span class="number">3329</span>)</div><div class="line"></div><div class="line">app.get(<span class="string">'/'</span>, (request, response)=&gt;&#123;</div><div class="line">    response.send(<span class="string">'Welcome Home!'</span>)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.get(<span class="string">'/hello'</span>, (request, response)=&gt;&#123;</div><div class="line">    response.send(<span class="string">'Hello World!'</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>同样实现了之前的需求，但是写法简洁清晰不少，最重要的是方便维护。除此之外，引入的<code>express</code>、<code>app</code>、<code>request</code>、<code>response</code>，都提供了极其丰富且实用的API，具体可参考<a href="http://expressjs.com/en/4x/api.html" target="_blank" rel="external">官网API</a>。<br>然而以上是比较老的写法，最新版本的express写法更加简单，http模块整个都被封装了。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</div><div class="line"><span class="keyword">var</span> app = express()</div><div class="line"></div><div class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">  res.send(<span class="string">'Hello World'</span>)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.listen(<span class="number">3329</span>)</div></pre></td></tr></table></figure></p>
+<p>总的来说就是，node.js自带web server，express为该server打造了更加健壮的基础。</p>
+
+                
+
+
+<p class="pink-link-context">
+    <a href="/2017/09/03/node_encoding/" rel="next" title="Node.js 中的编码问题">
+    下一篇：Node.js 中的编码问题
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href,
+        sourceId: "",
+        productKey: "4fc9566bfa494cb09ed9f70c2ecdb566",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
 
 
 </div>
