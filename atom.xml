@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-09-19T15:04:04.511Z</updated>
+  <updated>2017-09-19T15:09:11.072Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>express框架学习(上)</title>
+    <title>express框架学习(中)</title>
     <link href="http://yoursite.com/2017/09/19/express_framework/"/>
     <id>http://yoursite.com/2017/09/19/express_framework/</id>
     <published>2017-09-19T15:11:38.000Z</published>
-    <updated>2017-09-19T15:04:04.511Z</updated>
+    <updated>2017-09-19T15:09:11.072Z</updated>
     
     <content type="html"><![CDATA[<p>本次总结试图说明express框架运行的原理，结论都是从阅读源码得来，但文中不会提及源代码，仅作总体认知方面进行说明。</p>
 <a id="more"></a>

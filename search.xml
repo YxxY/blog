@@ -3,7 +3,7 @@
   
     
     <entry>
-      <title><![CDATA[express框架学习(上)]]></title>
+      <title><![CDATA[express框架学习(中)]]></title>
       <url>/2017/09/19/express_framework/</url>
       <content type="html"><![CDATA[<p>本次总结试图说明express框架运行的原理，结论都是从阅读源码得来，但文中不会提及源代码，仅作总体认知方面进行说明。</p>
 <a id="more"></a>
