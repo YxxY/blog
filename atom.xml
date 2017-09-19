@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-09-04T12:46:12.214Z</updated>
+  <updated>2017-09-19T15:04:04.511Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,10 +17,64 @@
   
   <entry>
     <title>express框架学习(上)</title>
+    <link href="http://yoursite.com/2017/09/19/express_framework/"/>
+    <id>http://yoursite.com/2017/09/19/express_framework/</id>
+    <published>2017-09-19T15:11:38.000Z</published>
+    <updated>2017-09-19T15:04:04.511Z</updated>
+    
+    <content type="html"><![CDATA[<p>本次总结试图说明express框架运行的原理，结论都是从阅读源码得来，但文中不会提及源代码，仅作总体认知方面进行说明。</p>
+<a id="more"></a>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>结合一个官网实例来说明<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line"></div><div class="line">app.use(<span class="function"><span class="keyword">function</span>(<span class="params">req,res, next</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">`receive: <span class="subst">$&#123;req.url&#125;</span>`</span>)</div><div class="line">  next()</div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">  res.send(<span class="string">'Hello World!'</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = app.listen(<span class="number">3000</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> host = server.address().address;</div><div class="line">  <span class="keyword">var</span> port = server.address().port;</div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Example app listening at http://%s:%s'</span>, host, port);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>如无意外，运行以上代码即实现了一个十分简单的web版hello world，控制台还有一些打印。<br>总的来说，express的对外接口设计还是十分友好实用的，这里主要用到三个API</p>
+<ul>
+<li>app.use, 注册中间件</li>
+<li>app.METHOD，注册路由（这里用到的是具体的get方法）</li>
+<li>app.listen， 创建http server，监听端口</li>
+</ul>
+<p>结合上例下面主要论述清楚两个问题：</p>
+<ol>
+<li>express在创建http server前的中间件和路由的实现</li>
+<li>一条特定url的http请求是如何被express处理</li>
+</ol>
+<h1 id="图例"><a href="#图例" class="headerlink" title="图例"></a>图例</h1><p><img src="http://opxo4bto2.bkt.clouddn.com/image/png/express.png" alt="express"></p>
+<h1 id="中间件及路由的挂载"><a href="#中间件及路由的挂载" class="headerlink" title="中间件及路由的挂载"></a>中间件及路由的挂载</h1><p>对应问题一。此处分为三部分：</p>
+<ul>
+<li>require得到的express是一个函数，调用后返回的app仍然是一个函数，得到app前已调用初始化函数<code>app.init()</code>完成一些默认设置。</li>
+<li>继续调用<code>app.use</code>或<code>app.METHOD</code>函数，他们的效果是调用另一个函数<code>app.lazyrouter</code>,这个函数会给app对象动态增加<code>_router</code>属性。同时，根据<code>app.use</code>或<code>app.METHOD</code>函数的参数，封装成特定的layer对象，存放在<code>app._router.stack</code>属性中，该属性是一个数组，首次加载时会添加两个默认中间件，因此，无论是use还是get等方法添加的中间件还是路由，都会按顺序从第三个元素开始存放在stack数组中，因此调用函数的顺序很重要。</li>
+<li>对于<code>app.METHOD</code>系列函数，<code>layer</code>对象会增加<code>route</code>属性，用于存放注册的路由路径（eg：”/test“)、路由方法（eg：“get”，以及相应的处理函数），如果是形如<code>app.get(&#39;/test&#39;, middleware1, ， middleware2...function(req,res){...}</code>, route的stack属性则按顺序存储对应逻辑转换的layer对象，并且<code>layer.handle</code>属性均为<code>route.dispatch</code>的bound函数</li>
+</ul>
+<h1 id="路由系统的工作原理"><a href="#路由系统的工作原理" class="headerlink" title="路由系统的工作原理"></a>路由系统的工作原理</h1><p>对应问题二。这里同样分成三部分：</p>
+<ul>
+<li>express内部封装了http模块，对应http的api<code>http.createServer([requestListener])</code>可知，即每次request请求事件都会调用requestListener函数，对应到express里就是<code>app</code>函数，<code>app()</code>里又调用了<code>app.handle()</code>函数。</li>
+<li><code>app.handle()</code>函数做了两件事，一时增加一个默认的错误处理函数，如果此时不存在路由，则直接调用该错误处理函数，否则调用<code>app._router.handle()</code>函数，同时将错误处理函数作为第三个参数传入。</li>
+<li><code>app._router.handle()</code>函数完成了匹配与分发的路由工作，这里通过<code>next</code>函数来控制遍历<code>app._router.stack</code>，每次调用按顺序处理一个layer，先调用<code>layer.match()</code>判断是否匹配路由，如果匹配则调用<code>layer.handle_request</code>从而调用<code>layer.handle()</code>处理函数，否则调用<code>layer.handle_error()</code>处理错误。如果继续调用<code>next()</code>函数则继续处理下一个layer, 否则视为处理结束。如果是人为的漏掉next，则会导致后续处理不会被调用。</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>express 结合node自带的http模块，站在巨人的肩膀展现了封装的艺术。良好的层次结构，友好实用的api设计都是值得学习和借鉴的，后续会再尝试研究细节的实现。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本次总结试图说明express框架运行的原理，结论都是从阅读源码得来，但文中不会提及源代码，仅作总体认知方面进行说明。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="express" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/express/"/>
+    
+    
+      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
+    
+      <category term="express" scheme="http://yoursite.com/tags/express/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>express框架学习(上)</title>
     <link href="http://yoursite.com/2017/09/04/express-basic/"/>
     <id>http://yoursite.com/2017/09/04/express-basic/</id>
     <published>2017-09-04T12:46:55.000Z</published>
-    <updated>2017-09-04T12:46:12.214Z</updated>
+    <updated>2017-09-19T13:36:04.443Z</updated>
     
     <content type="html"><![CDATA[<p>项目中选用的web框架是express，总结下经验<br><a id="more"></a></p>
 <h1 id="express是做什么的"><a href="#express是做什么的" class="headerlink" title="express是做什么的"></a>express是做什么的</h1><p>从官网所得描述是基于node.js的一个简洁灵活的web框架，性能上没有对node进行二次抽象，也就是说express的性能的上限就是node本身的性能。<br>那就先从node本身说起。</p>
@@ -155,7 +209,7 @@
     <link href="http://yoursite.com/2017/07/11/js-Object/"/>
     <id>http://yoursite.com/2017/07/11/js-Object/</id>
     <published>2017-07-11T12:50:38.000Z</published>
-    <updated>2017-07-12T13:54:47.467Z</updated>
+    <updated>2017-07-12T13:54:47.468Z</updated>
     
     <content type="html"><![CDATA[<p>javascript里的对象是我一直没认真研究过的，每次看到Object的调用总觉得是高级语法。然而其实它一直都在那里，不难不易，只是我没有去了解。查了下MDN，仍旧是做下API层面的总结。<br><a id="more"></a></p>
 <h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><h2 id="键值对初始化"><a href="#键值对初始化" class="headerlink" title="键值对初始化"></a>键值对初始化</h2><pre><code>@param name String 
@@ -356,7 +410,7 @@ ES5对参数不是一个对象会报错，ES6则不会，返回输入值。
     <link href="http://yoursite.com/2017/06/25/module/"/>
     <id>http://yoursite.com/2017/06/25/module/</id>
     <published>2017-06-25T13:15:38.000Z</published>
-    <updated>2017-07-02T12:10:56.570Z</updated>
+    <updated>2017-07-02T12:10:56.571Z</updated>
     
     <content type="html"><![CDATA[<p>Node.js 中的模块(module)是一开始就接触到的，但也许是因为它的API已足够简单，实际却从未深究过。另外在新的ES6标准里，之前所用的<code>require</code>、<code>exports</code>将被<code>import</code>、<code>export</code>取代成为新的标准。新旧更替如果两个都不懂就太尴尬了，我决定查下资料，稍微总结对比下新旧的不同，争取从不懂变成略懂。<br><a id="more"></a></p>
 <h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><p><code>require()</code> 参数为字符串，加载模块,返回被加载模块<code>module.exports</code>的内容<br><code>require.cache</code> 返回已加载模块的对象，key为模块绝对路径名，value为module对象<br><code>require.resolve()</code> 参数为字符串，运用require()的机制去查找模块并不加载，返回模块绝对路径名<br><code>require.main</code> 源码解释<code>require.main = process.mainModule</code> 指向主模块，当不存在入口文件时返回 undefined</p>
@@ -409,7 +463,7 @@ ES5对参数不是一个对象会报错，ES6则不会，返回输入值。
     <link href="http://yoursite.com/2017/06/20/ubuntu/"/>
     <id>http://yoursite.com/2017/06/20/ubuntu/</id>
     <published>2017-06-20T12:35:38.000Z</published>
-    <updated>2017-07-02T11:54:56.662Z</updated>
+    <updated>2017-07-02T11:54:56.663Z</updated>
     
     <content type="html"><![CDATA[<p>很早就有学linux的想法，曾经也尝试过，特地装了双系统，但可能打开的姿势和时机不对，没过多久就不了了之了。如今已经工作一段时间了，感觉这是一项必须掌握的技能了。本着talk is cheap， just do it的实用主义原则，仅以使用目标为导向，逐步先达到我操作windows的水平，其他以后再说，捞着芝麻算芝麻，西瓜如果抱不动就不要了。以下以ubutun16.04为实验机，全程百度必应，行文仅为学习的总结及备忘录，内容逐步补充，内容无增加之时，则实现点题。<br><a id="more"></a></p>
 <h2 id="认识目录"><a href="#认识目录" class="headerlink" title="认识目录"></a>认识目录</h2><pre><code>windows下目录就是C盘D盘之类，很好理解，系统盘和非系统盘。
@@ -495,7 +549,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
     <link href="http://yoursite.com/2017/06/19/events-Source/"/>
     <id>http://yoursite.com/2017/06/19/events-Source/</id>
     <published>2017-06-19T12:11:38.000Z</published>
-    <updated>2017-07-12T12:57:42.821Z</updated>
+    <updated>2017-07-12T12:57:42.822Z</updated>
     
     <content type="html"><![CDATA[<p>总结完<code>events</code>模块后会发现，这一块的API十分的简洁高效，对它的实现十分好奇。因为这块源码比较简短，代码编写十分规范，于是我选择更进一步，尝试下学习下源码<a href="https://github.com/nodejs/node/blob/master/lib/events.js" target="_blank" rel="external">events.js</a>。<br><a id="more"></a></p>
 <h2 id="模块的编写"><a href="#模块的编写" class="headerlink" title="模块的编写"></a>模块的编写</h2><p>通常我们都会自己写模块，但对比下这篇专业的，对自己以后写模块有些许启发<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">EventEmitter</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.init.call(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="built_in">module</span>.exports = EventEmitter;</div></pre></td></tr></table></figure></p>
@@ -556,7 +610,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
     <link href="http://yoursite.com/2017/06/18/events-API/"/>
     <id>http://yoursite.com/2017/06/18/events-API/</id>
     <published>2017-06-18T12:11:38.000Z</published>
-    <updated>2017-07-11T14:44:13.633Z</updated>
+    <updated>2017-07-11T14:44:13.634Z</updated>
     
     <content type="html"><![CDATA[<p>node.js 基于异步事件驱动(Event-driven)，这无疑也是一种十分优秀的编程思想，这里总结下其中与之相关的一个核心模块——events模块。<br>本文主要总结使用的API，具体可参考<a href="https://nodejs.org/api/events.html" target="_blank" rel="external">官网API</a><br><a id="more"></a></p>
 <h2 id="快速使用"><a href="#快速使用" class="headerlink" title="快速使用"></a>快速使用</h2><p><code>events</code>是内置模块，但非全局变量，使用时需显示引用<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div></pre></td></tr></table></figure></p>
@@ -611,7 +665,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
     <link href="http://yoursite.com/2017/05/18/arrow_function/"/>
     <id>http://yoursite.com/2017/05/18/arrow_function/</id>
     <published>2017-05-18T12:50:38.000Z</published>
-    <updated>2017-07-02T12:10:11.150Z</updated>
+    <updated>2017-07-02T12:10:11.151Z</updated>
     
     <content type="html"><![CDATA[<p>js从ES6开始引入一种新函数，箭头函数。<br>它拥有无比简洁优雅的写法，不用显式的写<code>function</code>，确实方便不少。但并非适应所有的函数应用场景，这里结合资料和个人理解做个总结。<br><a id="more"></a></p>
 <pre><code>An arrow function expression has a shorter syntax than a function expression 
@@ -666,7 +720,7 @@ and they cannot be used as constructors.
     <link href="http://yoursite.com/2017/05/15/parse_wechat_msgType/"/>
     <id>http://yoursite.com/2017/05/15/parse_wechat_msgType/</id>
     <published>2017-05-15T10:35:38.000Z</published>
-    <updated>2017-07-02T12:04:09.073Z</updated>
+    <updated>2017-07-02T12:04:09.074Z</updated>
     
     <content type="html"><![CDATA[<p>最近试着做些工作总结，这也是我开始写博客的初衷，少bb，just do it！</p>
 <p>这是我最早进公司做的一个小项目，需求是判断手机收发微信消息内容类型。就是手机发了一条微信消息之后，程序要能解析出发的是文本、语音还是图片等类型，并且统计时延。接收也是如此，主要需求是对发送类型的判断。<br><a id="more"></a></p>

@@ -1,275 +1,454 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
 
-    
 
-    <title>Node.js 中的编码问题 | pandaQ&#39;s Blog</title>
-    <meta name="author" content="pandaQ">
-    
-    <meta name="description" content="share a story I just wrote with you">
-    
-    
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <meta property="og:title" content="Node.js 中的编码问题"/>
-    <meta property="og:site_name" content="pandaQ&#39;s Site"/>
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
 
-    
-    <meta property="og:image" content="undefined"/>
-    
 
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="alternate" href="/atom.xml" title="pandaQ&#39;s Site" type="application/atom+xml">
-    <link rel="stylesheet" href="/css/lib/materialize.min.css">
-    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
 
-    
-        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
-    
-    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Node.js,encoding," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="pandaQ's Site" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="编码问题本不是一个问题，直到它主动找上你，它就是个大问题">
+<meta name="keywords" content="Node.js,encoding">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.js 中的编码问题">
+<meta property="og:url" content="http://yoursite.com/2017/09/03/node_encoding/index.html">
+<meta property="og:site_name" content="pandaQ&#39;s Site">
+<meta property="og:description" content="编码问题本不是一个问题，直到它主动找上你，它就是个大问题">
+<meta property="og:image" content="http://opxo4bto2.bkt.clouddn.com/node_encoding_type.png">
+<meta property="og:updated_time" content="2017-09-04T12:45:14.702Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node.js 中的编码问题">
+<meta name="twitter:description" content="编码问题本不是一个问题，直到它主动找上你，它就是个大问题">
+<meta name="twitter:image" content="http://opxo4bto2.bkt.clouddn.com/node_encoding_type.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '作者'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/03/node_encoding/"/>
+
+
+
+
+
+  <title>Node.js 中的编码问题 | pandaQ's Site</title>
+  
+
+
+
+
+
+
+
+
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
-<body>
-    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+  
+  
+    
+  
 
-    <nav class="teal">
-    <div class="nav-wrapper">
-        <a href="#" data-activates="main-menu" class="button-collapse">
-            <i class="fa fa-navicon"></i>
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+      <div class="site-meta-headline">
+        <a>
+          <img class="custom-logo-image" src="http://opxo4bto2.bkt.clouddn.com/me.jpg"
+               alt="pandaQ's Site"/>
         </a>
-        <div class="">
-            <a href="/" class="brand-logo hide-on-med-and-down">pandaQ&#39;s Site</a>
-            <ul class="right hide-on-med-and-down">
-                
-                    <li>
-                        <a class="menu-home " href="/" >
-                            <i class="fa fa-home "></i>
-                            
-                            首页
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a class="menu-archive " href="/archives" >
-                            <i class="fa fa-archive "></i>
-                            
-                            时光轴
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
-                            <i class="fa fa-bookmark "></i>
-                            
-                            分类
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a class="menu-about " href="/about" >
-                            <i class="fa fa-user "></i>
-                            
-                            关于
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a class="menu-search modal-trigger " href="#search" >
-                            <i class="fa fa-search "></i>
-                            
-                            搜索
-                        </a>
-                    </li>
-                
-            </ul>
-            <div>
-    <ul class="side-nav teal darken-1" id="main-menu">
+      </div>
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">pandaQ's Site</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">pandaQ's Blog</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
         
-        <li class="side-user">
-            <div class="row">
-                <div class="col s4 no-padding">
-                    <img class="avatar-image circle responsive-img" src="http://opxo4bto2.bkt.clouddn.com/me.jpg" alt="User Avatar">
-                </div>
-                <div class="info col s8 valign-wrapper no-padding">
-                    <div class="valign">
-                        <p class="name">pandaQ</p>
-                        <p class="desc">Coder/API搬运工</p>
-                    </div>
-                </div>
-            </div>
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
         </li>
+      
         
-
-        
-            <li class="no-padding">
-                <a class="waves-effect menu-home " href="/" >
-                    <i class="fa fa-home "></i>
-                    
-                    首页
-                </a>
-            </li>
-        
-            <li class="no-padding">
-                <a class="waves-effect menu-archive " href="/archives" >
-                    <i class="fa fa-archive "></i>
-                    
-                    时光轴
-                </a>
-            </li>
-        
-            <li class="no-padding">
-                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
-                    <i class="fa fa-bookmark "></i>
-                    
-                    分类
-                </a>
-            </li>
-        
-            <li class="no-padding">
-                <a class="waves-effect menu-about " href="/about" >
-                    <i class="fa fa-user "></i>
-                    
-                    关于
-                </a>
-            </li>
-        
-            <li class="no-padding">
-                <a class="waves-effect menu-search modal-trigger " href="#search" >
-                    <i class="fa fa-search "></i>
-                    
-                    搜索
-                </a>
-            </li>
-        
-    </ul>
-
-    <ul class="side-nav teal darken-1" id="category-menu">
-    
-
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
             
-
-            <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/技术/">
-                    技术 <span class="right">11 篇</span></a>
-                </a>
-            </li>
-
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
         
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/技术/JavaScript/">
-                    JavaScript <span class="right">8 篇</span></a>
-                </a>
-            </li>
-
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
         
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/技术/Lua/">
-                    Lua <span class="right">1 篇</span></a>
-                </a>
-            </li>
-
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
         
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
 
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/技术/RabbitMQ/">
-                    RabbitMQ <span class="right">1 篇</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/技术/Linux/">
-                    Linux <span class="right">1 篇</span></a>
-                </a>
-            </li>
-
-        
-
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
-</div>
+  
 
-        </div>
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
     </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
 </nav>
 
-<div id="search" class="modal search-modal">
-    <div class="row">
-        <div class="input-field col s12">
-              <input id="search-input" type="text">
-              <label for="search-input">搜索</label>
-        </div>
-
-    </div>
-    <div id="search-result" class="search-result col s12">
-
-    </div>
-</div>
 
 
-    <main>
-        <div class="container main-container">
-    <nav class="page-nav hide-on-small-only">
-    <div class="nav-wrapper teal">
-        <span class="breadcrumb">当前位置（分类目录）</span>
-        
-            
-    
-    
-    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/JavaScript/">JavaScript</a>
+ </div>
+    </header>
 
-
-        
-
-        
-    </div>
-</nav>
-
-<article>
-    <div class="card">
-        <div class="card-content">
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
             
 
-            <div class="article-title">
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/03/node_encoding/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pandaQ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pandaQ's Site">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Node.js 中的编码问题</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-03T20:25:14+08:00">
+                2017-09-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
                 
-    
-        <h1>Node.js 中的编码问题</h1>
-    
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
 
+                
+                
+              
+            </span>
+          
 
-            </div>
-            <time class="pink-link-context" datetime="2017-09-03T12:25:14.000Z"><a href="/2017/09/03/node_encoding/">2017-09-03</a></time>
-
-            <span id="busuanzi_container_page_pv" class="read-times-container">
-    <i class="fa fa-eye"></i>
-    <span id="busuanzi_value_page_pv"></span>
-</span>
-
+          
             
-    <div class="tags-row">
-        
-            <a href="/tags/Node-js/" class="chip pink lighten-1">Node.js</a>
-        
-            <a href="/tags/encoding/" class="chip pink lighten-1">encoding</a>
-        
-    </div>
+          
 
+          
+          
 
-            <div class="toc pink-link-context hide-on-med-and-down">
-    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#浅谈编码"><span class="section table-of-contents-text">浅谈编码</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#从源头解决问题"><span class="section table-of-contents-text">从源头解决问题</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#实践"><span class="section table-of-contents-text">实践</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#tips"><span class="section table-of-contents-text">tips</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#总结"><span class="section table-of-contents-text">总结</span></a></li></ol>
-</div>
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye">阅读次数:</i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
 
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,238
+                </span>
+              
 
-            <div class="entry pink-link-context">
-                <p>编码问题本不是一个问题，直到它主动找上你，它就是个大问题<br><a id="more"></a></p>
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>编码问题本不是一个问题，直到它主动找上你，它就是个大问题<br><a id="more"></a></p>
 <p>Node用到的默认编码格式是utf8，支持的编码格式在<a href="https://nodejs.org/api/buffer.html#buffer_buffers_and_character_encodings" target="_blank" rel="external">Buffer API</a>中可见，<br>默认支持的有<img src="http://opxo4bto2.bkt.clouddn.com/node_encoding_type.png" alt="supported_encoding_type"></p>
 <p>很显然没有windows常用的GBK编码，那么这样就很容易产生两种不同的编码格式，只能一方迁就另一方。<br>之前的一个小项目就遇到这样一个问题，需要用户提供数据，但要求一个只会excel记录数据的普通人提供utf8编码的json格式数据实在太难为他了。最后折中的办法采用了CSV格式，原因无它，支持excel打开编辑。<br>但仍然存在一个问题，excel编辑完保存，会以默认非uf8编码格式保存，自带的保存转换也不生效，只能用一个土办法，记事本打开，另存为时指定utf8编码格式。但仅多这一个步骤也让用户叫苦不迭，偶尔忘记转码就会导致中文显示乱码。<br>因此，这个问题不得不解决。</p>
 <h1 id="浅谈编码"><a href="#浅谈编码" class="headerlink" title="浅谈编码"></a>浅谈编码</h1><p>老实说，我对编码的了解无穷趋近于一无所知，所以真的是浅谈。我只知道编码不同是以不同的二进制数字表示字符，具体什么规则我真的是记不住，也无心去了解。从Node操作文件的API，我大胆来<code>猜测</code>一下它的工作流程。<br>读取文件时，API不管是<code>fs.readFile</code> 还是<code>fs.createReadStream</code><br>encoding默认均为null，即无编码，那就是不做任何处理，将码流原封不动的读取出来暂存。<br>但处理数据时，将buffer数据转为字符串处理时，默认是utf8, 并且node未提供GBK的转码方式（支持的转码格式见上图），那么问题就出现了，如果初始编码格式不是utf8，用utf8格式去解码，当然会出问题，就算我不懂编码我也知道，用一把锁的钥匙去开另一把不同的锁，打不开才是正常的。</p>
@@ -292,342 +471,494 @@
 <li>转码：码流 -&gt; 字符串 -&gt; 码流<br>也就是说目前还没有把一种编码格式的码流直接转成另一种的手段，只能用相应的解码方式先还原，再重新编码，这也是符合逻辑的。</li>
 </ul>
 
-                
-<p class="pink-link-context">
-    <a href="/2017/09/04/express-basic/" rel="next" title="express框架学习(上)">
-    上一篇：express框架学习(上)
-  </a>
-</p>
-
-
-
-<p class="pink-link-context">
-    <a href="/2017/09/01/events-final/" rel="next" title="Node.js events模块(下)">
-    下一篇：Node.js events模块(下)
-  </a>
-</p>
-
-
-            </div>
-			
-        </div>
+      
     </div>
-</article>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    pandaQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2017/09/03/node_encoding/" title="Node.js 中的编码问题">http://yoursite.com/2017/09/03/node_encoding/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Node-js/" <i class="fa fa-tag"></i> Node.js</a>
+          
+            <a href="/tags/encoding/" <i class="fa fa-tag"></i> encoding</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+          <div class="wp_rating">
+            <div id="wpac-rating"></div>
+          </div>
+        
+
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/01/events-final/" rel="next" title="Node.js events模块(下)">
+                <i class="fa fa-chevron-left"></i> Node.js events模块(下)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/04/express-basic/" rel="prev" title="express框架学习(上)">
+                express框架学习(上) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
 
 
 
-
-    <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
-    <script>
-      var cloudTieConfig = {
-        url: document.location.href,
-        sourceId: "",
-        productKey: "4fc9566bfa494cb09ed9f70c2ecdb566",
-        target: "cloud-tie-wrapper"
-      };
-    </script>
-    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
-
-
-
-</div>
-
-        <div class="fixed-action-btn float-sitemap">
-    <a class="btn-floating btn-large pink">
-      <i class="fa fa-caret-square-o-up"></i>
-    </a>
-    <ul>
-      <li><a class="btn-return-top btn-floating waves-effect green" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
-      <li><a class="btn-floating waves-effect button-collapse yellow darken-1"  data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
-    </ul>
+    <div class="post-spread">
+      
+    </div>
   </div>
 
-    </main>
-    <footer class="page-footer teal darken-1">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
     
-    <div class="footer-container container">
-        <div class="row">
-            
-            <div class="social-group col m4 s12">
-                <h5 class="white-text">社交</h5>
-                <br>
-                
-                    <a class="social-link" href="http://weibo.com/pilipalabeng" target="_blank">
-                        <i class="fa fa-2x fa-weibo"></i>
-                    </a>
-                
-                    <a class="social-link" href="https://github.com/yxxy" target="_blank">
-                        <i class="fa fa-2x fa-github"></i>
-                    </a>
-                
-                    <a class="social-link" href="/atom.xml" target="_blank">
-                        <i class="fa fa-2x fa-rss"></i>
-                    </a>
-                
-                
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-    </script>
-    <div class="site-visitors-container white-text">
-        <span>
-            <i class="fa fa-user"></i>
-            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-        </span>
-        <span>&nbsp;|&nbsp;</span>
-        <span>
-            <i class="fa fa-eye"></i>
-            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-        </span>
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
+  </div>
 
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
 
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="pandaQ" />
+          
+            <p class="site-author-name" itemprop="name">pandaQ</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
             </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yxxy" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i></a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Lx89757@126.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i></a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cqumzh.cn/bbs/frame.php" title="民主湖论坛" target="_blank">民主湖论坛</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
             
 
             
-        </div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#浅谈编码"><span class="nav-number">1.</span> <span class="nav-text">浅谈编码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#从源头解决问题"><span class="nav-number">2.</span> <span class="nav-text">从源头解决问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实践"><span class="nav-number">3.</span> <span class="nav-text">实践</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tips"><span class="nav-number">4.</span> <span class="nav-text">tips</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
     </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 &mdash; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pandaQ</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
     
-
-    <div class="footer-copyright pink-link-context">
-        <div class="container center-align">
-            © 2017- All rights reserved.
-        </div>
-    </div>
-</footer>
-
-
-    <noscript>
-    <div class="noscript">
-        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
-    </div>
-</noscript>
-<div class="noscript">
-    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">
+      18.1k
+    </span>
+  
 </div>
 
 
-<script src="/js/jquery.min.js"></script>
-<script src="/js/materialize.min.js"></script>
 
-<script>
-    (function($) {
-        $(document).ready(function() {
-            // 隐藏禁用javascript（针对微信内置浏览器）的提示
-            $('.noscript').hide();
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-            // 图片缩放效果
-            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
 
-            // 给图片加上点击放大效果（materialbox插件）
-            $imgs.addClass('materialboxed').each(function(i, el) {
-                $(this).attr('data-caption', $(this).attr('alt') || ' ');
-            }).materialbox();
-
-            // 优化表格的显示
-            $('table').each(function() {
-                var $table = $(this);
-                // 除去多行代码的情况
-                if ($table.find('pre').length == 0) {
-                    $table.addClass('responsive-table striped bordered');
-                }
-            });
-
-            // 首页幻灯片
-            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
-
-            $(".button-collapse").sideNav();
-            $(".category-menu").sideNav();
-
-            // 针对gallery post
-            $('.carousel').carousel({full_width: true});
-            $('.carousel-control.prev').click(function() {
-                $('.carousel').carousel('prev');
-            });
-            $('.carousel-control.next').click(function() {
-                $('.carousel').carousel('next');
-            });
-
-            // 文章目录
-            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
-
-            // 目录随屏幕滚动（防止目录过长越过footer）
-            var $toc = $('.toc');
-            var scrollTargetTop = 0;
-            $(window).scroll(function() {
-                var $activeLink = $toc.find('a.active.section');
-                if ($(window).scrollTop() < 100) {
-                    scrollTargetTop = 0;
-                } else {
-                    if ($activeLink[0]) {
-                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
-                    }
-                }
-                $toc.css('top', '-' + scrollTargetTop + 'px');
-            });
-
-            // 修正文章目录的left-border颜色
-            var color = $('.table-of-contents-text').css('color');
-            $('.table-of-contents-link').css('border-left-color', color);
-
-            // 针对移动端做的优化：FAB按钮点击一下收回
-            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                $('.fixed-action-btn').addClass('click-to-toggle');
-            }
-            // 回到顶部
-            $('.btn-return-top').click(function() {
-                $('body, html').animate({
-                    scrollTop: 0
-                }, 500);
-            });
-
-            // 重置读书页面的Tab标签页的颜色
-            $('li.tab a').hover(function() {
-                $(this).toggleClass('text-lighten-4');
-            });
-            $('.indicator').addClass('pink lighten-2');
-
-            
-            // 添加new标签
-            $('.menu-search').append('<span class="new badge pink"></span>');
-            
-
-            // 搜索功能
-            $('.modal-trigger').leanModal({
-                // 打开搜索框时自动聚焦
-                ready: function() {
-                    if ($('#search').is(":visible")) {
-                        $('#search-input').focus();
-                    }
-                }
-            });
-            var searchXml = "search.xml";
-            if (searchXml.length == 0) {
-             	searchXml = "search.xml";
-            }
-            var searchPath = "/" + searchXml;
-            initSearch(searchPath, 'search-input', 'search-result');
-        });
-
-        // 初始化搜索与匹配函数
-        var initSearch = function(path, search_id, content_id) {
-            'use strict';
-            $.ajax({
-                url: path,
-                dataType: "xml",
-                success: function(xmlResponse) {
-                    // get the contents from search data
-                    var datas = $("entry", xmlResponse).map(function() {
-                        return {
-                            title: $("title", this).text(),
-                            content: $("content", this).text(),
-                            url: $("url", this).text()
-                        };
-                    }).get();
-                    var $input = document.getElementById(search_id);
-                    var $resultContent = document.getElementById(content_id);
-                    $input.addEventListener('input', function() {
-                        var str = '<ul class=\"search-result-list\">';
-                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
-                        $resultContent.innerHTML = "";
-                        if (this.value.trim().length <= 0) {
-                            return;
-                        }
-                        // perform local searching
-                        datas.forEach(function(data) {
-                            var isMatch = true;
-                            var content_index = [];
-                            var data_title = data.title.trim().toLowerCase();
-                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
-                            var data_url = data.url;
-                            var index_title = -1;
-                            var index_content = -1;
-                            var first_occur = -1;
-                            // only match artiles with not empty titles and contents
-                            if (data_title != '' && data_content != '') {
-                                keywords.forEach(function(keyword, i) {
-                                    index_title = data_title.indexOf(keyword);
-                                    index_content = data_content.indexOf(keyword);
-                                    if (index_title < 0 && index_content < 0) {
-                                        isMatch = false;
-                                    } else {
-                                        if (index_content < 0) {
-                                            index_content = 0;
-                                        }
-                                        if (i == 0) {
-                                            first_occur = index_content;
-                                        }
-                                    }
-                                });
-                            }
-                            // show search results
-                            if (isMatch) {
-                                keywords.forEach(function(keyword) {
-                                    var regS = new RegExp(keyword, "gi");
-                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
-                                });
-
-                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
-                                var content = data.content.trim().replace(/<[^>]+>/g, "");
-                                if (first_occur >= 0) {
-                                    // cut out 100 characters
-                                    var start = first_occur - 20;
-                                    var end = first_occur + 80;
-                                    if (start < 0) {
-                                        start = 0;
-                                    }
-                                    if (start == 0) {
-                                        end = 100;
-                                    }
-                                    if (end > content.length) {
-                                        end = content.length;
-                                    }
-                                    var match_content = content.substring(start, end);
-                                    // highlight all keywords
-                                    keywords.forEach(function(keyword) {
-                                        var regS = new RegExp(keyword, "gi");
-                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
-                                    });
-
-                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
-                                }
-                                str += "</li>";
-                            }
-                        });
-                        str += "</ul>";
-                        $resultContent.innerHTML = str;
-                    });
-                }
-            });
-        }
-    })(jQuery);
-</script>
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
 
 
-<script src="/js/prettify.js"></script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62150905";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("pre").addClass("prettyprint");
-        prettyPrint();
-    });
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
 
 
 
-<script type="text/javascript" src="http://tajs.qq.com/stats?sId=62150905" charset="UTF-8"></script>
 
 
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-});
-</script>
-<script type="text/javascript" async
-  src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+
+
+  
 
 
 
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+  wpac_init = window.wpac_init || [];
+  wpac_init.push({widget: 'Rating', id: 7102,
+    el: 'wpac-rating',
+    color: 'fc6423'
+  });
+  (function() {
+    if ('WIDGETPACK_LOADED' in window) return;
+    WIDGETPACK_LOADED = true;
+    var mc = document.createElement('script');
+    mc.type = 'text/javascript';
+    mc.async = true;
+    mc.src = '//embed.widgetpack.com/widget.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+  })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
 </body>
 </html>

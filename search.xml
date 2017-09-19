@@ -4,6 +4,58 @@
     
     <entry>
       <title><![CDATA[express框架学习(上)]]></title>
+      <url>/2017/09/19/express_framework/</url>
+      <content type="html"><![CDATA[<p>本次总结试图说明express框架运行的原理，结论都是从阅读源码得来，但文中不会提及源代码，仅作总体认知方面进行说明。</p>
+<a id="more"></a>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>结合一个官网实例来说明<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line"></div><div class="line">app.use(<span class="function"><span class="keyword">function</span>(<span class="params">req,res, next</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">`receive: <span class="subst">$&#123;req.url&#125;</span>`</span>)</div><div class="line">  next()</div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">  res.send(<span class="string">'Hello World!'</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = app.listen(<span class="number">3000</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> host = server.address().address;</div><div class="line">  <span class="keyword">var</span> port = server.address().port;</div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Example app listening at http://%s:%s'</span>, host, port);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>如无意外，运行以上代码即实现了一个十分简单的web版hello world，控制台还有一些打印。<br>总的来说，express的对外接口设计还是十分友好实用的，这里主要用到三个API</p>
+<ul>
+<li>app.use, 注册中间件</li>
+<li>app.METHOD，注册路由（这里用到的是具体的get方法）</li>
+<li>app.listen， 创建http server，监听端口</li>
+</ul>
+<p>结合上例下面主要论述清楚两个问题：</p>
+<ol>
+<li>express在创建http server前的中间件和路由的实现</li>
+<li>一条特定url的http请求是如何被express处理</li>
+</ol>
+<h1 id="图例"><a href="#图例" class="headerlink" title="图例"></a>图例</h1><p><img src="http://opxo4bto2.bkt.clouddn.com/image/png/express.png" alt="express"></p>
+<h1 id="中间件及路由的挂载"><a href="#中间件及路由的挂载" class="headerlink" title="中间件及路由的挂载"></a>中间件及路由的挂载</h1><p>对应问题一。此处分为三部分：</p>
+<ul>
+<li>require得到的express是一个函数，调用后返回的app仍然是一个函数，得到app前已调用初始化函数<code>app.init()</code>完成一些默认设置。</li>
+<li>继续调用<code>app.use</code>或<code>app.METHOD</code>函数，他们的效果是调用另一个函数<code>app.lazyrouter</code>,这个函数会给app对象动态增加<code>_router</code>属性。同时，根据<code>app.use</code>或<code>app.METHOD</code>函数的参数，封装成特定的layer对象，存放在<code>app._router.stack</code>属性中，该属性是一个数组，首次加载时会添加两个默认中间件，因此，无论是use还是get等方法添加的中间件还是路由，都会按顺序从第三个元素开始存放在stack数组中，因此调用函数的顺序很重要。</li>
+<li>对于<code>app.METHOD</code>系列函数，<code>layer</code>对象会增加<code>route</code>属性，用于存放注册的路由路径（eg：”/test“)、路由方法（eg：“get”，以及相应的处理函数），如果是形如<code>app.get(&#39;/test&#39;, middleware1, ， middleware2...function(req,res){...}</code>, route的stack属性则按顺序存储对应逻辑转换的layer对象，并且<code>layer.handle</code>属性均为<code>route.dispatch</code>的bound函数</li>
+</ul>
+<h1 id="路由系统的工作原理"><a href="#路由系统的工作原理" class="headerlink" title="路由系统的工作原理"></a>路由系统的工作原理</h1><p>对应问题二。这里同样分成三部分：</p>
+<ul>
+<li>express内部封装了http模块，对应http的api<code>http.createServer([requestListener])</code>可知，即每次request请求事件都会调用requestListener函数，对应到express里就是<code>app</code>函数，<code>app()</code>里又调用了<code>app.handle()</code>函数。</li>
+<li><code>app.handle()</code>函数做了两件事，一时增加一个默认的错误处理函数，如果此时不存在路由，则直接调用该错误处理函数，否则调用<code>app._router.handle()</code>函数，同时将错误处理函数作为第三个参数传入。</li>
+<li><code>app._router.handle()</code>函数完成了匹配与分发的路由工作，这里通过<code>next</code>函数来控制遍历<code>app._router.stack</code>，每次调用按顺序处理一个layer，先调用<code>layer.match()</code>判断是否匹配路由，如果匹配则调用<code>layer.handle_request</code>从而调用<code>layer.handle()</code>处理函数，否则调用<code>layer.handle_error()</code>处理错误。如果继续调用<code>next()</code>函数则继续处理下一个layer, 否则视为处理结束。如果是人为的漏掉next，则会导致后续处理不会被调用。</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>express 结合node自带的http模块，站在巨人的肩膀展现了封装的艺术。良好的层次结构，友好实用的api设计都是值得学习和借鉴的，后续会再尝试研究细节的实现。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 技术 </category>
+            
+            <category> express </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Node.js </tag>
+            
+            <tag> express </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[express框架学习(上)]]></title>
       <url>/2017/09/04/express-basic/</url>
       <content type="html"><![CDATA[<p>项目中选用的web框架是express，总结下经验<br><a id="more"></a></p>
 <h1 id="express是做什么的"><a href="#express是做什么的" class="headerlink" title="express是做什么的"></a>express是做什么的</h1><p>从官网所得描述是基于node.js的一个简洁灵活的web框架，性能上没有对node进行二次抽象，也就是说express的性能的上限就是node本身的性能。<br>那就先从node本身说起。</p>
