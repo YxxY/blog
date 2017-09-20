@@ -37,8 +37,6 @@
       
         <categories>
             
-            <category> 技术 </category>
-            
             <category> express </category>
             
         </categories>
@@ -72,8 +70,6 @@
 ]]></content>
       
         <categories>
-            
-            <category> 技术 </category>
             
             <category> JavaScript </category>
             
@@ -119,8 +115,6 @@
       
         <categories>
             
-            <category> 技术 </category>
-            
             <category> JavaScript </category>
             
         </categories>
@@ -163,8 +157,6 @@
 ]]></content>
       
         <categories>
-            
-            <category> 技术 </category>
             
             <category> JavaScript </category>
             
@@ -295,8 +287,6 @@ ES5对参数不是一个对象会报错，ES6则不会，返回输入值。
       
         <categories>
             
-            <category> 技术 </category>
-            
             <category> JavaScript </category>
             
         </categories>
@@ -363,8 +353,6 @@ ES5对参数不是一个对象会报错，ES6则不会，返回输入值。
       
         <categories>
             
-            <category> 技术 </category>
-            
             <category> RabbitMQ </category>
             
         </categories>
@@ -411,8 +399,6 @@ ES5对参数不是一个对象会报错，ES6则不会，返回输入值。
 ]]></content>
       
         <categories>
-            
-            <category> 技术 </category>
             
             <category> JavaScript </category>
             
@@ -498,8 +484,6 @@ code默认为`-9`,表示发送kill信号，另外提两个
       
         <categories>
             
-            <category> 技术 </category>
-            
             <category> Linux </category>
             
         </categories>
@@ -516,7 +500,7 @@ code默认为`-9`,表示发送kill信号，另外提两个
     </entry>
     
     <entry>
-      <title><![CDATA[Node.js events模块(下)]]></title>
+      <title><![CDATA[Node.js events模块(中)]]></title>
       <url>/2017/06/19/events-Source/</url>
       <content type="html"><![CDATA[<p>总结完<code>events</code>模块后会发现，这一块的API十分的简洁高效，对它的实现十分好奇。因为这块源码比较简短，代码编写十分规范，于是我选择更进一步，尝试下学习下源码<a href="https://github.com/nodejs/node/blob/master/lib/events.js" target="_blank" rel="external">events.js</a>。<br><a id="more"></a></p>
 <h2 id="模块的编写"><a href="#模块的编写" class="headerlink" title="模块的编写"></a>模块的编写</h2><p>通常我们都会自己写模块，但对比下这篇专业的，对自己以后写模块有些许启发<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">EventEmitter</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.init.call(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="built_in">module</span>.exports = EventEmitter;</div></pre></td></tr></table></figure></p>
@@ -554,8 +538,6 @@ code默认为`-9`,表示发送kill信号，另外提两个
 ]]></content>
       
         <categories>
-            
-            <category> 技术 </category>
             
             <category> JavaScript </category>
             
@@ -608,8 +590,6 @@ code默认为`-9`,表示发送kill信号，另外提两个
       
         <categories>
             
-            <category> 技术 </category>
-            
             <category> JavaScript </category>
             
         </categories>
@@ -660,8 +640,6 @@ and they cannot be used as constructors.
 ]]></content>
       
         <categories>
-            
-            <category> 技术 </category>
             
             <category> JavaScript </category>
             
@@ -735,8 +713,6 @@ and they cannot be used as constructors.
 ]]></content>
       
         <categories>
-            
-            <category> 技术 </category>
             
             <category> Lua </category>
             

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>pandaQ&#39;s Site</title>
-  <subtitle>pandaQ&#39;s Blog</subtitle>
+  <subtitle>May the force be with you</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
-  <updated>2017-09-19T15:09:11.072Z</updated>
-  <id>http://yoursite.com/</id>
+  <link href="http://xu-li.cn/"/>
+  <updated>2017-09-20T11:54:50.256Z</updated>
+  <id>http://xu-li.cn/</id>
   
   <author>
     <name>pandaQ</name>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>express框架学习(中)</title>
-    <link href="http://yoursite.com/2017/09/19/express_framework/"/>
-    <id>http://yoursite.com/2017/09/19/express_framework/</id>
+    <link href="http://xu-li.cn/2017/09/19/express_framework/"/>
+    <id>http://xu-li.cn/2017/09/19/express_framework/</id>
     <published>2017-09-19T15:11:38.000Z</published>
-    <updated>2017-09-19T15:09:11.072Z</updated>
+    <updated>2017-09-20T11:54:50.256Z</updated>
     
     <content type="html"><![CDATA[<p>本次总结试图说明express框架运行的原理，结论都是从阅读源码得来，但文中不会提及源代码，仅作总体认知方面进行说明。</p>
 <a id="more"></a>
@@ -58,23 +58,21 @@
     
     </summary>
     
-      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="express" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/express/"/>
+      <category term="express" scheme="http://xu-li.cn/categories/express/"/>
     
     
-      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
+      <category term="Node.js" scheme="http://xu-li.cn/tags/Node-js/"/>
     
-      <category term="express" scheme="http://yoursite.com/tags/express/"/>
+      <category term="express" scheme="http://xu-li.cn/tags/express/"/>
     
   </entry>
   
   <entry>
     <title>express框架学习(上)</title>
-    <link href="http://yoursite.com/2017/09/04/express-basic/"/>
-    <id>http://yoursite.com/2017/09/04/express-basic/</id>
+    <link href="http://xu-li.cn/2017/09/04/express-basic/"/>
+    <id>http://xu-li.cn/2017/09/04/express-basic/</id>
     <published>2017-09-04T12:46:55.000Z</published>
-    <updated>2017-09-19T13:36:04.443Z</updated>
+    <updated>2017-09-20T11:55:10.215Z</updated>
     
     <content type="html"><![CDATA[<p>项目中选用的web框架是express，总结下经验<br><a id="more"></a></p>
 <h1 id="express是做什么的"><a href="#express是做什么的" class="headerlink" title="express是做什么的"></a>express是做什么的</h1><p>从官网所得描述是基于node.js的一个简洁灵活的web框架，性能上没有对node进行二次抽象，也就是说express的性能的上限就是node本身的性能。<br>那就先从node本身说起。</p>
@@ -96,23 +94,21 @@
     
     </summary>
     
-      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
+      <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
     
     
-      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
+      <category term="Node.js" scheme="http://xu-li.cn/tags/Node-js/"/>
     
-      <category term="express" scheme="http://yoursite.com/tags/express/"/>
+      <category term="express" scheme="http://xu-li.cn/tags/express/"/>
     
   </entry>
   
   <entry>
     <title>Node.js 中的编码问题</title>
-    <link href="http://yoursite.com/2017/09/03/node_encoding/"/>
-    <id>http://yoursite.com/2017/09/03/node_encoding/</id>
+    <link href="http://xu-li.cn/2017/09/03/node_encoding/"/>
+    <id>http://xu-li.cn/2017/09/03/node_encoding/</id>
     <published>2017-09-03T12:25:14.000Z</published>
-    <updated>2017-09-04T12:45:14.702Z</updated>
+    <updated>2017-09-20T11:54:25.532Z</updated>
     
     <content type="html"><![CDATA[<p>编码问题本不是一个问题，直到它主动找上你，它就是个大问题<br><a id="more"></a></p>
 <p>Node用到的默认编码格式是utf8，支持的编码格式在<a href="https://nodejs.org/api/buffer.html#buffer_buffers_and_character_encodings" target="_blank" rel="external">Buffer API</a>中可见，<br>默认支持的有<img src="http://opxo4bto2.bkt.clouddn.com/node_encoding_type.png" alt="supported_encoding_type"></p>
@@ -144,23 +140,21 @@
     
     </summary>
     
-      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
+      <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
     
     
-      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
+      <category term="Node.js" scheme="http://xu-li.cn/tags/Node-js/"/>
     
-      <category term="encoding" scheme="http://yoursite.com/tags/encoding/"/>
+      <category term="encoding" scheme="http://xu-li.cn/tags/encoding/"/>
     
   </entry>
   
   <entry>
     <title>Node.js events模块(下)</title>
-    <link href="http://yoursite.com/2017/09/01/events-final/"/>
-    <id>http://yoursite.com/2017/09/01/events-final/</id>
+    <link href="http://xu-li.cn/2017/09/01/events-final/"/>
+    <id>http://xu-li.cn/2017/09/01/events-final/</id>
     <published>2017-09-01T12:15:27.000Z</published>
-    <updated>2017-09-04T12:31:22.704Z</updated>
+    <updated>2017-09-20T11:55:22.909Z</updated>
     
     <content type="html"><![CDATA[<p>又一次来看这部分源码了，感觉每次依然有收获，再做一次总结，强行分成上中下三篇，内心毫无波澜，甚至有点想笑<br><a id="more"></a></p>
 <h1 id="关于使用"><a href="#关于使用" class="headerlink" title="关于使用"></a>关于使用</h1><ul>
@@ -191,25 +185,23 @@
     
     </summary>
     
-      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
+      <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
     
     
-      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
+      <category term="Node.js" scheme="http://xu-li.cn/tags/Node-js/"/>
     
-      <category term="events" scheme="http://yoursite.com/tags/events/"/>
+      <category term="events" scheme="http://xu-li.cn/tags/events/"/>
     
-      <category term="EventEmitter" scheme="http://yoursite.com/tags/EventEmitter/"/>
+      <category term="EventEmitter" scheme="http://xu-li.cn/tags/EventEmitter/"/>
     
   </entry>
   
   <entry>
     <title>JavaScript Object</title>
-    <link href="http://yoursite.com/2017/07/11/js-Object/"/>
-    <id>http://yoursite.com/2017/07/11/js-Object/</id>
+    <link href="http://xu-li.cn/2017/07/11/js-Object/"/>
+    <id>http://xu-li.cn/2017/07/11/js-Object/</id>
     <published>2017-07-11T12:50:38.000Z</published>
-    <updated>2017-07-12T13:54:47.468Z</updated>
+    <updated>2017-09-20T12:34:08.434Z</updated>
     
     <content type="html"><![CDATA[<p>javascript里的对象是我一直没认真研究过的，每次看到Object的调用总觉得是高级语法。然而其实它一直都在那里，不难不易，只是我没有去了解。查了下MDN，仍旧是做下API层面的总结。<br><a id="more"></a></p>
 <h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><h2 id="键值对初始化"><a href="#键值对初始化" class="headerlink" title="键值对初始化"></a>键值对初始化</h2><pre><code>@param name String 
@@ -324,23 +316,21 @@ ES5对参数不是一个对象会报错，ES6则不会，返回输入值。
     
     </summary>
     
-      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
+      <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="http://yoursite.com/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="http://xu-li.cn/tags/JavaScript/"/>
     
-      <category term="Object" scheme="http://yoursite.com/tags/Object/"/>
+      <category term="Object" scheme="http://xu-li.cn/tags/Object/"/>
     
   </entry>
   
   <entry>
     <title>消息队列之RabbitMQ</title>
-    <link href="http://yoursite.com/2017/06/30/rabbitmq/"/>
-    <id>http://yoursite.com/2017/06/30/rabbitmq/</id>
+    <link href="http://xu-li.cn/2017/06/30/rabbitmq/"/>
+    <id>http://xu-li.cn/2017/06/30/rabbitmq/</id>
     <published>2017-06-30T12:11:38.000Z</published>
-    <updated>2017-07-12T12:48:58.931Z</updated>
+    <updated>2017-09-20T11:54:42.517Z</updated>
     
     <content type="html"><![CDATA[<p>最近项目上开始部署了消息队列，手头的工作基本围绕着它展开。消息队列已经是比较成熟的技术了，例如使用中我们最终选择的rabbitMQ，已经诞生10年了。那这是我们选择它的原因吗？不全是，还因为它的库多……总结下这块内容以备忘！<br><a id="more"></a></p>
 <h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>我工作中的使用主要是使用MQ重构了原来的需求，改进的主要是</p>
@@ -394,23 +384,21 @@ ES5对参数不是一个对象会报错，ES6则不会，返回输入值。
     
     </summary>
     
-      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="RabbitMQ" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/RabbitMQ/"/>
+      <category term="RabbitMQ" scheme="http://xu-li.cn/categories/RabbitMQ/"/>
     
     
-      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
+      <category term="Node.js" scheme="http://xu-li.cn/tags/Node-js/"/>
     
-      <category term="RabbitMQ" scheme="http://yoursite.com/tags/RabbitMQ/"/>
+      <category term="RabbitMQ" scheme="http://xu-li.cn/tags/RabbitMQ/"/>
     
   </entry>
   
   <entry>
     <title>Node.js 模块</title>
-    <link href="http://yoursite.com/2017/06/25/module/"/>
-    <id>http://yoursite.com/2017/06/25/module/</id>
+    <link href="http://xu-li.cn/2017/06/25/module/"/>
+    <id>http://xu-li.cn/2017/06/25/module/</id>
     <published>2017-06-25T13:15:38.000Z</published>
-    <updated>2017-07-02T12:10:56.571Z</updated>
+    <updated>2017-09-20T11:54:29.406Z</updated>
     
     <content type="html"><![CDATA[<p>Node.js 中的模块(module)是一开始就接触到的，但也许是因为它的API已足够简单，实际却从未深究过。另外在新的ES6标准里，之前所用的<code>require</code>、<code>exports</code>将被<code>import</code>、<code>export</code>取代成为新的标准。新旧更替如果两个都不懂就太尴尬了，我决定查下资料，稍微总结对比下新旧的不同，争取从不懂变成略懂。<br><a id="more"></a></p>
 <h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><p><code>require()</code> 参数为字符串，加载模块,返回被加载模块<code>module.exports</code>的内容<br><code>require.cache</code> 返回已加载模块的对象，key为模块绝对路径名，value为module对象<br><code>require.resolve()</code> 参数为字符串，运用require()的机制去查找模块并不加载，返回模块绝对路径名<br><code>require.main</code> 源码解释<code>require.main = process.mainModule</code> 指向主模块，当不存在入口文件时返回 undefined</p>
@@ -445,25 +433,23 @@ ES5对参数不是一个对象会报错，ES6则不会，返回输入值。
     
     </summary>
     
-      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
+      <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
     
     
-      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
+      <category term="Node.js" scheme="http://xu-li.cn/tags/Node-js/"/>
     
-      <category term="module" scheme="http://yoursite.com/tags/module/"/>
+      <category term="module" scheme="http://xu-li.cn/tags/module/"/>
     
-      <category term="require" scheme="http://yoursite.com/tags/require/"/>
+      <category term="require" scheme="http://xu-li.cn/tags/require/"/>
     
   </entry>
   
   <entry>
     <title>Linux从入门到放弃</title>
-    <link href="http://yoursite.com/2017/06/20/ubuntu/"/>
-    <id>http://yoursite.com/2017/06/20/ubuntu/</id>
+    <link href="http://xu-li.cn/2017/06/20/ubuntu/"/>
+    <id>http://xu-li.cn/2017/06/20/ubuntu/</id>
     <published>2017-06-20T12:35:38.000Z</published>
-    <updated>2017-07-02T11:54:56.663Z</updated>
+    <updated>2017-09-20T11:55:15.752Z</updated>
     
     <content type="html"><![CDATA[<p>很早就有学linux的想法，曾经也尝试过，特地装了双系统，但可能打开的姿势和时机不对，没过多久就不了了之了。如今已经工作一段时间了，感觉这是一项必须掌握的技能了。本着talk is cheap， just do it的实用主义原则，仅以使用目标为导向，逐步先达到我操作windows的水平，其他以后再说，捞着芝麻算芝麻，西瓜如果抱不动就不要了。以下以ubutun16.04为实验机，全程百度必应，行文仅为学习的总结及备忘录，内容逐步补充，内容无增加之时，则实现点题。<br><a id="more"></a></p>
 <h2 id="认识目录"><a href="#认识目录" class="headerlink" title="认识目录"></a>认识目录</h2><pre><code>windows下目录就是C盘D盘之类，很好理解，系统盘和非系统盘。
@@ -533,23 +519,21 @@ code默认为`-9`,表示发送kill信号，另外提两个
     
     </summary>
     
-      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="Linux" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/Linux/"/>
+      <category term="Linux" scheme="http://xu-li.cn/categories/Linux/"/>
     
     
-      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+      <category term="Linux" scheme="http://xu-li.cn/tags/Linux/"/>
     
-      <category term="Ubutun" scheme="http://yoursite.com/tags/Ubutun/"/>
+      <category term="Ubutun" scheme="http://xu-li.cn/tags/Ubutun/"/>
     
   </entry>
   
   <entry>
-    <title>Node.js events模块(下)</title>
-    <link href="http://yoursite.com/2017/06/19/events-Source/"/>
-    <id>http://yoursite.com/2017/06/19/events-Source/</id>
+    <title>Node.js events模块(中)</title>
+    <link href="http://xu-li.cn/2017/06/19/events-Source/"/>
+    <id>http://xu-li.cn/2017/06/19/events-Source/</id>
     <published>2017-06-19T12:11:38.000Z</published>
-    <updated>2017-07-12T12:57:42.822Z</updated>
+    <updated>2017-09-20T11:54:08.709Z</updated>
     
     <content type="html"><![CDATA[<p>总结完<code>events</code>模块后会发现，这一块的API十分的简洁高效，对它的实现十分好奇。因为这块源码比较简短，代码编写十分规范，于是我选择更进一步，尝试下学习下源码<a href="https://github.com/nodejs/node/blob/master/lib/events.js" target="_blank" rel="external">events.js</a>。<br><a id="more"></a></p>
 <h2 id="模块的编写"><a href="#模块的编写" class="headerlink" title="模块的编写"></a>模块的编写</h2><p>通常我们都会自己写模块，但对比下这篇专业的，对自己以后写模块有些许启发<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">EventEmitter</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.init.call(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="built_in">module</span>.exports = EventEmitter;</div></pre></td></tr></table></figure></p>
@@ -592,25 +576,23 @@ code默认为`-9`,表示发送kill信号，另外提两个
     
     </summary>
     
-      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
+      <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
     
     
-      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
+      <category term="Node.js" scheme="http://xu-li.cn/tags/Node-js/"/>
     
-      <category term="events" scheme="http://yoursite.com/tags/events/"/>
+      <category term="events" scheme="http://xu-li.cn/tags/events/"/>
     
-      <category term="EventEmitter" scheme="http://yoursite.com/tags/EventEmitter/"/>
+      <category term="EventEmitter" scheme="http://xu-li.cn/tags/EventEmitter/"/>
     
   </entry>
   
   <entry>
     <title>Node.js events模块(上)</title>
-    <link href="http://yoursite.com/2017/06/18/events-API/"/>
-    <id>http://yoursite.com/2017/06/18/events-API/</id>
+    <link href="http://xu-li.cn/2017/06/18/events-API/"/>
+    <id>http://xu-li.cn/2017/06/18/events-API/</id>
     <published>2017-06-18T12:11:38.000Z</published>
-    <updated>2017-07-11T14:44:13.634Z</updated>
+    <updated>2017-09-20T11:55:03.124Z</updated>
     
     <content type="html"><![CDATA[<p>node.js 基于异步事件驱动(Event-driven)，这无疑也是一种十分优秀的编程思想，这里总结下其中与之相关的一个核心模块——events模块。<br>本文主要总结使用的API，具体可参考<a href="https://nodejs.org/api/events.html" target="_blank" rel="external">官网API</a><br><a id="more"></a></p>
 <h2 id="快速使用"><a href="#快速使用" class="headerlink" title="快速使用"></a>快速使用</h2><p><code>events</code>是内置模块，但非全局变量，使用时需显示引用<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div></pre></td></tr></table></figure></p>
@@ -647,25 +629,23 @@ code默认为`-9`,表示发送kill信号，另外提两个
     
     </summary>
     
-      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
+      <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
     
     
-      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
+      <category term="Node.js" scheme="http://xu-li.cn/tags/Node-js/"/>
     
-      <category term="events" scheme="http://yoursite.com/tags/events/"/>
+      <category term="events" scheme="http://xu-li.cn/tags/events/"/>
     
-      <category term="EventEmitter" scheme="http://yoursite.com/tags/EventEmitter/"/>
+      <category term="EventEmitter" scheme="http://xu-li.cn/tags/EventEmitter/"/>
     
   </entry>
   
   <entry>
     <title>JavaScript箭头函数</title>
-    <link href="http://yoursite.com/2017/05/18/arrow_function/"/>
-    <id>http://yoursite.com/2017/05/18/arrow_function/</id>
+    <link href="http://xu-li.cn/2017/05/18/arrow_function/"/>
+    <id>http://xu-li.cn/2017/05/18/arrow_function/</id>
     <published>2017-05-18T12:50:38.000Z</published>
-    <updated>2017-07-02T12:10:11.151Z</updated>
+    <updated>2017-09-20T11:54:37.828Z</updated>
     
     <content type="html"><![CDATA[<p>js从ES6开始引入一种新函数，箭头函数。<br>它拥有无比简洁优雅的写法，不用显式的写<code>function</code>，确实方便不少。但并非适应所有的函数应用场景，这里结合资料和个人理解做个总结。<br><a id="more"></a></p>
 <pre><code>An arrow function expression has a shorter syntax than a function expression 
@@ -702,25 +682,23 @@ and they cannot be used as constructors.
     
     </summary>
     
-      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="JavaScript" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/JavaScript/"/>
+      <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="http://yoursite.com/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="http://xu-li.cn/tags/JavaScript/"/>
     
-      <category term="箭头函数" scheme="http://yoursite.com/tags/%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0/"/>
+      <category term="箭头函数" scheme="http://xu-li.cn/tags/%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0/"/>
     
-      <category term="this" scheme="http://yoursite.com/tags/this/"/>
+      <category term="this" scheme="http://xu-li.cn/tags/this/"/>
     
   </entry>
   
   <entry>
     <title>对微信消息内容类型的判断</title>
-    <link href="http://yoursite.com/2017/05/15/parse_wechat_msgType/"/>
-    <id>http://yoursite.com/2017/05/15/parse_wechat_msgType/</id>
+    <link href="http://xu-li.cn/2017/05/15/parse_wechat_msgType/"/>
+    <id>http://xu-li.cn/2017/05/15/parse_wechat_msgType/</id>
     <published>2017-05-15T10:35:38.000Z</published>
-    <updated>2017-07-02T12:04:09.074Z</updated>
+    <updated>2017-09-20T11:54:33.799Z</updated>
     
     <content type="html"><![CDATA[<p>最近试着做些工作总结，这也是我开始写博客的初衷，少bb，just do it！</p>
 <p>这是我最早进公司做的一个小项目，需求是判断手机收发微信消息内容类型。就是手机发了一条微信消息之后，程序要能解析出发的是文本、语音还是图片等类型，并且统计时延。接收也是如此，主要需求是对发送类型的判断。<br><a id="more"></a></p>
@@ -780,14 +758,12 @@ and they cannot be used as constructors.
     
     </summary>
     
-      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="Lua" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/Lua/"/>
+      <category term="Lua" scheme="http://xu-li.cn/categories/Lua/"/>
     
     
-      <category term="wechat-message" scheme="http://yoursite.com/tags/wechat-message/"/>
+      <category term="wechat-message" scheme="http://xu-li.cn/tags/wechat-message/"/>
     
-      <category term="lua" scheme="http://yoursite.com/tags/lua/"/>
+      <category term="lua" scheme="http://xu-li.cn/tags/lua/"/>
     
   </entry>
   
