@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xu-li.cn/"/>
-  <updated>2017-11-05T11:02:29.033Z</updated>
+  <updated>2017-11-11T12:17:08.952Z</updated>
   <id>http://xu-li.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://xu-li.cn/2017/11/05/shell/"/>
     <id>http://xu-li.cn/2017/11/05/shell/</id>
     <published>2017-11-05T10:57:38.000Z</published>
-    <updated>2017-11-05T11:02:29.033Z</updated>
+    <updated>2017-11-11T12:17:08.952Z</updated>
     
     <content type="html"><![CDATA[<p>总结shell脚本<br><a id="more"></a></p>
 <h2 id="shell-VS-shell-script"><a href="#shell-VS-shell-script" class="headerlink" title="shell VS shell script"></a>shell VS shell script</h2><p>shell 是一种应用程序，负责将指令传达至linux内核。<code>terminl</code> 是一种输入输出的虚拟终端，本身并不会解析输入的命令，真正处理输入命令的是shell。<br><code>shell script</code> 是为shell编写的脚本，本质是命令的集合，相对terminal输入的方式，shell脚本可以批量操作，可以有组合逻辑，能做的事更多，但需要符合一定的代码规范。学习shell脚本本质是掌握shell命令以及shell script的语法规则。本文着重总结后者。</p>
@@ -105,7 +105,14 @@
 <h3 id="函数参数"><a href="#函数参数" class="headerlink" title="函数参数"></a>函数参数</h3><p>函数内部$n 表示传入的第n个参数,这里和脚本参数类似</p>
 <h3 id="函数返回值"><a href="#函数返回值" class="headerlink" title="函数返回值"></a>函数返回值</h3><p>return 返回，如果不加，将以最后一条命令运行结果，作为返回值。 return后跟<code>数值</code>(0-255)<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"><span class="function"><span class="title">test</span></span>()&#123;</div><div class="line">    <span class="built_in">return</span> 123</div><div class="line">&#125;</div><div class="line"><span class="built_in">test</span></div><div class="line">a=<span class="string">"$?"</span></div><div class="line"><span class="built_in">echo</span> <span class="variable">$a</span></div></pre></td></tr></table></figure></p>
 <h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="得到当前脚本目录"><a href="#得到当前脚本目录" class="headerlink" title="得到当前脚本目录"></a>得到当前脚本目录</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line">dir=<span class="string">"cd `dirname <span class="variable">$0</span>`; pwd"</span></div><div class="line"><span class="built_in">echo</span> <span class="variable">$dir</span></div></pre></td></tr></table></figure>
-<h3 id="判断由当前脚本启动的实例个数"><a href="#判断由当前脚本启动的实例个数" class="headerlink" title="判断由当前脚本启动的实例个数"></a>判断由当前脚本启动的实例个数</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ret=`ps -ef | grep <span class="string">"yourprocessname"</span> | grep -v grep | grep -v <span class="string">"<span class="variable">$(basename $0)</span>"</span> | wc <span class="_">-l</span>`</div><div class="line"><span class="built_in">echo</span> <span class="variable">$ret</span></div></pre></td></tr></table></figure>]]></content>
+<h3 id="判断由当前脚本启动的实例个数"><a href="#判断由当前脚本启动的实例个数" class="headerlink" title="判断由当前脚本启动的实例个数"></a>判断由当前脚本启动的实例个数</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ret=`ps -ef | grep <span class="string">"yourprocessname"</span> | grep -v grep | grep -v <span class="string">"<span class="variable">$(basename $0)</span>"</span> | wc <span class="_">-l</span>`</div><div class="line"><span class="built_in">echo</span> <span class="variable">$ret</span></div></pre></td></tr></table></figure>
+<h3 id="嵌入文本-here-document"><a href="#嵌入文本-here-document" class="headerlink" title="嵌入文本(here document)"></a>嵌入文本(here document)</h3><p>将两个<code>delimiter</code>之间的内容作为输入传递给command<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">command</span> &lt;&lt; delimiter</div><div class="line">    document</div><div class="line">delimiter</div></pre></td></tr></table></figure></p>
+<p>tips：</p>
+<ul>
+<li>结尾的delimiter 一定要顶格写，前面不能有任何字符，后面也不能有任何字符，包括空格和 tab 缩进。</li>
+<li>开始的delimiter前后的空格会被忽略掉。<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"><span class="comment">#示例</span></div><div class="line">cat &lt;&lt;EOF</div><div class="line">content to <span class="built_in">print</span></div><div class="line">EOF</div></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
     
     <summary type="html">
     
