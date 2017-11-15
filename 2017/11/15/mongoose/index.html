@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Node.js,encoding," />
+  <meta name="keywords" content="mongoose,mongodb," />
 
 
 
@@ -82,19 +82,17 @@
 
 
 
-<meta name="description" content="编码问题本不是一个问题，直到它主动找上你，它就是个大问题">
-<meta name="keywords" content="Node.js,encoding">
+<meta name="description" content="Mongoose 是一个基于Node.js的MongoDB接口ORM类库，也被称为ODM库。那些高大上的解释就不贴了。我的理解是mongoDB将数据库抽象成文档类型，而mongoose将文档映射到js对象上，让使用者可以使用js对象来操作文档从而实现对数据的增改删查，因此称之为Object Document Model。">
+<meta name="keywords" content="mongoose,mongodb">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Node.js 中的编码问题">
-<meta property="og:url" content="http://xu-li.cn/2017/09/03/node_encoding/index.html">
+<meta property="og:title" content="Mongoose入门总结">
+<meta property="og:url" content="http://xu-li.cn/2017/11/15/mongoose/index.html">
 <meta property="og:site_name" content="pandaQ&#39;s Site">
-<meta property="og:description" content="编码问题本不是一个问题，直到它主动找上你，它就是个大问题">
-<meta property="og:image" content="http://opxo4bto2.bkt.clouddn.com/node_encoding_type.png">
-<meta property="og:updated_time" content="2017-09-20T11:54:25.532Z">
+<meta property="og:description" content="Mongoose 是一个基于Node.js的MongoDB接口ORM类库，也被称为ODM库。那些高大上的解释就不贴了。我的理解是mongoDB将数据库抽象成文档类型，而mongoose将文档映射到js对象上，让使用者可以使用js对象来操作文档从而实现对数据的增改删查，因此称之为Object Document Model。">
+<meta property="og:updated_time" content="2017-11-15T11:36:54.867Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Node.js 中的编码问题">
-<meta name="twitter:description" content="编码问题本不是一个问题，直到它主动找上你，它就是个大问题">
-<meta name="twitter:image" content="http://opxo4bto2.bkt.clouddn.com/node_encoding_type.png">
+<meta name="twitter:title" content="Mongoose入门总结">
+<meta name="twitter:description" content="Mongoose 是一个基于Node.js的MongoDB接口ORM类库，也被称为ODM库。那些高大上的解释就不贴了。我的理解是mongoDB将数据库抽象成文档类型，而mongoose将文档映射到js对象上，让使用者可以使用js对象来操作文档从而实现对数据的增改删查，因此称之为Object Document Model。">
 
 
 
@@ -124,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://xu-li.cn/2017/09/03/node_encoding/"/>
+  <link rel="canonical" href="http://xu-li.cn/2017/11/15/mongoose/"/>
 
 
 
 
 
-  <title>Node.js 中的编码问题 | pandaQ's Site</title>
+  <title>Mongoose入门总结 | pandaQ's Site</title>
   
 
 
@@ -308,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xu-li.cn/2017/09/03/node_encoding/">
+    <link itemprop="mainEntityOfPage" href="http://xu-li.cn/2017/11/15/mongoose/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="pandaQ">
@@ -325,7 +323,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Node.js 中的编码问题</h2>
+          <h2 class="post-title" itemprop="name headline">Mongoose入门总结</h2>
         
 
         <div class="post-meta">
@@ -337,8 +335,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-03T20:25:14+08:00">
-                2017-09-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-15T18:57:38+08:00">
+                2017-11-15
               </time>
             
 
@@ -360,8 +358,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
+                  <a href="/categories/mongoose/" itemprop="url" rel="index">
+                    <span itemprop="name">mongoose</span>
                   </a>
                 </span>
 
@@ -396,7 +394,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,238
+                  1,530
                 </span>
               
 
@@ -412,7 +410,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  5
+                  6
                 </span>
               
             </div>
@@ -433,27 +431,57 @@
       
 
       
-        <p>编码问题本不是一个问题，直到它主动找上你，它就是个大问题<br><a id="more"></a></p>
-<p>Node用到的默认编码格式是utf8，支持的编码格式在<a href="https://nodejs.org/api/buffer.html#buffer_buffers_and_character_encodings" target="_blank" rel="external">Buffer API</a>中可见，<br>默认支持的有<img src="http://opxo4bto2.bkt.clouddn.com/node_encoding_type.png" alt="supported_encoding_type"></p>
-<p>很显然没有windows常用的GBK编码，那么这样就很容易产生两种不同的编码格式，只能一方迁就另一方。<br>之前的一个小项目就遇到这样一个问题，需要用户提供数据，但要求一个只会excel记录数据的普通人提供utf8编码的json格式数据实在太难为他了。最后折中的办法采用了CSV格式，原因无它，支持excel打开编辑。<br>但仍然存在一个问题，excel编辑完保存，会以默认非uf8编码格式保存，自带的保存转换也不生效，只能用一个土办法，记事本打开，另存为时指定utf8编码格式。但仅多这一个步骤也让用户叫苦不迭，偶尔忘记转码就会导致中文显示乱码。<br>因此，这个问题不得不解决。</p>
-<h1 id="浅谈编码"><a href="#浅谈编码" class="headerlink" title="浅谈编码"></a>浅谈编码</h1><p>老实说，我对编码的了解无穷趋近于一无所知，所以真的是浅谈。我只知道编码不同是以不同的二进制数字表示字符，具体什么规则我真的是记不住，也无心去了解。从Node操作文件的API，我大胆来<code>猜测</code>一下它的工作流程。<br>读取文件时，API不管是<code>fs.readFile</code> 还是<code>fs.createReadStream</code><br>encoding默认均为null，即无编码，那就是不做任何处理，将码流原封不动的读取出来暂存。<br>但处理数据时，将buffer数据转为字符串处理时，默认是utf8, 并且node未提供GBK的转码方式（支持的转码格式见上图），那么问题就出现了，如果初始编码格式不是utf8，用utf8格式去解码，当然会出问题，就算我不懂编码我也知道，用一把锁的钥匙去开另一把不同的锁，打不开才是正常的。</p>
-<h1 id="从源头解决问题"><a href="#从源头解决问题" class="headerlink" title="从源头解决问题"></a>从源头解决问题</h1><p>当出现乱码问题时，要知道问题的源头是用了解码格式与编码格式不匹配造成的，所有解决的问题就要两种</p>
+        <p>Mongoose 是一个基于Node.js的MongoDB接口ORM类库，也被称为ODM库。那些高大上的解释就不贴了。我的理解是mongoDB将数据库抽象成文档类型，而mongoose将文档映射到js对象上，让使用者可以使用js对象来操作文档从而实现对数据的增改删查，因此称之为Object Document Model。<br><a id="more"></a></p>
+<h2 id="连接数据库-Connection"><a href="#连接数据库-Connection" class="headerlink" title="连接数据库-Connection"></a>连接数据库-Connection</h2><p>使用数据库之前肯定需要连接上数据库先，Mongoose的API提供了两种方式<code>mongoose.createConnection</code>和<code>mongoose.connect</code>。文档说前者可以连接多个数据库，后者使用默认连接，老实说这个解释没能让我明白区别，还是看源代码吧。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Mongoose</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.connections = [];</div><div class="line">  <span class="keyword">this</span>.models = &#123;&#125;;</div><div class="line">  <span class="keyword">this</span>.modelSchemas = &#123;&#125;;</div><div class="line">  <span class="comment">/* default global options */</span></div><div class="line">  <span class="keyword">this</span>.options = &#123;</div><div class="line">    <span class="attr">pluralization</span>: <span class="literal">true</span></div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">var</span> conn = <span class="keyword">this</span>.createConnection(); <span class="comment">/* default connection */</span></div><div class="line">  conn.models = <span class="keyword">this</span>.models;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> mongoose = <span class="built_in">module</span>.exports = exports = <span class="keyword">new</span> Mongoose;</div></pre></td></tr></table></figure></p>
+<p>可以看出来，我们引用mongoose时，就是引用Mongoose的一个实例。<br>构造函数格外的简洁，初始化四个属性，建立一个连接，再将该连接的models属性指向实例的同名属性。<br>下面再来看建立的这个连接<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> driver = global.MONGOOSE_DRIVER_PATH || <span class="string">'./drivers/node-mongodb-native'</span>;</div><div class="line"><span class="keyword">var</span> Connection = <span class="built_in">require</span>(driver + <span class="string">'/connection'</span>);</div><div class="line"></div><div class="line">Mongoose.prototype.createConnection = <span class="function"><span class="keyword">function</span>(<span class="params">uri, options</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> conn = <span class="keyword">new</span> Connection(<span class="keyword">this</span>);</div><div class="line">  <span class="keyword">this</span>.connections.push(conn);</div><div class="line">  <span class="keyword">if</span> (options &amp;&amp; options.useMongoClient) &#123;</div><div class="line">    <span class="keyword">return</span> conn.openUri(uri, options);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> conn;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Mongoose.prototype.__defineGetter__(<span class="string">'connection'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.connections[<span class="number">0</span>];</div><div class="line">&#125;);</div><div class="line"></div><div class="line">Mongoose.prototype.__defineSetter__(<span class="string">'connection'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">v</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.connections[<span class="number">0</span>] = v;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>Mongoose初始化实例即建立了和MongoDB的连接，也就是注释了说的默认连接，可以通过<code>mongoose.connection</code>访问，该连接可后续再行初始化。</p>
+<p>到这里就可以进入正题说<code>mongoose.createConnection</code>和<code>mongoose.connect</code>的区别了。贴下connect的代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Mongoose.prototype.connect = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> conn = <span class="keyword">this</span>.connection;</div><div class="line">  <span class="keyword">if</span> ((<span class="built_in">arguments</span>.length === <span class="number">2</span> || <span class="built_in">arguments</span>.length === <span class="number">3</span>) &amp;&amp;</div><div class="line">      <span class="keyword">typeof</span> <span class="built_in">arguments</span>[<span class="number">0</span>] === <span class="string">'string'</span> &amp;&amp;</div><div class="line">      <span class="keyword">typeof</span> <span class="built_in">arguments</span>[<span class="number">1</span>] === <span class="string">'object'</span> &amp;&amp;</div><div class="line">      <span class="built_in">arguments</span>[<span class="number">1</span>].useMongoClient === <span class="literal">true</span>) &#123;</div><div class="line">    <span class="keyword">return</span> conn.openUri(<span class="built_in">arguments</span>[<span class="number">0</span>], <span class="built_in">arguments</span>[<span class="number">1</span>], <span class="built_in">arguments</span>[<span class="number">2</span>]);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (rgxReplSet.test(<span class="built_in">arguments</span>[<span class="number">0</span>]) || checkReplicaSetInUri(<span class="built_in">arguments</span>[<span class="number">0</span>])) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MongooseThenable(<span class="keyword">this</span>, conn.openSet.apply(conn, <span class="built_in">arguments</span>));</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> MongooseThenable(<span class="keyword">this</span>, conn.open.apply(conn, <span class="built_in">arguments</span>));</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>connect就是直接使用mongoose初始化时建立的那个连接去连接数据库，具体怎么连接数据库，根据参数选择，可以有<code>openUri</code>、<code>openSet</code>和<code>open</code>, 4.x版本推荐第一种方式，后两种将被废弃。即需形如<code>mongoose.connect(db_url, {useMongoClient:true})</code>这种方式。<br>而<code>createConnection</code>则是mongoose初始化选择的连接方式，可以建立多个连接，每个连接都会被push到<code>mongoose.connections</code>数组中，同时返回此次建立的连接，如果指定了参数，且符合要求，则调用<code>openUri(uri, options)</code>连接数据库。<br>至此，基本捋清二者关系了。</p>
+<p>小结下就是，mongoose初始化时会先建立一个与MongoDB驱动的默认连接，connect的方式就是使用该连接。createConnection 会再继续建立与驱动的连接，这种方式适合操作多个数据库的操作。使用openUri方法，是给驱动传参连接数据库。</p>
+<p>下面举例以上的说明<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</div><div class="line">mongoose.Promise = global.Promise</div><div class="line"><span class="keyword">var</span> url = process.env.MONGO_URL || <span class="string">'mongodb://localhost:27017/admin'</span></div><div class="line"></div><div class="line"><span class="comment">/* 使用默认连接传参连接数据库 */</span></div><div class="line">mongoose.connection.openUri(url, (err, conn)=&gt;&#123;</div><div class="line">    <span class="built_in">console</span>.log(conn.db.databaseName)</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">/* 使用默认连接传参连接数据库 */</span></div><div class="line"><span class="keyword">var</span> db = mongoose.connect(url, &#123;<span class="attr">useMongoClient</span>:<span class="literal">true</span>&#125;)</div><div class="line"><span class="built_in">console</span>.log(mongoose.connections.length)</div><div class="line"></div><div class="line"><span class="comment">/* 重新建立连接并传参连接数据库 */</span></div><div class="line"><span class="keyword">var</span> db1 = mongoose.createConnection(url, &#123;<span class="attr">useMongoClient</span>:<span class="literal">true</span>&#125;)</div><div class="line"><span class="built_in">console</span>.log(mongoose.connections.length)</div></pre></td></tr></table></figure></p>
+<h2 id="定义文档结构-Schema"><a href="#定义文档结构-Schema" class="headerlink" title="定义文档结构-Schema"></a>定义文档结构-Schema</h2><p>mongoDB的collection对应关系型数据库的table，collection是文档的集合，mongoose里的<code>Schema</code>就是用来定义文档的数据结构。<br>支持的数据类型称为<code>SchemaTypes</code>，分别是</p>
 <ul>
-<li>改文件的编码方式，与解码格式匹配</li>
-<li>该文件解析时的解码方式， 与编码格式匹配</li>
+<li>String</li>
+<li>Number</li>
+<li>Date</li>
+<li>Boolean</li>
+<li>Array</li>
+<li>Buffer</li>
+<li>ObjectId</li>
+<li>Mixed</li>
 </ul>
-<p>第一种是让数据的生产者去改，前面已经说过了，代价太大，成本过高，不切实际。<br>第二种就更头疼了，我也没办法让node支持GBK的转码啊。<br>因此，只能曲线救国了，中间加一层转码，得到用户的数据后先把它从GBK的码流转成utf8的码流，再进行解析操作，完美！</p>
-<h1 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h1><p>搜一下能将将gbk转成utf8格式的包，搜到一个<code>iconv-lite</code>, 测试可用。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> iconv = <span class="built_in">require</span>(<span class="string">'iconv-lite'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> readableStream = fs.createReadStream(remote)</div><div class="line"><span class="keyword">var</span> writableStream = fs.createWriteStream(local)</div><div class="line"></div><div class="line">readableStream.on(<span class="string">'data'</span>,(chunk)=&gt;&#123;</div><div class="line">    <span class="keyword">var</span> unicodeString = iconv.decode(chunk, <span class="string">'GBK'</span>)</div><div class="line">    <span class="keyword">var</span> buf = Buffer.from(unicodeString)</div><div class="line">    <span class="keyword">if</span> (!writableStream.write(buf)) &#123;</div><div class="line">        readableStream.pause()</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">writableStream.on(<span class="string">'drain'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    readableStream.resume()</div><div class="line">&#125;);</div><div class="line"></div><div class="line">readableStream.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    writableStream.end()</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>核心就两句，先将码流以GBK的解码方式解成字符串，这很符合逻辑，GBK编码，GBK解码。<br><code>var unicodeString = iconv.decode(chunk, &#39;GBK&#39;)</code><br>再将字符串再转换成utf8码流。<br><code>var buf = Buffer.from(unicodeString)</code><br>你没有猜错，Buffer.from默认utf8编码，node中的输出应该都是默认这样的操作。</p>
-<h1 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h1><p>这种写法必须保证数据来源必须始终是gbk编码的，如果提供了一个utf8编码的就会出问题，那怎么解决呢？说过了我也不懂。<br>但应该能很自然想到有没有一种方式判断文件的编码方式呢，尝试搜了一下，果然还是有的，测试可用。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs=<span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line"></div><div class="line">fs.readFile(<span class="string">'code.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,buffer</span>)</span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(buffer[<span class="number">0</span>]==<span class="number">0xff</span>&amp;&amp;buffer[<span class="number">1</span>]==<span class="number">0xfe</span>)&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'unicode'</span>)</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(buffer[<span class="number">0</span>]==<span class="number">0xfe</span>&amp;&amp;buffer[<span class="number">1</span>]==<span class="number">0xff</span>)&#123;</div><div class="line">   　　<span class="built_in">console</span>.log(<span class="string">'unicode big endian'</span>)</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(buffer[<span class="number">0</span>]==<span class="number">0xef</span>&amp;&amp;buffer[<span class="number">1</span>]==<span class="number">0xbb</span>)&#123;</div><div class="line">　　　 <span class="built_in">console</span>.log(<span class="string">'utf8'</span>)</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">   　　<span class="built_in">console</span>.log(<span class="string">'else'</span>)</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>差不多意思就是，文件开头的2个字节可以判断是utf8还是unicode，虽然没有GBK的判断方法，但排除法勉强能解决问题。<br>因此，之前的代码可以重构下，先判断文件编码格式，如果是utf8就不用转码了，如果不是那就认为是gbk，需要转码。<br>如果仍然出现了乱码问题，那就甩锅给用户，肯定是他们打开的方式不对，绝对不是我的bug！</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这次经历对编码、解码、转码的概念基本了解了。</p>
+<p>使用举例：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>);</div><div class="line"><span class="keyword">var</span> Schema = mongoose.Schema;</div><div class="line"></div><div class="line"><span class="keyword">var</span> blogSchema = <span class="keyword">new</span> Schema(&#123;</div><div class="line">  <span class="attr">title</span>:  &#123;<span class="attr">type</span>: <span class="built_in">String</span>, <span class="attr">index</span>: <span class="literal">true</span>&#125;,</div><div class="line">  <span class="attr">author</span>: <span class="built_in">String</span>,</div><div class="line">  <span class="attr">body</span>:   <span class="built_in">String</span>,</div><div class="line">  <span class="attr">comments</span>: [&#123; <span class="attr">body</span>: <span class="built_in">String</span>, <span class="attr">date</span>: <span class="built_in">Date</span> &#125;],</div><div class="line">  <span class="attr">date</span>: &#123; <span class="attr">type</span>: <span class="built_in">Date</span>, <span class="attr">default</span>: <span class="built_in">Date</span>.now &#125;,</div><div class="line">  <span class="attr">hidden</span>: <span class="built_in">Boolean</span>,</div><div class="line">  <span class="attr">meta</span>: &#123;</div><div class="line">    <span class="attr">votes</span>: <span class="built_in">Number</span>,</div><div class="line">    <span class="attr">fans</span>:  <span class="built_in">Number</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>除了定义文档结构，Schema还能定义文档实例方法，模型的静态方法，混合索引，虚拟属性，以及一些和文档生命周期有关的钩子。此处先不展开。</p>
+<h2 id="数据库模型-Model"><a href="#数据库模型-Model" class="headerlink" title="数据库模型-Model"></a>数据库模型-Model</h2><p>定义Schema后，需要将它编译成Model。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> schema = <span class="keyword">new</span> mongoose.Schema(&#123; <span class="attr">name</span>: <span class="string">'string'</span>, <span class="attr">size</span>: <span class="string">'string'</span> &#125;);</div><div class="line"><span class="keyword">var</span> Tank = mongoose.model(<span class="string">'Tank'</span>, schema);</div></pre></td></tr></table></figure></p>
+<p>Model是文档的构造函数，Model的实例即文档。<br>实例化方法有两种：</p>
 <ul>
-<li>编码：字符串-&gt; 码流</li>
-<li>解码：码流 -&gt; 字符串</li>
-<li>转码：码流 -&gt; 字符串 -&gt; 码流<br>也就是说目前还没有把一种编码格式的码流直接转成另一种的手段，只能用相应的解码方式先还原，再重新编码，这也是符合逻辑的。</li>
+<li>new 之后生成的实例使用save方法保存</li>
+<li>使用类方法create创建</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Tank = mongoose.model(modelName, yourSchema);</div><div class="line"></div><div class="line"><span class="keyword">var</span> small = <span class="keyword">new</span> Tank(&#123; <span class="attr">size</span>: <span class="string">'small'</span> &#125;);</div><div class="line">small.save(<span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (err) <span class="keyword">return</span> handleError(err);</div><div class="line">  <span class="comment">// saved!</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">// or</span></div><div class="line"></div><div class="line">Tank.create(&#123; <span class="attr">size</span>: <span class="string">'small'</span> &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">err, small</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (err) <span class="keyword">return</span> handleError(err);</div><div class="line">  <span class="comment">// saved!</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>需要特别说明的是：</p>
+<ul>
+<li>model的操作不会生效，直到与数据库的连接完成。这里也是异步没有出错的原因。</li>
+<li>如果使用默认连接需使用<code>mongoose.model()</code>，如果是自定义连接使用<code>connection&#39;s model()</code>，这是个挂载位置问题。</li>
+</ul>
+<p>具体的model实例对应一个<code>collection</code>,collection是文档的集合，每一个具体的文档对应一张数据表，可以映射为一个javascript对象。其链式关系大体为</p>
+<ul>
+<li>db -&gt; collections</li>
+<li>collection -&gt; docs</li>
+<li>doc -&gt; js Object (mongoose.Document instance)</li>
+</ul>
+<h2 id="数据库操作-CRUD"><a href="#数据库操作-CRUD" class="headerlink" title="数据库操作-CRUD"></a>数据库操作-CRUD</h2><p>每个数据库都会有增改删查的操作，对应mongodb而言，操作的主要分两类</p>
+<ul>
+<li>collection 层的批量操作</li>
+<li>doc 层的具体操作<br>如果是第一类操作，所有方法都是基于model的，例如：<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">model.create() <span class="comment">//给该collection创建一个或多个新的doc</span></div><div class="line">model.remove() <span class="comment">//删除一个或多个符合条件的doc</span></div><div class="line">model.find()   <span class="comment">//查找，返回一个docs数组</span></div><div class="line">model.update() <span class="comment">//更新一个或多个doc</span></div><div class="line">model.count() <span class="comment">//统计该collection下docs的数量</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>如果是基于单个doc的操作，一些常用的方法有<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">doc.remove() <span class="comment">//删除该文档</span></div><div class="line">doc.save() <span class="comment">//更改后的保存</span></div><div class="line">doc.update() <span class="comment">//更新</span></div><div class="line">doc.toObject() <span class="comment">//将文档转为纯javascript对象，转化后就不再有save等方法</span></div><div class="line">doc.id  <span class="comment">//获取文档元素</span></div></pre></td></tr></table></figure></p>
+<p>不同的操作层级有类似的操作方法，但是作用的对象不同，逻辑上需辨别清楚。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>一切的数据库操作都是建立在与数据库的连接上，所有文章开头详细描述了mongoose对于与mongodb连接的管理</li>
+<li>schema和model的意义及使用</li>
+<li>数据库操作可以理解为是先获取对应的对象，随后调用对应的操作方法</li>
 </ul>
 
       
@@ -475,7 +503,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://xu-li.cn/2017/09/03/node_encoding/" title="Node.js 中的编码问题">http://xu-li.cn/2017/09/03/node_encoding/</a>
+    <a href="http://xu-li.cn/2017/11/15/mongoose/" title="Mongoose入门总结">http://xu-li.cn/2017/11/15/mongoose/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -490,9 +518,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Node-js/" <i class="fa fa-tag"></i> Node.js</a>
+            <a href="/tags/mongoose/" <i class="fa fa-tag"></i> mongoose</a>
           
-            <a href="/tags/encoding/" <i class="fa fa-tag"></i> encoding</a>
+            <a href="/tags/mongodb/" <i class="fa fa-tag"></i> mongodb</a>
           
         </div>
       
@@ -505,8 +533,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/01/events-final/" rel="next" title="Node.js events模块(下)">
-                <i class="fa fa-chevron-left"></i> Node.js events模块(下)
+              <a href="/2017/11/05/shell/" rel="next" title="shell script">
+                <i class="fa fa-chevron-left"></i> shell script
               </a>
             
           </div>
@@ -514,10 +542,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/04/express-basic/" rel="prev" title="express框架学习(上)">
-                express框架学习(上) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -691,7 +715,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#浅谈编码"><span class="nav-number">1.</span> <span class="nav-text">浅谈编码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#从源头解决问题"><span class="nav-number">2.</span> <span class="nav-text">从源头解决问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实践"><span class="nav-number">3.</span> <span class="nav-text">实践</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tips"><span class="nav-number">4.</span> <span class="nav-text">tips</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#连接数据库-Connection"><span class="nav-number">1.</span> <span class="nav-text">连接数据库-Connection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义文档结构-Schema"><span class="nav-number">2.</span> <span class="nav-text">定义文档结构-Schema</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库模型-Model"><span class="nav-number">3.</span> <span class="nav-text">数据库模型-Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库操作-CRUD"><span class="nav-number">4.</span> <span class="nav-text">数据库操作-CRUD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
