@@ -56,6 +56,50 @@
 
 
 
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
 
 
 
@@ -85,7 +129,7 @@
 <meta name="description" content="share a story I just wrote with you">
 <meta property="og:type" content="website">
 <meta property="og:title" content="pandaQ&#39;s Site">
-<meta property="og:url" content="http://xu-li.cn/tags/JavaScript/index.html">
+<meta property="og:url" content="http://xu-li.cn/tags/javaScript/index.html">
 <meta property="og:site_name" content="pandaQ&#39;s Site">
 <meta property="og:description" content="share a story I just wrote with you">
 <meta name="twitter:card" content="summary">
@@ -120,13 +164,13 @@
 
 
 
-  <link rel="canonical" href="http://xu-li.cn/tags/JavaScript/"/>
+  <link rel="canonical" href="http://xu-li.cn/tags/javaScript/"/>
 
 
 
 
 
-  <title>标签: JavaScript | pandaQ's Site</title>
+  <title>标签: javaScript | pandaQ's Site</title>
   
 
 
@@ -297,7 +341,7 @@
 
     <div id="posts" class="posts-collapse">
       <div class="collection-title">
-        <h2>JavaScript<small>标签</small>
+        <h2>javaScript<small>标签</small>
         </h2>
       </div>
 
@@ -309,37 +353,9 @@
 
       <h3 class="post-title">
         
-            <a class="post-title-link" href="/2017/07/11/js-Object/" itemprop="url">
+            <a class="post-title-link" href="/2017/12/21/promise/" itemprop="url">
               
-                <span itemprop="name">JavaScript Object</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-11T20:50:38+08:00"
-              content="2017-07-11" >
-          07-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/05/18/arrow_function/" itemprop="url">
-              
-                <span itemprop="name">JavaScript箭头函数</span>
+                <span itemprop="name">Promise</span>
               
             </a>
         
@@ -347,9 +363,9 @@
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
-              datetime="2017-05-18T20:50:38+08:00"
-              content="2017-05-18" >
-          05-18
+              datetime="2017-12-21T21:15:27+08:00"
+              content="2017-12-21" >
+          12-21
         </time>
       </div>
 
@@ -414,7 +430,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -425,7 +441,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -436,7 +452,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -528,7 +544,7 @@
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
     <span title="Site words total count">
-      24.3k
+      37.2k
     </span>
   
 </div>
@@ -985,6 +1001,47 @@
 
     // handle and trigger popup window;
     $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
+ction(e) {
       e.stopPropagation();
       if (isfetched === false) {
         searchFunc(path, 'local-search-input', 'local-search-result');

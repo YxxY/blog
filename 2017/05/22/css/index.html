@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="css," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="pandaQ's Site" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="总结过了html，自然不能少了css，同样我几乎没系统看过，虽然我一直知道css不简单，手写css是需要过硬基础的，本文重点记录学习过程中的基础内容，可供需要时查阅。">
+<meta name="keywords" content="css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS">
+<meta property="og:url" content="http://xu-li.cn/2017/05/22/css/index.html">
+<meta property="og:site_name" content="pandaQ&#39;s Site">
+<meta property="og:description" content="总结过了html，自然不能少了css，同样我几乎没系统看过，虽然我一直知道css不简单，手写css是需要过硬基础的，本文重点记录学习过程中的基础内容，可供需要时查阅。">
+<meta property="og:updated_time" content="2017-12-24T14:10:14.166Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS">
+<meta name="twitter:description" content="总结过了html，自然不能少了css，同样我几乎没系统看过，虽然我一直知道css不简单，手写css是需要过硬基础的，本文重点记录学习过程中的基础内容，可供需要时查阅。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.2',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideUpIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '作者'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xu-li.cn/2017/05/22/css/"/>
+
+
+
+
+
+  <title>CSS | pandaQ's Site</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+      <div class="site-meta-headline">
+        <a>
+          <img class="custom-logo-image" src="http://opxo4bto2.bkt.clouddn.com/me.jpg"
+               alt="pandaQ's Site"/>
+        </a>
+      </div>
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">pandaQ's Site</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">May the force be with you</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xu-li.cn/2017/05/22/css/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pandaQ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pandaQ's Site">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">CSS</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-22T21:32:27+08:00">
+                2017-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index">
+                    <span itemprop="name">CSS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye">阅读次数:</i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,747
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  12
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>总结过了html，自然不能少了css，同样我几乎没系统看过，虽然我一直知道css不简单，手写css是需要过硬基础的，本文重点记录学习过程中的基础内容，可供需要时查阅。<br><a id="more"></a></p>
+<h2 id="作用及使用"><a href="#作用及使用" class="headerlink" title="作用及使用"></a>作用及使用</h2><h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>css作为视图层决定了网页的展现方式，html决定了内容，css则决定了内容的呈现方式。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>css有三种使用方式</p>
+<ul>
+<li>inline 通过元素的<code>style</code>属性定义</li>
+<li>internal 通过页面头部中的<code>&lt;style&gt;</code>元素定义</li>
+<li>external 通过页面头部中的<code>&lt;link&gt;</code>元素链接一个外部的样式表</li>
+</ul>
+<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><p><code>selector {property: value; ...}</code><br>eg:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">h1</span> &#123;</div><div class="line">    <span class="attribute">color</span>: blue;</div><div class="line">    <span class="attribute">font-size</span>: <span class="number">12px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>selector - 选择器，指向要渲染的元素</li>
+<li>property - css属性</li>
+<li>value - css属性值</li>
+<li>定义多个属性时用<code>分号</code>分隔</li>
+</ul>
+<h2 id="css-selectors"><a href="#css-selectors" class="headerlink" title="css selectors"></a>css selectors</h2><p>css的选择器是基于目标元素的元素名、id、类、元素属性等特征，找出所有符合条件的元素。</p>
+<ul>
+<li>id selector <code>#id {property:value;}</code></li>
+<li>class selector <code>.class {property:value;}</code></li>
+<li>element selector <code>elementName {property:value;}</code></li>
+<li><p>当然也能混合使用定位到具体的的元素，例如<code>p.center {text-align: center}</code>。即定位到类为center的p元素</p>
+</li>
+<li><p>group selectors 当某些元素的样式相同是可以一起定义，去除重复代码，例如</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">h1</span>, <span class="selector-tag">h2</span>, <span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="attribute">text-align</span>: center;</div><div class="line">    <span class="attribute">color</span>: red;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="css-属性"><a href="#css-属性" class="headerlink" title="css 属性"></a>css 属性</h2><p>css属性如同html元素，数量较多，但各司其职。</p>
+<h3 id="color"><a href="#color" class="headerlink" title="color"></a>color</h3><p>颜色有三种表示方式：</p>
+<ol>
+<li>颜色名， 类似于<code>red</code>, <code>green</code>等，html和css支持140种标准颜色名</li>
+<li>RGB， eg:<code>rgb(255,0,0)</code></li>
+<li>十六进制表示， eg:<code>#FF0000</code></li>
+</ol>
+<p>css3则新增了更多的表示方法，常用的有</p>
+<ul>
+<li>RGBA, eg:<code>rgba(255, 0, 0, 0.2);</code>最后一个值的范围是<code>0.0-1.0</code>,代表透明度，0代表完全透明，1表示纯色</li>
+</ul>
+<h3 id="backgrounds"><a href="#backgrounds" class="headerlink" title="backgrounds"></a>backgrounds</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#ffffff</span> <span class="built_in">url</span>(<span class="string">"img_tree.png"</span>) no-repeat fixed right top;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>示例为简写的方式，<code>background</code>的属性值的属性名依次是：</p>
+<ul>
+<li><code>background-color</code></li>
+<li><code>background-image</code>  (url(‘URL))</li>
+<li><code>background-repeat</code> (repeat/repeat-x/repeat-y/no-repeat/initial/inherit default repeat)</li>
+<li><code>background-attachment</code> (fixed/scroll, default scroll)</li>
+<li><code>background-position</code></li>
+</ul>
+<h3 id="borders"><a href="#borders" class="headerlink" title="borders"></a>borders</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="attribute">border</span>: <span class="number">5px</span> solid red;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>示例为简写的方式，<code>border</code>的属性值的属性名依次是：</p>
+<ul>
+<li><code>border-width</code></li>
+<li><code>border-style</code> (required)</li>
+<li><code>border-color</code></li>
+</ul>
+<h3 id="margins"><a href="#margins" class="headerlink" title="margins"></a>margins</h3><p>在盒模型中指包围在元素border外层的空间</p>
+<ul>
+<li>简写赋值依次是<code>顺时针上右下左</code></li>
+<li><code>auto</code> 的赋值可以让元素水平居中<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span> &#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">300px</span>;</div><div class="line">    <span class="attribute">margin</span>: auto;</div><div class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid red;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>此时的<code>auto</code>等同于<code>0 auto</code>,让水平方向的margin相等从而实现居中的效果</p>
+<h3 id="padding"><a href="#padding" class="headerlink" title="padding"></a>padding</h3><p>在盒模型中指元素内容和元素border之间的填充</p>
+<ul>
+<li>赋值方式和margin类似</li>
+</ul>
+<h3 id="height-width"><a href="#height-width" class="headerlink" title="height/width"></a>height/width</h3><p>设置元素的宽高，默认值是<code>auto</code>,即让浏览器自行计算占据的宽高，但也可以自定义<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">500px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">border</span>: <span class="number">3px</span> solid <span class="number">#73AD21</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>还有其他一些设置方法，以<code>width</code>举例</p>
+<ul>
+<li><code>max-width</code> 设置最大宽度，默认值是<code>none</code>,即不存在最大宽度。</li>
+<li><code>max-width</code> 覆盖<code>width</code>的值</li>
+<li>使用<code>width</code>时当窗口小于设置宽度时会自动添加滚动条，用<code>max-width</code>则不会产生</li>
+<li><code>min-width</code> 设置元素最小宽度，覆盖<code>max-width</code>、<code>width</code>的值</li>
+</ul>
+<h4 id="盒模型"><a href="#盒模型" class="headerlink" title="盒模型"></a>盒模型</h4><p>低版本的IE浏览器中，盒模型的<code>width</code> = <code>content_width</code> + <code>padding-left</code> + <code>padding-right</code> + <code>border</code>*2。<code>height</code>也类似包括了padding和border</p>
+<p>而标准的w3c盒模型<code>width</code> = <code>content_width</code>， <code>height</code> = <code>content_height</code></p>
+<p>在html中添加<code>DOCTYPE</code>的值，告诉浏览器以w3c的标准去解析盒模型</p>
+<h3 id="text"><a href="#text" class="headerlink" title="text"></a>text</h3><p>定义文本样式。</p>
+<ul>
+<li>网页的默认文本样式定义在<code>body</code>选择器上。例如，设置body的color为red，那页面所有文本颜色均为红色了。</li>
+</ul>
+<h4 id="text-align"><a href="#text-align" class="headerlink" title="text-align"></a>text-align</h4><p>设置文本的水平对其方式，可选值有</p>
+<ul>
+<li>center</li>
+<li>left</li>
+<li>right</li>
+<li>justify - 使得每一行宽度相同，如同报纸里的内容展示那样。</li>
+</ul>
+<h4 id="text-decoration"><a href="#text-decoration" class="headerlink" title="text-decoration"></a>text-decoration</h4><p>装饰文本。一般设置值为<code>none</code>，用来去除<code>&lt;a&gt;</code>链接的下划线。<br>一般可选值还有：</p>
+<ul>
+<li>overline</li>
+<li>underline</li>
+<li>line-through</li>
+</ul>
+<h4 id="text-transform"><a href="#text-transform" class="headerlink" title="text-transform"></a>text-transform</h4><p>文本转换，一般用来转换大小写。</p>
+<ul>
+<li>uppercase</li>
+<li>lowercase</li>
+<li>capitalize (每个单词首字母大写)</li>
+</ul>
+<h4 id="text-indent"><a href="#text-indent" class="headerlink" title="text-indent"></a>text-indent</h4><p>首行缩进。<br>eg:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="attribute">text-indent</span>: <span class="number">50px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="letter-spacing"><a href="#letter-spacing" class="headerlink" title="letter-spacing"></a>letter-spacing</h4><p>词间隔。<br>eg:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">h1</span> &#123;</div><div class="line">    <span class="attribute">letter-spacing</span>: <span class="number">3px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">h2</span> &#123;</div><div class="line">    <span class="attribute">letter-spacing</span>: -<span class="number">3px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="word-spacing"><a href="#word-spacing" class="headerlink" title="word-spacing"></a>word-spacing</h4><p>字间隔。<br>eg:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">h1</span> &#123;</div><div class="line">    <span class="attribute">word-spacing</span>: <span class="number">10px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">h2</span> &#123;</div><div class="line">    <span class="attribute">word-spacing</span>: -<span class="number">5px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="Fonts"><a href="#Fonts" class="headerlink" title="Fonts"></a>Fonts</h3><p>定义字体的字体族，宽度, 以及字体风格。</p>
+<h4 id="font-family"><a href="#font-family" class="headerlink" title="font-family"></a>font-family</h4><p>字体族分两类</p>
+<ul>
+<li>Generic family：一组风格差不多的字体组成, 如<code>Serif</code></li>
+<li>font family：单个拥有具体名字的字体，如<code>Times New Roman</code></li>
+</ul>
+<p>赋值时一般设置多个字体名，用作回退。一般最后一个会设置为<code>Generic family</code>类字体族,防止前面的一个均为匹配上，系统会从一组中选一个近似的选择。eg:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="comment">/* 有空格时需加引号 */</span></div><div class="line">    <span class="attribute">font-family</span>: <span class="string">"Times New Roman"</span>, Times, Serif;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="font-style"><a href="#font-style" class="headerlink" title="font-style"></a>font-style</h4><p>字体风格，一般为正常字体或斜体</p>
+<ul>
+<li>normal</li>
+<li>italic</li>
+</ul>
+<h4 id="font-size"><a href="#font-size" class="headerlink" title="font-size"></a>font-size</h4><p>设置字体大小</p>
+<h4 id="font-weight"><a href="#font-weight" class="headerlink" title="font-weight"></a>font-weight</h4><p>设置字体的粗细，一般为正常字体或粗体</p>
+<ul>
+<li>normal</li>
+<li>bold</li>
+</ul>
+<h4 id="shorthand-font-property"><a href="#shorthand-font-property" class="headerlink" title="shorthand font property"></a>shorthand font property</h4><p>依次顺序为</p>
+<ul>
+<li>font-style,</li>
+<li>font-variant ,</li>
+<li>font-weight ,</li>
+<li>font-size/line-height ,</li>
+<li>font-family</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="attribute">font</span>: italic bold <span class="number">12px</span>/<span class="number">30px</span> Georgia, serif;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h3><h4 id="links-state"><a href="#links-state" class="headerlink" title="links state"></a>links state</h4><ul>
+<li>a:link - a normal, unvisited link</li>
+<li>a:visited - a link the user has visited</li>
+<li>a:hover - a link when the user mouses over it</li>
+<li>a:active - a link the moment it is clicked</li>
+</ul>
+<p>tips:</p>
+<ul>
+<li>a:hover MUST come after a:link and a:visited</li>
+<li>a:active MUST come after a:hover</li>
+</ul>
+<h4 id="links-buttons"><a href="#links-buttons" class="headerlink" title="links buttons"></a>links buttons</h4><p>链接设置成按钮是多个属性的组合<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:link</span>, <span class="selector-tag">a</span><span class="selector-pseudo">:visited</span> &#123;</div><div class="line">    <span class="attribute">background-color</span>: <span class="number">#f44336</span>;</div><div class="line">    <span class="attribute">color</span>: white;</div><div class="line">    <span class="attribute">padding</span>: <span class="number">14px</span> <span class="number">25px</span>;</div><div class="line">    <span class="attribute">text-align</span>: center; </div><div class="line">    <span class="attribute">text-decoration</span>: none;</div><div class="line">    <span class="attribute">display</span>: inline-block;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>, <span class="selector-tag">a</span><span class="selector-pseudo">:active</span> &#123;</div><div class="line">    <span class="attribute">background-color</span>: red;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="Lists"><a href="#Lists" class="headerlink" title="Lists"></a>Lists</h3><h4 id="list-style-type"><a href="#list-style-type" class="headerlink" title="list-style-type"></a>list-style-type</h4><p>列表风格，可选值有</p>
+<ul>
+<li>circle</li>
+<li>square</li>
+<li>upper-roman</li>
+<li>lower-roman</li>
+<li>lower-alpha</li>
+<li>upper-alpha</li>
+</ul>
+<p>也可以使用自定义图片<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">ul</span> &#123;</div><div class="line">    <span class="attribute">list-style-image</span>: <span class="built_in">url</span>(<span class="string">'sqpurple.gif'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="list-style-position"><a href="#list-style-position" class="headerlink" title="list-style-position"></a>list-style-position</h4><p>定义列表项的位置, 展示缩进效果，可选值有</p>
+<ul>
+<li>inside</li>
+<li>outside （default）</li>
+</ul>
+<h4 id="shorthand-property"><a href="#shorthand-property" class="headerlink" title="shorthand property"></a>shorthand property</h4><p><code>list-style</code> 代表一下属性的顺序值</p>
+<ul>
+<li>list-style-type</li>
+<li>list-style-position</li>
+<li>list-style-image<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">ul</span> &#123;</div><div class="line">    <span class="attribute">list-style</span>: square inside <span class="built_in">url</span>(<span class="string">"sqpurple.gif"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Display"><a href="#Display" class="headerlink" title="Display"></a>Display</h3><p>控制元素的布局。<code>display</code>默认值一般为<code>block</code>或<code>inline</code>。</p>
+<p>Block-level Elements example:</p>
+<ul>
+<li><code>&lt;div&gt;</code></li>
+<li><code>&lt;h1&gt; - &lt;h6&gt;</code></li>
+<li><code>&lt;p&gt;</code></li>
+<li><code>&lt;li&gt;</code></li>
+<li><code>&lt;form&gt;</code></li>
+<li><code>&lt;header&gt;</code></li>
+<li><code>&lt;footer&gt;</code></li>
+<li><code>&lt;section&gt;</code></li>
+</ul>
+<p>Inline Elements example:</p>
+<ul>
+<li><code>&lt;span&gt;</code></li>
+<li><code>&lt;a&gt;</code></li>
+<li><code>&lt;img&gt;</code></li>
+</ul>
+<h4 id="Override-The-Default-Display-Value"><a href="#Override-The-Default-Display-Value" class="headerlink" title="Override The Default Display Value"></a>Override The Default Display Value</h4><p>每个元素都有默认的显示值，但为了到达某种效果，也可以改写。<br>eg: 将分行的列表改为水平菜单<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">li</span> &#123;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>同理也可以将<code>inline</code>元素改写为<code>block</code>显示</p>
+<h4 id="display-none"><a href="#display-none" class="headerlink" title="display:none"></a>display:none</h4><p>不显示某元素有两种方式</p>
+<ul>
+<li>display:none</li>
+<li>visibility:hidden</li>
+</ul>
+<p>区别在于前者不占据空间，后者仍然占据着位置只是不显示</p>
+<h4 id="Inline-block"><a href="#Inline-block" class="headerlink" title="Inline-block"></a>Inline-block</h4><p><code>display: inline-block</code>让块级元素inline展示。</p>
+<h3 id="Position"><a href="#Position" class="headerlink" title="Position"></a>Position</h3><p>元素定位。<code>position</code>可选值有</p>
+<ul>
+<li>static (default)</li>
+<li>relative</li>
+<li>fixed</li>
+<li>absolute</li>
+</ul>
+<p>先设置position，再配合<code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>等定位方法的值，可实现元素的定位</p>
+<h4 id="static"><a href="#static" class="headerlink" title="static"></a>static</h4><p>网页元素默认都是<code>static</code>的。<br>它的位置不受<code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>定位方法的影响。</p>
+<h4 id="relative"><a href="#relative" class="headerlink" title="relative"></a>relative</h4><p>位置设为<code>relative</code>后，它的位置可相对它原来的位置变化。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span><span class="selector-class">.relative</span> &#123;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">top</span>: <span class="number">5px</span>;</div><div class="line">    <span class="attribute">border</span>: <span class="number">3px</span> solid <span class="number">#73AD21</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>此时，div的位置会相对原来<code>下移</code>5px。</p>
+<h4 id="fixed"><a href="#fixed" class="headerlink" title="fixed"></a>fixed</h4><p>位置设为<code>fixed</code>后，元素相对页面的位置将不再改变即使页面发生滚动，常见的应用场景有页面下拉时产生一个“回到顶部”的按钮。<br>此时的<code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>都是用来辅助定位的， 一般使用其中的两个即可完成定位。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span><span class="selector-class">.fixed</span> &#123;</div><div class="line">    <span class="attribute">position</span>: fixed;</div><div class="line">    <span class="attribute">bottom</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">right</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">300px</span>;</div><div class="line">    <span class="attribute">border</span>: <span class="number">3px</span> solid <span class="number">#73AD21</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>例子中的div元素会被定位到右下角位置。</p>
+<h4 id="absolute"><a href="#absolute" class="headerlink" title="absolute"></a>absolute</h4><p>位置设为<code>absolute</code>后，元素的定位会相对它最近的已被定位(not static)的父元素，而不是像<code>fixed</code>那样相对于整个页面。然而如果不存在已被定位的父元素，就是使用文档的body，它就将随着页面滚动而变化。此时的<code>top</code> 等方法也是协助定位的。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span><span class="selector-class">.absolute</span> &#123;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">top</span>: <span class="number">80px</span>;</div><div class="line">    <span class="attribute">right</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">border</span>: <span class="number">3px</span> solid <span class="number">#73AD21</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>此时相对父元素下移80px,右侧与父元素重合。</p>
+<h4 id="Overlapping-Elements"><a href="#Overlapping-Elements" class="headerlink" title="Overlapping Elements"></a>Overlapping Elements</h4><p>重叠元素的位置设置使用<code>z-index</code>属性。值越大优先显示在上层。<br>如果重叠元素没有设置<code>z-index</code>属性，那么最后定位的元素将被显示在最顶部。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">left</span>: <span class="number">0px</span>;</div><div class="line">    <span class="attribute">top</span>: <span class="number">0px</span>;</div><div class="line">    <span class="attribute">z-index</span>: -<span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="overflow"><a href="#overflow" class="headerlink" title="overflow"></a>overflow</h4><p>设置当元素内容超过元素边界的行为，一般可选值为</p>
+<ul>
+<li>hidden 不显示</li>
+<li>scroll 横竖均显示滚动条</li>
+<li>auto 自动显示滚动条</li>
+</ul>
+<h3 id="Float"><a href="#Float" class="headerlink" title="Float"></a>Float</h3><p><code>float</code>决定元素是否应该浮动，与之对应的有<code>clear</code>,用来清除浮动。<br>tip： </p>
+<ul>
+<li>float 只是水平方向的控制。</li>
+<li>使用float通常设置body的margin和padding为0以避免浏览器视图差异。</li>
+<li>IE8及更低版本在使用float时会在右侧预留17px的margin滚动条空间，所以需设置<code>!DOCTYPE</code> 防止差异，原因和盒模型的差异相同。<h4 id="float"><a href="#float" class="headerlink" title="float"></a>float</h4>可选值有<code>left</code>或<code>right</code><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">    <span class="attribute">float</span>: right;</div><div class="line">    <span class="attribute">margin</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">10px</span> <span class="number">10px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="clear"><a href="#clear" class="headerlink" title="clear"></a>clear</h4><p>浮动会产生内容重叠，使用clear可产生换行避免该问题。</p>
+<h4 id="clearfix"><a href="#clearfix" class="headerlink" title="clearfix"></a>clearfix</h4><p>当一个元素高于它的容器，且该元素浮动，则显示时会溢出容器，此时给容器添加<code>overflow: auto</code>，可解决该问题。</p>
+<h3 id="Align"><a href="#Align" class="headerlink" title="Align"></a>Align</h3><ul>
+<li>块元素水平居中，使用<code>margin: auto;</code></li>
+<li>块元素内容居中，使用<code>text-align: center</code></li>
+<li>居左或居右，使用<code>postition</code>以及<code>left</code>/<code>right</code>或<code>float</code></li>
+</ul>
+<h3 id="Combinators"><a href="#Combinators" class="headerlink" title="Combinators"></a>Combinators</h3><p>连接符，用来描述选择器之间的关系。<br>css3中有四种连接符：</p>
+<ul>
+<li>descendant selector (space)</li>
+<li>child selector (&gt;)</li>
+<li>adjacent sibling selector (+) </li>
+<li>general sibling selector (~)</li>
+</ul>
+<p>eg：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* div下所有的p元素 */</span></div><div class="line"><span class="selector-tag">div</span> <span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="attribute">background-color</span>: yellow;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* div下所有的p子元素 */</span></div><div class="line"><span class="selector-tag">div</span> &gt; <span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="attribute">background-color</span>: yellow;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* div后第一个p元素 */</span></div><div class="line"><span class="selector-tag">div</span> + <span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="attribute">background-color</span>: yellow;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* div后所有的p元素 */</span></div><div class="line"><span class="selector-tag">div</span> ~ <span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="attribute">background-color</span>: yellow;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="Pseudo-classes"><a href="#Pseudo-classes" class="headerlink" title="Pseudo-classes"></a>Pseudo-classes</h3><p>伪类，定义元素的不同状态。<br>语法为<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">selector</span><span class="selector-pseudo">:pseudo-class</span> &#123;</div><div class="line">    <span class="attribute">property</span>:value;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>hover，常用于<code>&lt;a&gt;</code>,也可用于其他元素</li>
+<li>first-child, 第一个元素</li>
+<li>last-child, 最后一个元素</li>
+<li>nth-child(n), 第n个元素</li>
+</ul>
+<h3 id="Pseudo-elements"><a href="#Pseudo-elements" class="headerlink" title="Pseudo-elements"></a>Pseudo-elements</h3><p>伪元素，通常用作修饰某一元素的特定部分。<br>语法为,区别于伪类，使用双引号<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">selector</span><span class="selector-pseudo">::pseudo-element</span> &#123;</div><div class="line">    <span class="attribute">property</span>:value;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>first-line, 修饰第一行</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">::first-line</span> &#123;</div><div class="line">    <span class="attribute">color</span>: <span class="number">#ff0000</span>;</div><div class="line">    <span class="attribute">font-variant</span>: small-caps;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>first-letter, 修饰第一个字母</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">::first-letter</span> &#123;</div><div class="line">    <span class="attribute">color</span>: <span class="number">#ff0000</span>;</div><div class="line">    <span class="attribute">font-size</span>: xx-large;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>before, 在元素前插入一些内容</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">h1</span><span class="selector-pseudo">::before</span> &#123;</div><div class="line">    <span class="attribute">content</span>: <span class="built_in">url</span>(smiley.gif);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>after, 在元素后插入一些内容</li>
+<li>selection, 改变选中文本的风格<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 选中文本为颜色为红色，背景为黄色 */</span></div><div class="line"><span class="selector-pseudo">::selection</span> &#123;</div><div class="line">    <span class="attribute">color</span>: red; </div><div class="line">    <span class="attribute">background</span>: yellow;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* Code for Firefox */</span></div><div class="line"><span class="selector-pseudo">::-moz-selection</span> &#123; </div><div class="line">    <span class="attribute">color</span>: red;</div><div class="line">    <span class="attribute">background</span>: yellow;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* IE8及以下版本不支持该属性 */</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Attribute-Selectors"><a href="#Attribute-Selectors" class="headerlink" title="Attribute Selectors"></a>Attribute Selectors</h3><ul>
+<li>CSS [attribute] Selector</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 仅选中包含target属性的a元素 */</span></div><div class="line"><span class="selector-tag">a</span><span class="selector-attr">[target]</span> &#123;</div><div class="line">    <span class="attribute">background-color</span>: yellow;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>CSS [attribute=”value”] Selector</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span><span class="selector-attr">[target="_blank"]</span> &#123; </div><div class="line">    <span class="attribute">background-color</span>: yellow;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>CSS [attribute~=”value”] Selector, 属性值包含某个具体值，The value has to be <code>a whole word</code></li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 选中title中包含"flower"的元素 */</span></div><div class="line"><span class="selector-attr">[title~="flower"]</span> &#123;</div><div class="line">    <span class="attribute">border</span>: <span class="number">5px</span> solid yellow;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>CSS [attribute|=”value”] Selector, 起始值匹配，The value has to be <code>a whole word</code></li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 选中class起始值为top的元素 */</span></div><div class="line"><span class="comment">/* 不会匹配class="topclass"的元素*/</span></div><div class="line"><span class="selector-attr">[class|="top"]</span> &#123;</div><div class="line">    <span class="attribute">background</span>: yellow;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>CSS [attribute^=”value”] Selector，起始值匹配，起始值包含value值即可。</li>
+<li>CSS [attribute$=”value”] Selector，结束值匹配。</li>
+<li>CSS [attribute*=”value”] Selector，全位置匹配，包含value值即可</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    pandaQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://xu-li.cn/2017/05/22/css/" title="CSS">http://xu-li.cn/2017/05/22/css/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/css/" <i class="fa fa-tag"></i> css</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/21/html/" rel="next" title="HTML">
+                <i class="fa fa-chevron-left"></i> HTML
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/23/bootstrap/" rel="prev" title="Bootstrap">
+                Bootstrap <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="pandaQ" />
+          
+            <p class="site-author-name" itemprop="name">pandaQ</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yxxy" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i></a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Lx89757@126.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i></a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cqumzh.cn/bbs/frame.php" title="民主湖论坛" target="_blank">民主湖论坛</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#作用及使用"><span class="nav-number">1.</span> <span class="nav-text">作用及使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">1.1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用"><span class="nav-number">1.2.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法规则"><span class="nav-number">2.</span> <span class="nav-text">语法规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#css-selectors"><span class="nav-number">3.</span> <span class="nav-text">css selectors</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#css-属性"><span class="nav-number">4.</span> <span class="nav-text">css 属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#color"><span class="nav-number">4.1.</span> <span class="nav-text">color</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#backgrounds"><span class="nav-number">4.2.</span> <span class="nav-text">backgrounds</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#borders"><span class="nav-number">4.3.</span> <span class="nav-text">borders</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#margins"><span class="nav-number">4.4.</span> <span class="nav-text">margins</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#padding"><span class="nav-number">4.5.</span> <span class="nav-text">padding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#height-width"><span class="nav-number">4.6.</span> <span class="nav-text">height/width</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#盒模型"><span class="nav-number">4.6.1.</span> <span class="nav-text">盒模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#text"><span class="nav-number">4.7.</span> <span class="nav-text">text</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#text-align"><span class="nav-number">4.7.1.</span> <span class="nav-text">text-align</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#text-decoration"><span class="nav-number">4.7.2.</span> <span class="nav-text">text-decoration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#text-transform"><span class="nav-number">4.7.3.</span> <span class="nav-text">text-transform</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#text-indent"><span class="nav-number">4.7.4.</span> <span class="nav-text">text-indent</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#letter-spacing"><span class="nav-number">4.7.5.</span> <span class="nav-text">letter-spacing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#word-spacing"><span class="nav-number">4.7.6.</span> <span class="nav-text">word-spacing</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fonts"><span class="nav-number">4.8.</span> <span class="nav-text">Fonts</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#font-family"><span class="nav-number">4.8.1.</span> <span class="nav-text">font-family</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#font-style"><span class="nav-number">4.8.2.</span> <span class="nav-text">font-style</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#font-size"><span class="nav-number">4.8.3.</span> <span class="nav-text">font-size</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#font-weight"><span class="nav-number">4.8.4.</span> <span class="nav-text">font-weight</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shorthand-font-property"><span class="nav-number">4.8.5.</span> <span class="nav-text">shorthand font property</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Links"><span class="nav-number">4.9.</span> <span class="nav-text">Links</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#links-state"><span class="nav-number">4.9.1.</span> <span class="nav-text">links state</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#links-buttons"><span class="nav-number">4.9.2.</span> <span class="nav-text">links buttons</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lists"><span class="nav-number">4.10.</span> <span class="nav-text">Lists</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#list-style-type"><span class="nav-number">4.10.1.</span> <span class="nav-text">list-style-type</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#list-style-position"><span class="nav-number">4.10.2.</span> <span class="nav-text">list-style-position</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shorthand-property"><span class="nav-number">4.10.3.</span> <span class="nav-text">shorthand property</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Display"><span class="nav-number">4.11.</span> <span class="nav-text">Display</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Override-The-Default-Display-Value"><span class="nav-number">4.11.1.</span> <span class="nav-text">Override The Default Display Value</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#display-none"><span class="nav-number">4.11.2.</span> <span class="nav-text">display:none</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Inline-block"><span class="nav-number">4.11.3.</span> <span class="nav-text">Inline-block</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Position"><span class="nav-number">4.12.</span> <span class="nav-text">Position</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#static"><span class="nav-number">4.12.1.</span> <span class="nav-text">static</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#relative"><span class="nav-number">4.12.2.</span> <span class="nav-text">relative</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fixed"><span class="nav-number">4.12.3.</span> <span class="nav-text">fixed</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#absolute"><span class="nav-number">4.12.4.</span> <span class="nav-text">absolute</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Overlapping-Elements"><span class="nav-number">4.12.5.</span> <span class="nav-text">Overlapping Elements</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#overflow"><span class="nav-number">4.12.6.</span> <span class="nav-text">overflow</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Float"><span class="nav-number">4.13.</span> <span class="nav-text">Float</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#float"><span class="nav-number">4.13.1.</span> <span class="nav-text">float</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#clear"><span class="nav-number">4.13.2.</span> <span class="nav-text">clear</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#clearfix"><span class="nav-number">4.13.3.</span> <span class="nav-text">clearfix</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Align"><span class="nav-number">4.14.</span> <span class="nav-text">Align</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combinators"><span class="nav-number">4.15.</span> <span class="nav-text">Combinators</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pseudo-classes"><span class="nav-number">4.16.</span> <span class="nav-text">Pseudo-classes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pseudo-elements"><span class="nav-number">4.17.</span> <span class="nav-text">Pseudo-elements</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Attribute-Selectors"><span class="nav-number">4.18.</span> <span class="nav-text">Attribute Selectors</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 &mdash; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pandaQ</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">
+      37.2k
+    </span>
+  
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62150905";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
