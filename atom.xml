@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xu-li.cn/"/>
-  <updated>2017-12-24T13:29:19.047Z</updated>
+  <updated>2017-12-27T14:47:23.248Z</updated>
   <id>http://xu-li.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://xu-li.cn/2017/12/21/promise/"/>
     <id>http://xu-li.cn/2017/12/21/promise/</id>
     <published>2017-12-21T13:15:27.000Z</published>
-    <updated>2017-12-24T13:29:19.047Z</updated>
+    <updated>2017-12-27T14:47:23.248Z</updated>
     
     <content type="html"><![CDATA[<p>作为es6的新特性，<code>promise</code>的出现，使得<code>callback hell</code>有了优雅的解决方案，掌握promise的使用无疑是一种技能提升。本文基于《ECMAScript 6 入门》和诸多碎片化的阅读以及实践中遇到的问题做一次全面总结。<br><a id="more"></a></p>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Promise 是异步编程的一种解决方案，比传统的解决方案<code>回调函数和事件</code>更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Promise对象是一个构造函数</span></div><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">res, rej</span>)=&gt;</span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="comment">/* 异步操作成功 */</span>)&#123;</div><div class="line">        res(value);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        rej(error);</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
