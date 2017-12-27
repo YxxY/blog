@@ -782,7 +782,7 @@ ES5对参数不是一个对象会报错，ES6则不会，返回输入值。
 <p>require加载模块即加载被加载模块的<code>module.exports</code>部分内容，且存入缓存，再次加载时会优先从缓存加载，相当于原模块的copy，原模块的变化不会对已加载内容产生影响。同理，如果对加载内容进行修改，相当于修改内存数据，会影响到后续使用。</p>
 <h1 id="import-export"><a href="#import-export" class="headerlink" title="import-export"></a>import-export</h1><p>新的ES6标准，变化主要在于</p>
 <ul>
-<li>import 必须作用在顶层作用域, 不能动态加载，目前为止还不能完全取代require</li>
+<li>import 必须作用在顶层作用域, 不能在局部作用域动态加载，目前为止还不能完全取代require</li>
 <li>import命令加载其他模块，<code>.js</code>后缀不可省略</li>
 <li>ES6 模块不会缓存运行结果，而是动态地去被加载的模块取值，并且变量总是绑定其所在的模块</li>
 <li>ES6 输入的模块变量，只是一个“符号连接”，所以这个变量是只读的，对它进行重新赋值会报错</li>

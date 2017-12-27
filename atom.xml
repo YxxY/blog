@@ -805,7 +805,7 @@ ES5对参数不是一个对象会报错，ES6则不会，返回输入值。
     <link href="http://xu-li.cn/2017/06/25/module/"/>
     <id>http://xu-li.cn/2017/06/25/module/</id>
     <published>2017-06-25T13:15:38.000Z</published>
-    <updated>2017-09-20T11:54:29.406Z</updated>
+    <updated>2017-12-27T13:55:00.370Z</updated>
     
     <content type="html"><![CDATA[<p>Node.js 中的模块(module)是一开始就接触到的，但也许是因为它的API已足够简单，实际却从未深究过。另外在新的ES6标准里，之前所用的<code>require</code>、<code>exports</code>将被<code>import</code>、<code>export</code>取代成为新的标准。新旧更替如果两个都不懂就太尴尬了，我决定查下资料，稍微总结对比下新旧的不同，争取从不懂变成略懂。<br><a id="more"></a></p>
 <h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><p><code>require()</code> 参数为字符串，加载模块,返回被加载模块<code>module.exports</code>的内容<br><code>require.cache</code> 返回已加载模块的对象，key为模块绝对路径名，value为module对象<br><code>require.resolve()</code> 参数为字符串，运用require()的机制去查找模块并不加载，返回模块绝对路径名<br><code>require.main</code> 源码解释<code>require.main = process.mainModule</code> 指向主模块，当不存在入口文件时返回 undefined</p>
@@ -820,7 +820,7 @@ ES5对参数不是一个对象会报错，ES6则不会，返回输入值。
 <p>require加载模块即加载被加载模块的<code>module.exports</code>部分内容，且存入缓存，再次加载时会优先从缓存加载，相当于原模块的copy，原模块的变化不会对已加载内容产生影响。同理，如果对加载内容进行修改，相当于修改内存数据，会影响到后续使用。</p>
 <h1 id="import-export"><a href="#import-export" class="headerlink" title="import-export"></a>import-export</h1><p>新的ES6标准，变化主要在于</p>
 <ul>
-<li>import 必须作用在顶层作用域, 不能动态加载，目前为止还不能完全取代require</li>
+<li>import 必须作用在顶层作用域, 不能在局部作用域动态加载，目前为止还不能完全取代require</li>
 <li>import命令加载其他模块，<code>.js</code>后缀不可省略</li>
 <li>ES6 模块不会缓存运行结果，而是动态地去被加载的模块取值，并且变量总是绑定其所在的模块</li>
 <li>ES6 输入的模块变量，只是一个“符号连接”，所以这个变量是只读的，对它进行重新赋值会报错</li>
