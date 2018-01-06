@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta name="baidu-site-verification" content="ZmOJF1nohC" />
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Node.js,events,EventEmitter," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="pandaQ's Site" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="又一次来看这部分源码了，感觉每次依然有收获，再做一次总结，强行分成上中下三篇，内心毫无波澜，甚至有点想笑">
+<meta name="keywords" content="Node.js,events,EventEmitter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.js events模块(下)">
+<meta property="og:url" content="http://xu-li.cn/2017/events-final/index.html">
+<meta property="og:site_name" content="pandaQ&#39;s Site">
+<meta property="og:description" content="又一次来看这部分源码了，感觉每次依然有收获，再做一次总结，强行分成上中下三篇，内心毫无波澜，甚至有点想笑">
+<meta property="og:updated_time" content="2017-09-20T11:55:22.909Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node.js events模块(下)">
+<meta name="twitter:description" content="又一次来看这部分源码了，感觉每次依然有收获，再做一次总结，强行分成上中下三篇，内心毫无波澜，甚至有点想笑">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.2',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideUpIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '作者'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xu-li.cn/2017/events-final/"/>
+
+
+
+
+
+  <title>Node.js events模块(下) | pandaQ's Site</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+      <div class="site-meta-headline">
+        <a>
+          <img class="custom-logo-image" src="http://opxo4bto2.bkt.clouddn.com/me.jpg"
+               alt="pandaQ's Site"/>
+        </a>
+      </div>
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">pandaQ's Site</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">May the force be with you</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xu-li.cn/2017/events-final/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pandaQ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pandaQ's Site">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Node.js events模块(下)</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-01T20:15:27+08:00">
+                2017-09-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye">阅读次数:</i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,120
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>又一次来看这部分源码了，感觉每次依然有收获，再做一次总结，强行分成上中下三篇，内心毫无波澜，甚至有点想笑<br><a id="more"></a></p>
+<h1 id="关于使用"><a href="#关于使用" class="headerlink" title="关于使用"></a>关于使用</h1><ul>
+<li>直接引入 EventEmitter 类，new 一个对象来使用</li>
+<li>从EventEmitter继承</li>
+</ul>
+<p>一般第二种居多，继承的方法很多，简单举例<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = <span class="built_in">Object</span>.create(EventEmitter.prototype)</div></pre></td></tr></table></figure></p>
+<p>现在obj对象就具备事件驱动的功能了<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">obj.on(<span class="string">'test'</span>, ()=&gt;&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'receive event test'</span>)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">obj.emit(<span class="string">'test'</span>)</div></pre></td></tr></table></figure></p>
+<h1 id="事件驱动的原理"><a href="#事件驱动的原理" class="headerlink" title="事件驱动的原理"></a>事件驱动的原理</h1><p>这是一个典型的面向对象的例子，一个对象具备监听和发送消息的方法，所以关键就是这些方法的实现了。<br>该对象的两个重要属性：</p>
+<ul>
+<li><code>_events</code>：初始化是一个空对象，用来存储事件名及对应的回调函数。key为事件名，value为回调函数，如果回调函数超过一个，则转为一个数组，用来保证顺序。</li>
+<li><code>_maxListeners</code>: 注册的最大监听数，默认值为10，这是继承的一个类属性，通过Object.defineProperty()定义。</li>
+</ul>
+<p>每次监听事件，即向obj._events里增加一对值，触发事件时即根据事件名调用相应回调函数，如果回调是数组类型则按顺序调用内部函数，该顺序也与注册函数时的顺序保持了一致。</p>
+<h1 id="实现技巧"><a href="#实现技巧" class="headerlink" title="实现技巧"></a>实现技巧</h1><p>了解原理后发现其实很简单，自己也可以写一个类似的包，但这个包几经修改到当前额版本，很多细节是值得学习和借鉴的。<br>自己动手用ES6的语法写了个简易版的该模块<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Events</span></span>&#123;</div><div class="line">    <span class="keyword">constructor</span>()&#123;</div><div class="line">        <span class="keyword">this</span>._events = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</div><div class="line">        <span class="keyword">this</span>._eventsCount = <span class="number">0</span>;</div><div class="line">        <span class="keyword">this</span>._maxListeners = <span class="number">10</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    getMaxListeners()&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._maxListeners</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    setMaxListeners(n)&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> n !== <span class="string">'number'</span> || n &lt; <span class="number">0</span> || <span class="built_in">isNaN</span>(n))</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span> (<span class="string">"\"n\" argument must be a positive number"</span>)</div><div class="line">        <span class="keyword">this</span>._maxListeners = n</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    on(type, listener)&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> listener !== <span class="string">'function'</span>)</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span> (<span class="string">"\"n\" argument must be a positive number"</span>)</div><div class="line">        <span class="keyword">var</span> events= <span class="keyword">this</span>._events</div><div class="line">        <span class="keyword">var</span> existing = events[type]</div><div class="line">        <span class="keyword">if</span>(existing)&#123;</div><div class="line">            <span class="keyword">if</span>(<span class="keyword">typeof</span> existing === <span class="string">'function'</span>)</div><div class="line">                existing = [existing, listener]</div><div class="line">            <span class="keyword">else</span></div><div class="line">                existing.push(listener)</div><div class="line">        &#125;<span class="keyword">else</span></div><div class="line">            existing = listener</div><div class="line">        </div><div class="line">        <span class="keyword">this</span>._eventsCount++</div><div class="line">        <span class="keyword">if</span>(!existing.warn)&#123;</div><div class="line">            <span class="keyword">var</span> m = <span class="keyword">this</span>.getMaxListeners()</div><div class="line">            <span class="keyword">if</span>(m &amp;&amp; m &lt; existing.length)&#123;</div><div class="line">                existing.warned = <span class="literal">true</span>;</div><div class="line">                <span class="keyword">const</span> w = <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Possible EventEmitter memory leak detected. '</span> +</div><div class="line">                                    <span class="string">`<span class="subst">$&#123;existing.length&#125;</span> <span class="subst">$&#123;<span class="built_in">String</span>(type)&#125;</span> listeners `</span> +</div><div class="line">                                    <span class="string">'added. Use emitter.setMaxListeners() to '</span> +</div><div class="line">                                    <span class="string">'increase limit'</span>);</div><div class="line">                w.name = <span class="string">'MaxListenersExceededWarning'</span>;</div><div class="line">                w.emitter = <span class="keyword">this</span>;</div><div class="line">                w.type = type;</div><div class="line">                w.count = existing.length;</div><div class="line">                process.emitWarning(w);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        events[type] = existing</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    emit(type)&#123;</div><div class="line">        <span class="keyword">var</span> events = <span class="keyword">this</span>._events</div><div class="line">        <span class="keyword">var</span> handler = events[type]</div><div class="line">        <span class="keyword">if</span>(!handler)</div><div class="line">            <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">        <span class="keyword">var</span> len = <span class="built_in">arguments</span>.length;</div><div class="line">        <span class="keyword">var</span> args = <span class="keyword">new</span> <span class="built_in">Array</span>(len - <span class="number">1</span>)</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; len; i++)</div><div class="line">          args[i - <span class="number">1</span>] = <span class="built_in">arguments</span>[i];</div><div class="line">        <span class="keyword">var</span> isFn = <span class="keyword">typeof</span> handler === <span class="string">'function'</span></div><div class="line">        <span class="keyword">if</span>(isFn)&#123;</div><div class="line">            handler.apply(<span class="keyword">this</span>, args)</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            handler.forEach(<span class="function"><span class="params">v</span>=&gt;</span>&#123;</div><div class="line">                v.apply(<span class="keyword">this</span>, args)</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这是个十分简陋的实现，对比源码就能发现很多细节非常值得推敲，这里重点说一个。</p>
+<h2 id="Once的封装"><a href="#Once的封装" class="headerlink" title="Once的封装"></a>Once的封装</h2><p>源码实现了只触发一次回调函数，并几乎没有修改原来的接口。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">EventEmitter.prototype.once = <span class="function"><span class="keyword">function</span> <span class="title">once</span>(<span class="params">type, listener</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> listener !== <span class="string">'function'</span>)</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'"listener" argument must be a function'</span>);</div><div class="line">  <span class="keyword">this</span>.on(type, _onceWrap(<span class="keyword">this</span>, type, listener));</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>完整复用了<code>on</code>的接口, _onceWrap的实现无疑值得学习。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">_onceWrap</span>(<span class="params">target, type, listener</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> state = &#123; <span class="attr">fired</span>: <span class="literal">false</span>, <span class="attr">wrapFn</span>: <span class="literal">undefined</span>, target, type, listener &#125;;</div><div class="line">  <span class="keyword">var</span> wrapped = onceWrapper.bind(state);</div><div class="line">  wrapped.listener = listener;</div><div class="line">  state.wrapFn = wrapped;</div><div class="line">  <span class="keyword">return</span> wrapped;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">onceWrapper</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (!<span class="keyword">this</span>.fired) &#123;</div><div class="line">    <span class="keyword">this</span>.target.removeListener(<span class="keyword">this</span>.type, <span class="keyword">this</span>.wrapFn);</div><div class="line">    <span class="keyword">this</span>.fired = <span class="literal">true</span>;</div><div class="line">    <span class="keyword">switch</span> (<span class="built_in">arguments</span>.length) &#123;</div><div class="line">      <span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.listener.call(<span class="keyword">this</span>.target);</div><div class="line">      <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.listener.call(<span class="keyword">this</span>.target, <span class="built_in">arguments</span>[<span class="number">0</span>]);</div><div class="line">      <span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.listener.call(<span class="keyword">this</span>.target, <span class="built_in">arguments</span>[<span class="number">0</span>], <span class="built_in">arguments</span>[<span class="number">1</span>]);</div><div class="line">      <span class="keyword">case</span> <span class="number">3</span>:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.listener.call(<span class="keyword">this</span>.target, <span class="built_in">arguments</span>[<span class="number">0</span>], <span class="built_in">arguments</span>[<span class="number">1</span>],</div><div class="line">                                  <span class="built_in">arguments</span>[<span class="number">2</span>]);</div><div class="line">      <span class="keyword">default</span>:</div><div class="line">        <span class="keyword">const</span> args = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="built_in">arguments</span>.length);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; args.length; ++i)</div><div class="line">          args[i] = <span class="built_in">arguments</span>[i];</div><div class="line">        <span class="keyword">this</span>.listener.apply(<span class="keyword">this</span>.target, args);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>_onceWrap返回的是绑定了this的onceWrapper函数，存在<code>this._events</code>中。state对象做了两件事，提供this以及保存地址。<br>保存地址方面尤为巧妙，保存了自身、调用对象以及需要传递的参数。<br>其中<code>onceWrapper</code>函数中，<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">this</span>.target.removeListener(<span class="keyword">this</span>.type, <span class="keyword">this</span>.wrapFn);</div><div class="line"><span class="keyword">this</span>.fired = <span class="literal">true</span>;</div></pre></td></tr></table></figure></p>
+<p>这两行只保留任何一行也不会影响结果。双重保障，即使删除listener未成功也能防止其被二次调用。</p>
+<p>再总结一点，从源码可知，调用回调函数时都是绑定了this，指向调用对象本身的。因此，如果想要在回调函数中使用调用者对象，<br>则不适合使用箭头函数。箭头函数绑定父上下文，给回调函数使用apply或call绑定this无任何效果。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>对于events模块应该不会再有总结了，毕竟题目都用完了。感觉自己还是基本掌握原理及使用的。<br>脑子里留下多少算多少，实在不行就再看一遍，不然写在这里岂不白写了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    pandaQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://xu-li.cn/2017/events-final/" title="Node.js events模块(下)">http://xu-li.cn/2017/events-final/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Node-js/" <i class="fa fa-tag"></i> Node.js</a>
+          
+            <a href="/tags/events/" <i class="fa fa-tag"></i> events</a>
+          
+            <a href="/tags/EventEmitter/" <i class="fa fa-tag"></i> EventEmitter</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/js-Object/" rel="next" title="JavaScript Object">
+                <i class="fa fa-chevron-left"></i> JavaScript Object
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/node_encoding/" rel="prev" title="Node.js 中的编码问题">
+                Node.js 中的编码问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+       
+         <div onclick="ShowGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+         <div id="gitment-container" style="display:none"></div>
+       
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="pandaQ" />
+          
+            <p class="site-author-name" itemprop="name">pandaQ</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yxxy" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i></a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Lx89757@126.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i></a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cqumzh.cn/bbs/frame.php" title="民主湖论坛" target="_blank">民主湖论坛</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于使用"><span class="nav-number">1.</span> <span class="nav-text">关于使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事件驱动的原理"><span class="nav-number">2.</span> <span class="nav-text">事件驱动的原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现技巧"><span class="nav-number">3.</span> <span class="nav-text">实现技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Once的封装"><span class="nav-number">3.1.</span> <span class="nav-text">Once的封装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 &mdash; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pandaQ</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">
+      37.2k
+    </span>
+  
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62150905";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+   
+   
+   
+   
+   <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+   <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+   
+       <script type="text/javascript">
+           function ShowGitment(){
+               document.getElementById("gitment-display-button").style.display = "none";
+               document.getElementById("gitment-container").style.display = "block";
+               var gitment = new Gitment({
+                   id: window.location.pathname, 
+                   owner: 'YxxY',
+                   repo: 'yxxy.github.io',
+                   oauth: {
+                       client_id: '2683ce7adacca5430628',
+                       client_secret: '6fb8d0245d64e94c94a576c1e4332ea84b723f47',
+                   }});
+               gitment.render('gitment-container');
+           }
+       </script>
+   
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
