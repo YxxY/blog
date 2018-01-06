@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+  <url>
+    <loc>http://xu-li.cn/promise/</loc>
+    <lastmod>2017-12-27T14:47:23.248Z</lastmod>
+    <data>
+        <display>
+        <title>Promise</title>
+        <pubTime>2017-12-21T13:15:27.000Z</pubTime>
+        
+        <tag>javaScript</tag>
+         
+        <tag>promise</tag>
+         
+         
+           
+             
+              <breadCrumb title="Promise" url="http://xu-li.cn/categories/Promise/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/module/</loc>
+    <lastmod>2017-12-27T13:55:00.370Z</lastmod>
+    <data>
+        <display>
+        <title>Node.js 模块</title>
+        <pubTime>2017-06-25T13:15:38.000Z</pubTime>
+        
+        <tag>Node.js</tag>
+         
+        <tag>module</tag>
+         
+        <tag>require</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="http://xu-li.cn/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/bootstrap/</loc>
+    <lastmod>2017-12-24T14:17:18.670Z</lastmod>
+    <data>
+        <display>
+        <title>Bootstrap</title>
+        <pubTime>2017-05-23T13:05:27.000Z</pubTime>
+        
+        <tag>css</tag>
+         
+        <tag>bootstrap</tag>
+         
+         
+           
+             
+              <breadCrumb title="Bootstrap" url="http://xu-li.cn/categories/Bootstrap/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/css/</loc>
+    <lastmod>2017-12-24T14:10:14.166Z</lastmod>
+    <data>
+        <display>
+        <title>CSS</title>
+        <pubTime>2017-05-22T13:32:27.000Z</pubTime>
+        
+        <tag>css</tag>
+         
+         
+           
+             
+              <breadCrumb title="CSS" url="http://xu-li.cn/categories/CSS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/html/</loc>
+    <lastmod>2017-12-24T13:51:10.097Z</lastmod>
+    <data>
+        <display>
+        <title>HTML</title>
+        <pubTime>2017-05-21T13:15:27.000Z</pubTime>
+        
+        <tag>html</tag>
+         
+         
+           
+             
+              <breadCrumb title="HTML" url="http://xu-li.cn/categories/HTML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/mongoose/</loc>
+    <lastmod>2017-11-15T11:36:54.867Z</lastmod>
+    <data>
+        <display>
+        <title>Mongoose入门总结</title>
+        <pubTime>2017-11-15T10:57:38.000Z</pubTime>
+        
+        <tag>mongoose</tag>
+         
+        <tag>mongodb</tag>
+         
+         
+           
+             
+              <breadCrumb title="mongoose" url="http://xu-li.cn/categories/mongoose/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/shell/</loc>
+    <lastmod>2017-11-11T12:17:08.952Z</lastmod>
+    <data>
+        <display>
+        <title>shell script</title>
+        <pubTime>2017-11-05T10:57:38.000Z</pubTime>
+        
+        <tag>shell-script</tag>
+         
+         
+           
+             
+              <breadCrumb title="shell" url="http://xu-li.cn/categories/shell/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/js-this/</loc>
+    <lastmod>2017-10-12T12:00:05.547Z</lastmod>
+    <data>
+        <display>
+        <title>js中的this、bind、call、apply</title>
+        <pubTime>2017-10-11T12:30:38.000Z</pubTime>
+        
+        <tag>this</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="http://xu-li.cn/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/js-Object/</loc>
+    <lastmod>2017-09-20T12:34:08.434Z</lastmod>
+    <data>
+        <display>
+        <title>JavaScript Object</title>
+        <pubTime>2017-07-11T12:50:38.000Z</pubTime>
+        
+        <tag>JavaScript</tag>
+         
+        <tag>Object</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="http://xu-li.cn/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/events-final/</loc>
+    <lastmod>2017-09-20T11:55:22.909Z</lastmod>
+    <data>
+        <display>
+        <title>Node.js events模块(下)</title>
+        <pubTime>2017-09-01T12:15:27.000Z</pubTime>
+        
+        <tag>Node.js</tag>
+         
+        <tag>events</tag>
+         
+        <tag>EventEmitter</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="http://xu-li.cn/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/ubuntu/</loc>
+    <lastmod>2017-09-20T11:55:15.752Z</lastmod>
+    <data>
+        <display>
+        <title>Linux从入门到放弃</title>
+        <pubTime>2017-06-20T12:35:38.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>Ubutun</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="http://xu-li.cn/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/express-basic/</loc>
+    <lastmod>2017-09-20T11:55:10.215Z</lastmod>
+    <data>
+        <display>
+        <title>express框架学习(上)</title>
+        <pubTime>2017-09-04T12:46:55.000Z</pubTime>
+        
+        <tag>Node.js</tag>
+         
+        <tag>express</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="http://xu-li.cn/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/events-API/</loc>
+    <lastmod>2017-09-20T11:55:03.124Z</lastmod>
+    <data>
+        <display>
+        <title>Node.js events模块(上)</title>
+        <pubTime>2017-06-18T12:11:38.000Z</pubTime>
+        
+        <tag>Node.js</tag>
+         
+        <tag>events</tag>
+         
+        <tag>EventEmitter</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="http://xu-li.cn/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/express_framework/</loc>
+    <lastmod>2017-09-20T11:54:50.256Z</lastmod>
+    <data>
+        <display>
+        <title>express框架学习(中)</title>
+        <pubTime>2017-09-19T15:11:38.000Z</pubTime>
+        
+        <tag>Node.js</tag>
+         
+        <tag>express</tag>
+         
+         
+           
+             
+              <breadCrumb title="express" url="http://xu-li.cn/categories/express/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/rabbitmq/</loc>
+    <lastmod>2017-09-20T11:54:42.517Z</lastmod>
+    <data>
+        <display>
+        <title>消息队列之RabbitMQ</title>
+        <pubTime>2017-06-30T12:11:38.000Z</pubTime>
+        
+        <tag>Node.js</tag>
+         
+        <tag>RabbitMQ</tag>
+         
+         
+           
+             
+              <breadCrumb title="RabbitMQ" url="http://xu-li.cn/categories/RabbitMQ/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/arrow_function/</loc>
+    <lastmod>2017-09-20T11:54:37.828Z</lastmod>
+    <data>
+        <display>
+        <title>JavaScript箭头函数</title>
+        <pubTime>2017-05-18T12:50:38.000Z</pubTime>
+        
+        <tag>JavaScript</tag>
+         
+        <tag>箭头函数</tag>
+         
+        <tag>this</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="http://xu-li.cn/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/parse_wechat_msgType/</loc>
+    <lastmod>2017-09-20T11:54:33.799Z</lastmod>
+    <data>
+        <display>
+        <title>对微信消息内容类型的判断</title>
+        <pubTime>2017-05-15T10:35:38.000Z</pubTime>
+        
+        <tag>wechat-message</tag>
+         
+        <tag>lua</tag>
+         
+         
+           
+             
+              <breadCrumb title="Lua" url="http://xu-li.cn/categories/Lua/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/node_encoding/</loc>
+    <lastmod>2017-09-20T11:54:25.532Z</lastmod>
+    <data>
+        <display>
+        <title>Node.js 中的编码问题</title>
+        <pubTime>2017-09-03T12:25:14.000Z</pubTime>
+        
+        <tag>Node.js</tag>
+         
+        <tag>encoding</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="http://xu-li.cn/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/events-Source/</loc>
+    <lastmod>2017-09-20T11:54:08.709Z</lastmod>
+    <data>
+        <display>
+        <title>Node.js events模块(中)</title>
+        <pubTime>2017-06-19T12:11:38.000Z</pubTime>
+        
+        <tag>Node.js</tag>
+         
+        <tag>events</tag>
+         
+        <tag>EventEmitter</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="http://xu-li.cn/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+    
+</urlset>
