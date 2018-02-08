@@ -4,8 +4,30 @@
 
     
   <url>
+    <loc>http://xu-li.cn/2018/middleware/</loc>
+    <lastmod>2018-02-08T14:44:09.757Z</lastmod>
+    <data>
+        <display>
+        <title>middleware</title>
+        <pubTime>2018-01-08T12:50:38.000Z</pubTime>
+        
+        <tag>Node.js</tag>
+         
+        <tag>middleware</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="http://xu-li.cn/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://xu-li.cn/2017/promise/</loc>
-    <lastmod>2018-01-24T12:46:04.210Z</lastmod>
+    <lastmod>2018-01-24T13:12:54.708Z</lastmod>
     <data>
         <display>
         <title>Promise</title>

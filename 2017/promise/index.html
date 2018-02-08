@@ -90,7 +90,7 @@
 <meta property="og:url" content="http://xu-li.cn/2017/promise/index.html">
 <meta property="og:site_name" content="pandaQ&#39;s Site">
 <meta property="og:description" content="作为es6的新特性，promise的出现，使得callback hell有了优雅的解决方案，掌握promise的使用无疑是一种技能提升。本文基于《ECMAScript 6 入门》和诸多碎片化的阅读以及实践中遇到的问题做一次全面总结。">
-<meta property="og:updated_time" content="2018-01-24T12:46:04.210Z">
+<meta property="og:updated_time" content="2018-01-24T13:12:54.708Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Promise">
 <meta name="twitter:description" content="作为es6的新特性，promise的出现，使得callback hell有了优雅的解决方案，掌握promise的使用无疑是一种技能提升。本文基于《ECMAScript 6 入门》和诸多碎片化的阅读以及实践中遇到的问题做一次全面总结。">
@@ -405,7 +405,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,401
+                  2,386
                 </span>
               
 
@@ -521,32 +521,19 @@
 </ul>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> f = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'now'</span>);</div><div class="line">(</div><div class="line">  <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(</div><div class="line">    <span class="function"><span class="params">resolve</span> =&gt;</span> resolve(f())</div><div class="line">  )</div><div class="line">)();</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'next'</span>);</div><div class="line"><span class="comment">// now</span></div><div class="line"><span class="comment">// next</span></div></pre></td></tr></table></figure>
 <p>之所以需要这么麻烦的实现这个需求，是因为很多场景下流程的第一步都是同步生成一个Promise对象，然后用then和catch控制流程，<br>然而如果在最开始生成Promise之间程序有内部错误，这个错误是不会被catch捕获到的，所有这时try的实现很有必要，将第一步同步生成Promise对象的操作包裹起来，即使出错也会被catch捕获处理。</p>
-<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ol>
-<li>promise 可以链式调用。提起链式调用我们通常会想到通过 return this 实现，不过 Promise 并不是这样实现的。promise 每次调用 <code>.then 或者 .catch 都会返回一个新的 promise</code>，从而实现了链式调用。</li>
-</ol>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><h3 id="promise-的链式调用。"><a href="#promise-的链式调用。" class="headerlink" title="promise 的链式调用。"></a>promise 的链式调用。</h3><p>提起链式调用我们通常会想到通过 return this 实现，不过 Promise 并不是这样实现的。promise 每次调用 <code>.then 或者 .catch 都会返回一个新的 promise</code>，从而实现了链式调用。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Promise</span>.resolve(<span class="number">1</span>)</div><div class="line">  .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(res)</div><div class="line">    <span class="keyword">return</span> <span class="number">2</span></div><div class="line">  &#125;)</div><div class="line">  .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">3</span></div><div class="line">  &#125;)</div><div class="line">  .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(res)</div><div class="line">  &#125;)</div><div class="line"></div><div class="line"><span class="comment">//1</span></div><div class="line"><span class="comment">//2</span></div></pre></td></tr></table></figure>
-<ol>
-<li>promise 的 .then 或者 .catch 可以被调用多次，但这里 Promise 构造函数只执行一次。或者说 promise 内部状态一经改变，并且有了一个值，那么后续每次调用 .then 或者 .catch 都会直接拿到该值。</li>
-</ol>
+<h3 id="promise-的-then-或者-catch-可以被调用多次"><a href="#promise-的-then-或者-catch-可以被调用多次" class="headerlink" title="promise 的 .then 或者 .catch 可以被调用多次"></a>promise 的 .then 或者 .catch 可以被调用多次</h3><p>但这里 Promise 构造函数只执行一次。或者说 promise 内部状态一经改变，并且有了一个值，那么后续每次调用 .then 或者 .catch 都会直接拿到该值。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'once'</span>)</div><div class="line">    resolve(<span class="string">'success'</span>)</div><div class="line">  &#125;, <span class="number">1000</span>)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">promise.then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(res)</div><div class="line">&#125;)</div><div class="line">promise.then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(res)</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">//success</span></div><div class="line"><span class="comment">//success</span></div></pre></td></tr></table></figure>
-<ol>
-<li>then 或者 .catch 中 return 一个 error 对象并不会抛出错误，所以不会被后续的 .catch 捕获</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Promise</span>.resolve()</div><div class="line">  .then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'error!!!'</span>)</div><div class="line">  &#125;)</div><div class="line">  .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'then: '</span>, res)</div><div class="line">  &#125;)</div><div class="line">  .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'catch: '</span>, err)</div><div class="line">  &#125;)</div><div class="line"></div><div class="line"><span class="comment">// then: Error: error!!!</span></div><div class="line"><span class="comment">//     at Promise.resolve.then (...)</span></div><div class="line"><span class="comment">//     at ...</span></div></pre></td></tr></table></figure>
+<h3 id="then-或者-catch-中-return-一个-error-对象并不会抛出错误"><a href="#then-或者-catch-中-return-一个-error-对象并不会抛出错误" class="headerlink" title="then 或者 .catch 中 return 一个 error 对象并不会抛出错误"></a>then 或者 .catch 中 return 一个 error 对象并不会抛出错误</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Promise</span>.resolve()</div><div class="line">  .then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'error!!!'</span>)</div><div class="line">  &#125;)</div><div class="line">  .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'then: '</span>, res)</div><div class="line">  &#125;)</div><div class="line">  .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'catch: '</span>, err)</div><div class="line">  &#125;)</div><div class="line"></div><div class="line"><span class="comment">// then: Error: error!!!</span></div><div class="line"><span class="comment">//     at Promise.resolve.then (...)</span></div><div class="line"><span class="comment">//     at ...</span></div></pre></td></tr></table></figure>
 <p>因为返回任意一个非 promise 的值都会被包裹成 promise 对象，即 return new Error(‘error!!!’) 等价于<code>return Promise.resolve(new Error(&#39;error!!!&#39;))</code></p>
 <p>传递错误的方式有</p>
-<ul>
+<ol>
 <li>return Promise.reject(new Error(‘error!!!’))</li>
 <li>throw new Error(‘error!!!’)</li>
-</ul>
-<ol>
-<li>.then 或 .catch 返回的值不能是 promise 本身，否则会造成死循环。</li>
 </ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise = <span class="built_in">Promise</span>.resolve()</div><div class="line">  .then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> promise</div><div class="line">  &#125;)</div><div class="line"><span class="comment">//TypeError</span></div></pre></td></tr></table></figure>
-<ol>
-<li>.then 或者 .catch 的参数期望是函数，传入非函数则会发生值穿透</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Promise</span>.resolve(<span class="number">1</span>)</div><div class="line">  .then(<span class="number">2</span>)</div><div class="line">  .then(<span class="built_in">Promise</span>.resolve(<span class="number">3</span>))</div><div class="line">  .then(<span class="built_in">console</span>.log)</div><div class="line"><span class="comment">//1</span></div></pre></td></tr></table></figure>
+<h3 id="then-或-catch-返回的值不能是-promise-本身，否则会造成死循环。"><a href="#then-或-catch-返回的值不能是-promise-本身，否则会造成死循环。" class="headerlink" title=".then 或 .catch 返回的值不能是 promise 本身，否则会造成死循环。"></a>.then 或 .catch 返回的值不能是 promise 本身，否则会造成死循环。</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise = <span class="built_in">Promise</span>.resolve()</div><div class="line">  .then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> promise</div><div class="line">  &#125;)</div><div class="line"><span class="comment">//TypeError</span></div></pre></td></tr></table></figure>
+<h3 id="then-或者-catch-的参数期望是函数，传入非函数则会发生值穿透"><a href="#then-或者-catch-的参数期望是函数，传入非函数则会发生值穿透" class="headerlink" title=".then 或者 .catch 的参数期望是函数，传入非函数则会发生值穿透"></a>.then 或者 .catch 的参数期望是函数，传入非函数则会发生值穿透</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Promise</span>.resolve(<span class="number">1</span>)</div><div class="line">  .then(<span class="number">2</span>)</div><div class="line">  .then(<span class="built_in">Promise</span>.resolve(<span class="number">3</span>))</div><div class="line">  .then(<span class="built_in">console</span>.log)</div><div class="line"><span class="comment">//1</span></div></pre></td></tr></table></figure>
 
       
     </div>
@@ -602,6 +589,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/middleware/" rel="prev" title="middleware">
+                middleware <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -685,7 +676,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -707,7 +698,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -777,7 +768,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数"><span class="nav-number">2.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特点"><span class="nav-number">3.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用法"><span class="nav-number">4.</span> <span class="nav-text">用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-prototype-then"><span class="nav-number">4.1.</span> <span class="nav-text">Promise.prototype.then()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-prototype-catch"><span class="nav-number">4.2.</span> <span class="nav-text">Promise.prototype.catch()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-resolve"><span class="nav-number">4.3.</span> <span class="nav-text">Promise.resolve()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数类型"><span class="nav-number">4.4.</span> <span class="nav-text">参数类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-reject"><span class="nav-number">5.</span> <span class="nav-text">Promise.reject()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-all"><span class="nav-number">6.</span> <span class="nav-text">Promise.all()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-race"><span class="nav-number">7.</span> <span class="nav-text">Promise.race()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展"><span class="nav-number">8.</span> <span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tips"><span class="nav-number">9.</span> <span class="nav-text">Tips</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数"><span class="nav-number">2.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特点"><span class="nav-number">3.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用法"><span class="nav-number">4.</span> <span class="nav-text">用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-prototype-then"><span class="nav-number">4.1.</span> <span class="nav-text">Promise.prototype.then()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-prototype-catch"><span class="nav-number">4.2.</span> <span class="nav-text">Promise.prototype.catch()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-resolve"><span class="nav-number">4.3.</span> <span class="nav-text">Promise.resolve()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数类型"><span class="nav-number">4.4.</span> <span class="nav-text">参数类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-reject"><span class="nav-number">5.</span> <span class="nav-text">Promise.reject()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-all"><span class="nav-number">6.</span> <span class="nav-text">Promise.all()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-race"><span class="nav-number">7.</span> <span class="nav-text">Promise.race()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展"><span class="nav-number">8.</span> <span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tips"><span class="nav-number">9.</span> <span class="nav-text">Tips</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#promise-的链式调用。"><span class="nav-number">9.1.</span> <span class="nav-text">promise 的链式调用。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#promise-的-then-或者-catch-可以被调用多次"><span class="nav-number">9.2.</span> <span class="nav-text">promise 的 .then 或者 .catch 可以被调用多次</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#then-或者-catch-中-return-一个-error-对象并不会抛出错误"><span class="nav-number">9.3.</span> <span class="nav-text">then 或者 .catch 中 return 一个 error 对象并不会抛出错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#then-或-catch-返回的值不能是-promise-本身，否则会造成死循环。"><span class="nav-number">9.4.</span> <span class="nav-text">.then 或 .catch 返回的值不能是 promise 本身，否则会造成死循环。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#then-或者-catch-的参数期望是函数，传入非函数则会发生值穿透"><span class="nav-number">9.5.</span> <span class="nav-text">.then 或者 .catch 的参数期望是函数，传入非函数则会发生值穿透</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -815,7 +806,7 @@
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
     <span title="Site words total count">
-      37.2k
+      39.2k
     </span>
   
 </div>

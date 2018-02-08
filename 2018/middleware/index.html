@@ -65,7 +65,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Node.js,express," />
+  <meta name="keywords" content="Node.js,middleware," />
 
 
 
@@ -83,17 +83,17 @@
 
 
 
-<meta name="description" content="项目中选用的web框架是express，总结下经验">
-<meta name="keywords" content="Node.js,express">
+<meta name="description" content="nodejs的经典web框架中很多均实现了中间件系统，设计合理，使用也十分方便，本文主要总结这些精简api背后的源码实现">
+<meta name="keywords" content="Node.js,middleware">
 <meta property="og:type" content="article">
-<meta property="og:title" content="express框架学习(上)">
-<meta property="og:url" content="http://xu-li.cn/2017/express-basic/index.html">
+<meta property="og:title" content="middleware">
+<meta property="og:url" content="http://xu-li.cn/2018/middleware/index.html">
 <meta property="og:site_name" content="pandaQ&#39;s Site">
-<meta property="og:description" content="项目中选用的web框架是express，总结下经验">
-<meta property="og:updated_time" content="2017-09-20T11:55:10.215Z">
+<meta property="og:description" content="nodejs的经典web框架中很多均实现了中间件系统，设计合理，使用也十分方便，本文主要总结这些精简api背后的源码实现">
+<meta property="og:updated_time" content="2018-02-08T14:44:09.757Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="express框架学习(上)">
-<meta name="twitter:description" content="项目中选用的web框架是express，总结下经验">
+<meta name="twitter:title" content="middleware">
+<meta name="twitter:description" content="nodejs的经典web框架中很多均实现了中间件系统，设计合理，使用也十分方便，本文主要总结这些精简api背后的源码实现">
 
 
 
@@ -123,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://xu-li.cn/2017/express-basic/"/>
+  <link rel="canonical" href="http://xu-li.cn/2018/middleware/"/>
 
 
 
 
 
-  <title>express框架学习(上) | pandaQ's Site</title>
+  <title>middleware | pandaQ's Site</title>
   
 
 
@@ -317,7 +317,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xu-li.cn/2017/express-basic/">
+    <link itemprop="mainEntityOfPage" href="http://xu-li.cn/2018/middleware/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="pandaQ">
@@ -334,7 +334,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">express框架学习(上)</h2>
+          <h2 class="post-title" itemprop="name headline">middleware</h2>
         
 
         <div class="post-meta">
@@ -346,8 +346,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-04T20:46:55+08:00">
-                2017-09-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-08T20:50:38+08:00">
+                2018-01-08
               </time>
             
 
@@ -405,7 +405,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  801
+                  2,009
                 </span>
               
 
@@ -421,7 +421,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3
+                  9
                 </span>
               
             </div>
@@ -442,18 +442,92 @@
       
 
       
-        <p>项目中选用的web框架是express，总结下经验<br><a id="more"></a></p>
-<h1 id="express是做什么的"><a href="#express是做什么的" class="headerlink" title="express是做什么的"></a>express是做什么的</h1><p>从官网所得描述是基于node.js的一个简洁灵活的web框架，性能上没有对node进行二次抽象，也就是说express的性能的上限就是node本身的性能。<br>那就先从node本身说起。</p>
-<p>网络编程这块，node代表性的有两大模块，<code>net</code>和<code>http</code>，（<code>https</code>基于<code>http</code>先不提）</p>
-<p>使用<code>net</code>模块写一个简单的<code>hello world</code>服务器如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> net = <span class="built_in">require</span>(<span class="string">'net'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = <span class="keyword">new</span> net.Server()</div><div class="line"></div><div class="line">server.listen(<span class="number">3329</span>)</div><div class="line"></div><div class="line">server.on(<span class="string">'connection'</span>, (socket)=&gt;&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`receive a connection from <span class="subst">$&#123;socket.address().address&#125;</span>`</span>)</div><div class="line">    socket.on(<span class="string">'data'</span>, (data)=&gt;&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">`receive:\n<span class="subst">$&#123;data&#125;</span>`</span>)</div><div class="line">        socket.write(<span class="string">"HTTP/1.1 200 OK \n\nHello World!\r\n"</span>)</div><div class="line">        socket.destroy()</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>node运行后，可以在浏览器访问<code>http://localhost:3329/</code>,没什么意外的话就能看到熟悉的hello world。这里运用的是socket编程。<br>浏览器每一次的http请求和服务器建立一次socket连接。从收到的内容打印看，收到的确实是http格式的请求，服务器的回复也是符合http的响应格式的。<br>响应头加两个换行符后接响应体，少一个换行符就看不到hello world了。<br>但这个服务器太简陋了，它分不清不同的请求，所有都回复相同的内容。原因当然是没有解析请求的数据了，需要解析打印出来的<code>data</code>内容。</p>
-<p>于是就有了下面这段代码。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = http.createServer(<span class="function">(<span class="params">req, res</span>)=&gt;</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`receive a request: <span class="subst">$&#123;req.method&#125;</span> <span class="subst">$&#123;req.url&#125;</span> HTTP<span class="subst">$&#123;req.httpVersion&#125;</span>`</span>);</div><div class="line">    res.write(<span class="string">"Hello, World!"</span>)</div><div class="line">    res.end()</div><div class="line">&#125;);</div><div class="line"></div><div class="line">server.listen(<span class="number">3329</span>)</div></pre></td></tr></table></figure>
-<p>和上面功能相同，但仿佛更加简洁了。可以直接得到请求的url，以及回响应时不用关心响应的格式，直接写我们最关注的响应体就可以了。这些方便正是http模块相对于net模块，做了更多的封装，完成了解析请求数据的工作，并提供十分便捷的API。<br>到这个版本就可以针对不同的访问请求回复不同的响应了，如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = http.createServer(<span class="function">(<span class="params">req, res</span>)=&gt;</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`receive a request: <span class="subst">$&#123;req.method&#125;</span> <span class="subst">$&#123;req.url&#125;</span> HTTP<span class="subst">$&#123;req.httpVersion&#125;</span>`</span>);</div><div class="line">    <span class="keyword">if</span>(req.method === <span class="string">'GET'</span> &amp;&amp; req.url === <span class="string">'/'</span>)&#123;</div><div class="line">        res.write(<span class="string">"Welcome Home!"</span>)</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        res.write(<span class="string">"Hello, World!"</span>)</div><div class="line">    &#125;</div><div class="line">    res.end()</div><div class="line">&#125;);</div><div class="line"></div><div class="line">server.listen(<span class="number">3329</span>)</div></pre></td></tr></table></figure></p>
-<p>当访问<code>`http://localhost:3329/hello</code>时返回<code>Hello, World!</code>，访问<code>http://localhost:3329/</code>, 返回<code>Welcome Home!</code>。<br>当然这是一个非常粗糙的实现，如果页面较多时代码将变得极其难看和很难维护。</p>
-<p>下面该<code>express</code>登场了。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>)</div><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line"><span class="keyword">var</span> server = http.createServer(app)</div><div class="line">server.listen(<span class="number">3329</span>)</div><div class="line"></div><div class="line">app.get(<span class="string">'/'</span>, (request, response)=&gt;&#123;</div><div class="line">    response.send(<span class="string">'Welcome Home!'</span>)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.get(<span class="string">'/hello'</span>, (request, response)=&gt;&#123;</div><div class="line">    response.send(<span class="string">'Hello World!'</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>同样实现了之前的需求，但是写法简洁清晰不少，最重要的是方便维护。除此之外，引入的<code>express</code>、<code>app</code>、<code>request</code>、<code>response</code>，都提供了极其丰富且实用的API，具体可参考<a href="http://expressjs.com/en/4x/api.html" target="_blank" rel="external">官网API</a>。<br>然而以上是比较老的写法，最新版本的express写法更加简单，http模块整个都被封装了。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</div><div class="line"><span class="keyword">var</span> app = express()</div><div class="line"></div><div class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">  res.send(<span class="string">'Hello World'</span>)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.listen(<span class="number">3329</span>)</div></pre></td></tr></table></figure></p>
-<p>总的来说就是，node.js自带web server，express为该server打造了更加健壮的基础。</p>
+        <p>nodejs的经典web框架中很多均实现了中间件系统，设计合理，使用也十分方便，本文主要总结这些精简api背后的源码实现<br><a id="more"></a></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>nodejs的web框架应该都是基于原生httpServer实现的，先回到原点<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>)</div><div class="line"></div><div class="line">http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;</div><div class="line">    res.end(<span class="string">'hello world'</span>)</div><div class="line">&#125;).listen(<span class="number">3000</span>)</div></pre></td></tr></table></figure></p>
+<p>nodejs提供了足够简单的api，几行代码就能构建一个http服务器</p>
+<p>运行后访问<code>http://127.0.0.1:3000/</code>, 应该就能看到熟悉的字符</p>
+<h2 id="中间件概念"><a href="#中间件概念" class="headerlink" title="中间件概念"></a>中间件概念</h2><p>在这里请允许我对中间件做一个望文生义的解释</p>
+<pre><code>一个请求可能需要被多次处理，将处理流程模块化，每一个处理环节即为中间件
+处理结束后可以选择终止处理返回结果，也可以将控制权转交给下一个模块
+</code></pre><p>这是我根据框架的功能实现总结的概念，不够全面，但足够清晰</p>
+<h2 id="connect的实现"><a href="#connect的实现" class="headerlink" title="connect的实现"></a>connect的实现</h2><p>选择connect来说明是因为它足够精简<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> connect = <span class="built_in">require</span>(<span class="string">'connect'</span>);</div><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</div><div class="line"><span class="keyword">var</span> log = <span class="built_in">console</span>.log.bind(<span class="built_in">console</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> app = connect();</div><div class="line"></div><div class="line">app.use(<span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>)</span>&#123;</div><div class="line">  log(<span class="string">'middleware 1'</span>)</div><div class="line">  next()</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.use(<span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>)</span>&#123;</div><div class="line">  log(<span class="string">'middleware 2'</span>)</div><div class="line">  next()</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// respond to all requests</span></div><div class="line">app.use(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;</div><div class="line">    log(<span class="string">'middleware 3'</span>)</div><div class="line">  res.end(<span class="string">'Hello from Connect!\n'</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//create node.js http server and listen on port</span></div><div class="line">http.createServer(app).listen(<span class="number">3000</span>);</div></pre></td></tr></table></figure></p>
+<p>connect的api也十分简单</p>
+<ul>
+<li>通过<code>app.use</code>注册中间件</li>
+<li><code>next</code>函数做流程控制，处理结束后显示的调用next函数进入下一个中间件</li>
+</ul>
+<p>运行后访问<code>http://127.0.0.1:3000/</code>, 应该可以看到控制台的依次打印</p>
+<ul>
+<li>middleware 1</li>
+<li>middleware 2</li>
+<li>middleware 3</li>
+</ul>
+<h2 id="connect源码分析"><a href="#connect源码分析" class="headerlink" title="connect源码分析"></a>connect源码分析</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = createServer;</div><div class="line"></div><div class="line"><span class="keyword">var</span> proto = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter;</div><div class="line"><span class="keyword">var</span> merge = <span class="built_in">require</span>(<span class="string">'utils-merge'</span>);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">createServer</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">app</span>(<span class="params">req, res, next</span>)</span>&#123; app.handle(req, res, next); &#125;</div><div class="line">  merge(app, proto);</div><div class="line">  merge(app, EventEmitter.prototype);</div><div class="line">  app.route = <span class="string">'/'</span>;</div><div class="line">  app.stack = [];</div><div class="line">  <span class="keyword">return</span> app;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>整个connect模块对外接口为一个函数，调用后仍然返回一个app函数</p>
+<p>先看注册流程</p>
+<h3 id="中间件注册"><a href="#中间件注册" class="headerlink" title="中间件注册"></a>中间件注册</h3><p><code>app.use</code>实现了中间件的挂载, api有如下几类</p>
+<ul>
+<li><code>app.use(path, func)</code>, 第一个参数为注册路径，如果省略则默认为<code>/</code>, 将匹配所有请求，第二个参数为一个函数，即对该请求做相应处理</li>
+<li><code>app.use(path， _app)</code>, <code>_app</code>是和<code>app</code>一样，均为<code>connect()</code>返回的函数对象，是第一类api的特殊情况，相当于挂载子应用</li>
+<li><code>app.use(path, httpServer)</code>, 同上，也是特殊处理的情况，接受一个httpServer对象，处理时调用它的第一个请求处理函数</li>
+</ul>
+<p>源码如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">proto.use = <span class="function"><span class="keyword">function</span> <span class="title">use</span>(<span class="params">route, fn</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> handle = fn;</div><div class="line">  <span class="keyword">var</span> path = route;</div><div class="line"></div><div class="line">  <span class="comment">// default route to '/'</span></div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> route !== <span class="string">'string'</span>) &#123;</div><div class="line">    handle = route;</div><div class="line">    path = <span class="string">'/'</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// wrap sub-apps</span></div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> handle.handle === <span class="string">'function'</span>) &#123;</div><div class="line">    <span class="keyword">var</span> server = handle;</div><div class="line">    server.route = path;</div><div class="line">    handle = <span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">      server.handle(req, res, next);</div><div class="line">    &#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// wrap vanilla http.Servers</span></div><div class="line">  <span class="keyword">if</span> (handle <span class="keyword">instanceof</span> http.Server) &#123;</div><div class="line">    handle = handle.listeners(<span class="string">'request'</span>)[<span class="number">0</span>];</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// strip trailing slash</span></div><div class="line">  <span class="keyword">if</span> (path[path.length - <span class="number">1</span>] === <span class="string">'/'</span>) &#123;</div><div class="line">    path = path.slice(<span class="number">0</span>, <span class="number">-1</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// add the middleware</span></div><div class="line">  debug(<span class="string">'use %s %s'</span>, path || <span class="string">'/'</span>, handle.name || <span class="string">'anonymous'</span>);</div><div class="line">  <span class="keyword">this</span>.stack.push(&#123; <span class="attr">route</span>: path, <span class="attr">handle</span>: handle &#125;);</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>了解了api再来看源码，会清楚很多，做的事情即：</p>
+<ul>
+<li>中间件注册时需两个参数</li>
+<li>第一个是路径参数，如果省略则默认为<code>/</code>，匹配所有路径。</li>
+<li>第二个参数为处理参数（有普通函数，子应用，httpServer对象，共三种不同的表现形式）</li>
+<li>随后路径和处理函数会被打包成一个对象存储在数组<code>app.stack</code>中</li>
+</ul>
+<p>完了再看处理流程</p>
+<h3 id="中间件调用"><a href="#中间件调用" class="headerlink" title="中间件调用"></a>中间件调用</h3><p>app函数接受三个参数，对比原生api，多了一个next参数，在不了解的情况下，我们可以先做个如下实验<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>)</div><div class="line"></div><div class="line">http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>)</span>&#123;</div><div class="line">    res.end(<span class="string">'goodbye world'</span>)</div><div class="line">    <span class="built_in">console</span>.log(next)</div><div class="line">&#125;).listen(<span class="number">3000</span>)</div></pre></td></tr></table></figure></p>
+<p>运行后访问，控制台打印为<code>undefined</code>, 可以肯定这个参数并非一开始存在的，而是后续封装的</p>
+<p>通过<code>http.createServer(app).listen(3000);</code>可知，当有请求消息时，处理流程为</p>
+<pre><code>app(req, res) =&gt; app.handle(req, res, next) 
+此时的next为undefined
+</code></pre><p>继续看app.handle函数<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">proto.handle = <span class="function"><span class="keyword">function</span> <span class="title">handle</span>(<span class="params">req, res, out</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> index = <span class="number">0</span>;</div><div class="line">  <span class="keyword">var</span> protohost = getProtohost(req.url) || <span class="string">''</span>;</div><div class="line">  <span class="keyword">var</span> removed = <span class="string">''</span>;</div><div class="line">  <span class="keyword">var</span> slashAdded = <span class="literal">false</span>;</div><div class="line">  <span class="keyword">var</span> stack = <span class="keyword">this</span>.stack;</div><div class="line"></div><div class="line">  <span class="comment">// final function handler</span></div><div class="line">  <span class="keyword">var</span> done = out || finalhandler(req, res, &#123;</div><div class="line">    <span class="attr">env</span>: env,</div><div class="line">    <span class="attr">onerror</span>: logerror</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  <span class="comment">// store the original URL</span></div><div class="line">  req.originalUrl = req.originalUrl || req.url;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">err</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (slashAdded) &#123;</div><div class="line">      req.url = req.url.substr(<span class="number">1</span>);</div><div class="line">      slashAdded = <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (removed.length !== <span class="number">0</span>) &#123;</div><div class="line">      req.url = protohost + removed + req.url.substr(protohost.length);</div><div class="line">      removed = <span class="string">''</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// next callback</span></div><div class="line">    <span class="keyword">var</span> layer = stack[index++];</div><div class="line"></div><div class="line">    <span class="comment">// all done</span></div><div class="line">    <span class="keyword">if</span> (!layer) &#123;</div><div class="line">      defer(done, err);</div><div class="line">      <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// route data</span></div><div class="line">    <span class="keyword">var</span> path = parseUrl(req).pathname || <span class="string">'/'</span>;</div><div class="line">    <span class="keyword">var</span> route = layer.route;</div><div class="line"></div><div class="line">    <span class="comment">// skip this layer if the route doesn't match</span></div><div class="line">    <span class="keyword">if</span> (path.toLowerCase().substr(<span class="number">0</span>, route.length) !== route.toLowerCase()) &#123;</div><div class="line">      <span class="keyword">return</span> next(err);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// skip if route match does not border "/", ".", or end</span></div><div class="line">    <span class="keyword">var</span> c = path[route.length];</div><div class="line">    <span class="keyword">if</span> (c !== <span class="literal">undefined</span> &amp;&amp; <span class="string">'/'</span> !== c &amp;&amp; <span class="string">'.'</span> !== c) &#123;</div><div class="line">      <span class="keyword">return</span> next(err);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// trim off the part of the url that matches the route</span></div><div class="line">    <span class="keyword">if</span> (route.length !== <span class="number">0</span> &amp;&amp; route !== <span class="string">'/'</span>) &#123;</div><div class="line">      removed = route;</div><div class="line">      req.url = protohost + req.url.substr(protohost.length + removed.length);</div><div class="line"></div><div class="line">      <span class="comment">// ensure leading slash</span></div><div class="line">      <span class="keyword">if</span> (!protohost &amp;&amp; req.url[<span class="number">0</span>] !== <span class="string">'/'</span>) &#123;</div><div class="line">        req.url = <span class="string">'/'</span> + req.url;</div><div class="line">        slashAdded = <span class="literal">true</span>;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// call the layer handle</span></div><div class="line">    call(layer.handle, route, err, req, res, next);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  next();</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>虽然是个大函数，但做的事情很简单</p>
+<ul>
+<li>接受三个参数</li>
+<li>变量<code>done</code>被设置为<code>finalhandler</code>函数的返回值</li>
+<li>定义<code>next</code>函数</li>
+<li>调用<code>next</code>函数</li>
+</ul>
+<p>next函数内部的操作：</p>
+<ul>
+<li>按顺序从<code>app.stack</code>中取出一个对象</li>
+<li>如果不匹配，递归调用<code>next</code>函数，相当于取下一个对象</li>
+<li>如果遍历完都没有匹配的，调用<code>done</code>函数</li>
+<li>匹配成功，调用<code>call(layer.handle, route, err, req, res, next)</code></li>
+</ul>
+<p>层层包装，到了<code>call</code>函数这里就是最后一层了<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">call</span>(<span class="params">handle, route, err, req, res, next</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> arity = handle.length;</div><div class="line">  <span class="keyword">var</span> error = err;</div><div class="line">  <span class="keyword">var</span> hasError = <span class="built_in">Boolean</span>(err);</div><div class="line"></div><div class="line">  debug(<span class="string">'%s %s : %s'</span>, handle.name || <span class="string">'&lt;anonymous&gt;'</span>, route, req.originalUrl);</div><div class="line"></div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">if</span> (hasError &amp;&amp; arity === <span class="number">4</span>) &#123;</div><div class="line">      <span class="comment">// error-handling middleware</span></div><div class="line">      handle(err, req, res, next);</div><div class="line">      <span class="keyword">return</span>;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!hasError &amp;&amp; arity &lt; <span class="number">4</span>) &#123;</div><div class="line">      <span class="comment">// request-handling middleware</span></div><div class="line">      handle(req, res, next);</div><div class="line">      <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</div><div class="line">    <span class="comment">// replace the error</span></div><div class="line">    error = e;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// continue</span></div><div class="line">  next(error);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>通过handle函数（注册时的处理函数）形参个数来做不同处理，4个参数则是错误处理，3个参数则是请求处理</li>
+<li>不管是成功还是失败，next均作为参数传入</li>
+<li>如果处理错误继续调用next(err)</li>
+</ul>
+<p>至此，前文的流程可以继续走了</p>
+<p>如果匹配到注册路径的中间件，则</p>
+<pre><code>app(req, res) =&gt; app.handle(req, res, undefined) =&gt; handle(req, res, next)
+</code></pre><p>如果中间抛出错误，且注册了错误处理函数（相比正常的错误函数多了一个参数，形如func(err, req, res, next))</p>
+<pre><code>app(req, res) =&gt; app.handle(req, res, undefined) =&gt; handle(err,req, res, next)
+</code></pre><p>如果一个都没匹配到</p>
+<pre><code>app(req, res) =&gt; app.handle(req, res, undefined) =&gt; finalhandler(req, res, {env: env,onerror: logerror})(err)
+</code></pre><p>next函数是通过闭包的方式实现，手动决定控制权的转移，也能控制错误的冒泡处理</p>
+<p>至此，connect的原理基本都解析完毕了，源码就一个文件，注释加空行不到三百行但实现的功能却非常巧妙，如果你已经非常熟悉了中间件的api，那么这份源码非常值得一看</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结即是看完源码，写完上面一大坨后闭上眼看还剩下啥</p>
+<ul>
+<li>中间件的概念，自己编</li>
+<li>中间件的实现，注册路径和处理函数，存在一个数组中，后续根据请求路径遍历数组，因此注册顺序很重要</li>
+<li>控制权转让，手动调用next()即进入下一个中间件，如果出错也可以传递错误参数next(err), 交给后续错误处理中间件集中处理</li>
+<li><p>中间件函数类型</p>
+<pre><code>普通处理函数，处理完调下一个，此时必须有三个参数，eg：func(req, res, next)
+响应返回函数，最后一道程序，处理完返回结果，此时不需要next函数，所以注册时两个或三个参数均可
+错误处理函数，原则上应该放在最后注册，且参数必须为四个, eg: func(err, req, res, next), 当然可以注册多个错误处理函数，不同的错误依旧可通过next(err)向后传递
+</code></pre></li>
+<li>next 函数的实现，闭包，内部保留有存储中间件的数组以及传入的初始索引，递归调用或当做参数传递调用，可以达到遍历数组的效果</li>
+</ul>
+<p>嗯……似乎没啥剩下了，就这么多</p>
 
       
     </div>
@@ -474,7 +548,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://xu-li.cn/2017/express-basic/" title="express框架学习(上)">http://xu-li.cn/2017/express-basic/</a>
+    <a href="http://xu-li.cn/2018/middleware/" title="middleware">http://xu-li.cn/2018/middleware/</a>
   </li>
 </ul>
 
@@ -487,7 +561,7 @@
           
             <a href="/tags/Node-js/" <i class="fa fa-tag"></i> Node.js</a>
           
-            <a href="/tags/express/" <i class="fa fa-tag"></i> express</a>
+            <a href="/tags/middleware/" <i class="fa fa-tag"></i> middleware</a>
           
         </div>
       
@@ -500,8 +574,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/node_encoding/" rel="next" title="Node.js 中的编码问题">
-                <i class="fa fa-chevron-left"></i> Node.js 中的编码问题
+              <a href="/2017/promise/" rel="next" title="Promise">
+                <i class="fa fa-chevron-left"></i> Promise
               </a>
             
           </div>
@@ -509,10 +583,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/express_framework/" rel="prev" title="express框架学习(中)">
-                express框架学习(中) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -688,7 +758,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#express是做什么的"><span class="nav-number">1.</span> <span class="nav-text">express是做什么的</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件概念"><span class="nav-number">2.</span> <span class="nav-text">中间件概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#connect的实现"><span class="nav-number">3.</span> <span class="nav-text">connect的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#connect源码分析"><span class="nav-number">4.</span> <span class="nav-text">connect源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#中间件注册"><span class="nav-number">4.1.</span> <span class="nav-text">中间件注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中间件调用"><span class="nav-number">4.2.</span> <span class="nav-text">中间件调用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
