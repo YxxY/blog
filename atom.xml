@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xu-li.cn/"/>
-  <updated>2018-02-08T14:44:09.757Z</updated>
+  <updated>2018-02-09T13:35:23.130Z</updated>
   <id>http://xu-li.cn/</id>
   
   <author>
@@ -14,6 +14,72 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>express源码中的对象继承</title>
+    <link href="http://xu-li.cn/2018/express-object-inheritance/"/>
+    <id>http://xu-li.cn/2018/express-object-inheritance/</id>
+    <published>2018-01-10T13:50:38.000Z</published>
+    <updated>2018-02-09T13:35:23.130Z</updated>
+    
+    <content type="html"><![CDATA[<p>nodejs web框架<code>express</code>源码中, 多处封装涉及到了对象继承，单独拿出来总结下它们的特点，参考学习<br><a id="more"></a></p>
+<h2 id="对象继承方式"><a href="#对象继承方式" class="headerlink" title="对象继承方式"></a>对象继承方式</h2><p>简单阅读源码所看到的对象继承方式有三种</p>
+<ul>
+<li>merge-descriptors</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter;</div><div class="line"><span class="keyword">var</span> mixin = <span class="built_in">require</span>(<span class="string">'merge-descriptors'</span>);</div><div class="line"><span class="comment">//app对象从EventEmitter.prototype对象继承</span></div><div class="line">mixin(app, EventEmitter.prototype, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
+<ul>
+<li>Object.create()</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//app.request对象从req对象继承，并定义app属性</span></div><div class="line">app.request = <span class="built_in">Object</span>.create(req, &#123;</div><div class="line">    <span class="attr">app</span>: &#123; <span class="attr">configurable</span>: <span class="literal">true</span>, <span class="attr">enumerable</span>: <span class="literal">true</span>, <span class="attr">writable</span>: <span class="literal">true</span>, <span class="attr">value</span>: app &#125;</div><div class="line">  &#125;)</div></pre></td></tr></table></figure>
+<ul>
+<li>Object.setPrototypeOf()</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> setPrototypeOf = <span class="built_in">require</span>(<span class="string">'setprototypeof'</span>)</div><div class="line"><span class="comment">//将router对象的原型对象设置为proto</span></div><div class="line">setPrototypeOf(router, proto)</div></pre></td></tr></table></figure>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>这应该是最常用的的三种继承形式了</p>
+<h3 id="属性拷贝"><a href="#属性拷贝" class="headerlink" title="属性拷贝"></a>属性拷贝</h3><p>第一种为属性值拷贝，没什么技巧就是把要继承的属性全部拷贝到自己身上, 可以选择是否覆盖同名属性</p>
+<p>源码的实现如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//merge-descriptors</span></div><div class="line"><span class="built_in">module</span>.exports = merge</div><div class="line"></div><div class="line"><span class="keyword">var</span> hasOwnProperty = <span class="built_in">Object</span>.prototype.hasOwnProperty</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Merge the property descriptors of `src` into `dest`</div><div class="line"> *</div><div class="line"> * @param &#123;object&#125; dest Object to add descriptors to</div><div class="line"> * @param &#123;object&#125; src Object to clone descriptors from</div><div class="line"> * @param &#123;boolean&#125; [redefine=true] Redefine `dest` properties with `src` properties</div><div class="line"> * @returns &#123;object&#125; Reference to dest</div><div class="line"> * @public</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">merge</span>(<span class="params">dest, src, redefine</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (!dest) &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'argument dest is required'</span>)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (!src) &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'argument src is required'</span>)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (redefine === <span class="literal">undefined</span>) &#123;</div><div class="line">    <span class="comment">// Default to true</span></div><div class="line">    redefine = <span class="literal">true</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="built_in">Object</span>.getOwnPropertyNames(src).forEach(<span class="function"><span class="keyword">function</span> <span class="title">forEachOwnPropertyName</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (!redefine &amp;&amp; hasOwnProperty.call(dest, name)) &#123;</div><div class="line">      <span class="comment">// Skip desriptor</span></div><div class="line">      <span class="keyword">return</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// Copy descriptor</span></div><div class="line">    <span class="keyword">var</span> descriptor = <span class="built_in">Object</span>.getOwnPropertyDescriptor(src, name)</div><div class="line">    <span class="built_in">Object</span>.defineProperty(dest, name, descriptor)</div><div class="line">  &#125;)</div><div class="line"></div><div class="line">  <span class="keyword">return</span> dest</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>拷贝继承，继承时会耗费更多时间和空间，但后续访问时理论上效率更高</p>
+<p>常驻于内存中的对象更加适合这种继承方式, 一次继承多次使用</p>
+<p>后两种可归为一类，均是从原型对象继承</p>
+<h3 id="原型继承"><a href="#原型继承" class="headerlink" title="原型继承"></a>原型继承</h3><p>原型继承，是js中常见的的继承方式，这里有两种操作方法</p>
+<ul>
+<li><p><code>Object.create(proto[, propertiesObject])</code></p>
+<pre><code>返回在指定原型对象上添加新属性后的对象
+即除了继承之外，还可以自定义属性
+</code></pre></li>
+<li><p><code>setprototypeof</code></p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//setprototypeof</span></div><div class="line"><span class="built_in">module</span>.exports = <span class="built_in">Object</span>.setPrototypeOf || (&#123;<span class="attr">__proto__</span>:[]&#125; <span class="keyword">instanceof</span> <span class="built_in">Array</span> ? setProtoOf : mixinProperties);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setProtoOf</span>(<span class="params">obj, proto</span>) </span>&#123;</div><div class="line">	obj.__proto__ = proto;</div><div class="line">	<span class="keyword">return</span> obj;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mixinProperties</span>(<span class="params">obj, proto</span>) </span>&#123;</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> proto) &#123;</div><div class="line">		<span class="keyword">if</span> (!obj.hasOwnProperty(prop)) &#123;</div><div class="line">			obj[prop] = proto[prop];</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> obj;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一般来说调用的是原生接口<code>Object.setPrototypeOf</code></p>
+<p>同时也提供了两种兼容方案</p>
+<ul>
+<li><code>obj.__proto__ = proto;</code> </li>
+<li>属性值拷贝</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>自己写代码或者写库程序不可避免会涉及到继承封装，express提供了很好的最佳实践</p>
+<ul>
+<li>对于常驻对象推荐使用<code>属性拷贝</code>，用空间换时间</li>
+<li>原型继承有<code>Object.create()</code>和<code>Object.setPrototypeOf()</code>等方法，分别有各自适合的场景，更多了解可以参照MDN的说明</li>
+<li>不想自己造轮子，express的这俩久经考验的轮子也可以直接拿来使用，<code>merge-descriptors</code>和<code>setPrototypeOf</code>, 源码也十分简洁</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;nodejs web框架&lt;code&gt;express&lt;/code&gt;源码中, 多处封装涉及到了对象继承，单独拿出来总结下它们的特点，参考学习&lt;br&gt;
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
+    
+    
+      <category term="express" scheme="http://xu-li.cn/tags/express/"/>
+    
+      <category term="Object-inheritance" scheme="http://xu-li.cn/tags/Object-inheritance/"/>
+    
+  </entry>
   
   <entry>
     <title>middleware</title>
@@ -1925,80 +1991,6 @@ and they cannot be used as constructors.
       <category term="箭头函数" scheme="http://xu-li.cn/tags/%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0/"/>
     
       <category term="this" scheme="http://xu-li.cn/tags/this/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>对微信消息内容类型的判断</title>
-    <link href="http://xu-li.cn/2017/parse_wechat_msgType/"/>
-    <id>http://xu-li.cn/2017/parse_wechat_msgType/</id>
-    <published>2017-05-15T10:35:38.000Z</published>
-    <updated>2017-09-20T11:54:33.799Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近试着做些工作总结，这也是我开始写博客的初衷，少bb，just do it！</p>
-<p>这是我最早进公司做的一个小项目，需求是判断手机收发微信消息内容类型。就是手机发了一条微信消息之后，程序要能解析出发的是文本、语音还是图片等类型，并且统计时延。接收也是如此，主要需求是对发送类型的判断。<br><a id="more"></a></p>
-<h2 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h2><pre><code>1. 抓包
-2. 解包
-3. 结果展示
-</code></pre><hr>
-<h3 id="特殊说明"><a href="#特殊说明" class="headerlink" title="特殊说明"></a>特殊说明</h3><pre><code>该工作主要依赖部门内部高度定制的解析工具，可复现度几乎为0，因此全文只谈思路、方法与收获。
-</code></pre><hr>
-<h3 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h3><p>抓取终端发生微信消息时的消息包，根据3GPP协议可以获取该消息的id为0x11EB</p>
-<hr>
-<h3 id="解包"><a href="#解包" class="headerlink" title="解包"></a>解包</h3><p>这个过程就是把二进制的码流按照协议解析成有意义的字段。再从中筛选实际需要的内容做二次解析。<br>这部分按照当时使用的工具，解析语言用的lua。<br>这里主要说明下数据的过滤和解析</p>
-<h4 id="过滤数据"><a href="#过滤数据" class="headerlink" title="过滤数据"></a>过滤数据</h4><p>如何判断数据是否有效？答案是<code>根据协议数据结构和自身业务需求</code>。<br>根据TCP/IP协议，数据包的格式是<code>Header + Data</code><br>这里具体来说就是，<code>ipHeader + tcpHeader + data</code>，其中data部分才是我们真正需要的解析目标。</p>
-<hr>
-<p>贴一下数据包的数据结构,分别对应IP数据包格式和TCP数据包格式，图片来源于网络<br>。更多内容可参考这篇文章<a href="http://www.ruanyifeng.com/blog/2017/06/tcp-protocol.html" target="_blank" rel="external">TCP协议</a><br><img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/IP_Package.png" alt="ip"></p>
-<p><img src="http://opxo4bto2.bkt.clouddn.com/pic/lua/wechat/TCP_Package.png" alt="tcp"></p>
-<p>根据协议，很清楚可以看到ipHeader和tcpHeader的固定部分都是20个字节，因此协议规则如下：</p>
-<hr>
-<ul>
-<li>ipHeader 至少20个字节</li>
-<li>tcpHeader 至少20个字节<br>加上和业务定制的规则如下：</li>
-<li>ipHeader 中的版本（0-4位对应的字段值）为4，即0100，用来表明IP协议实现的版本号，当前规定为IPv4，因此如果是连wifi发微信消息，那么就直接被过滤掉了</li>
-<li>ipHeader中的协议（72-80位）为6，指明IP层所封装的上层协议类型，如ICMP（1）、IGMP（2） 、TCP（6）、UDP（17）等，当前为TCP</li>
-<li>data部分至少16个字节，这个是查资料获得，和微信消息类型相关的特征字信息，只在前16个字节中，后续字节内容应该表示的消息内容</li>
-</ul>
-<p>总的来说过滤数据，就是把不符合这五条规则的数据直接丢掉不处理，直接进入下一条log的处理。</p>
-<hr>
-<h4 id="解析数据"><a href="#解析数据" class="headerlink" title="解析数据"></a>解析数据</h4><p>假设我们已经获取数据，并过滤，得到了我们需要的data，下面开始处理，这里贴出当时写的很难看的处理函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getDataTypeFromDataContent</span><span class="params">(mo, buf)</span></span></div><div class="line">    <span class="keyword">local</span> ls = stat[mo]</div><div class="line">    <span class="keyword">local</span> str, dataSN = <span class="string">''</span>, <span class="string">''</span></div><div class="line">    <span class="keyword">for</span> i = <span class="number">1</span>, <span class="number">12</span>, <span class="number">1</span> <span class="keyword">do</span></div><div class="line">    	str = str..buf[i]..<span class="string">' '</span></div><div class="line">    <span class="keyword">end</span></div><div class="line">    <span class="keyword">for</span> i = <span class="number">13</span>, <span class="number">16</span>, <span class="number">1</span> <span class="keyword">do</span></div><div class="line">    	dataSN = dataSN..buf[i]</div><div class="line">    <span class="keyword">end</span></div><div class="line">    ls.dataSNText = dataSN</div><div class="line"> 	</div><div class="line">    <span class="keyword">if</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 82 00 10 00 01 %x%x %x%x %x%x ED"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Text'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01 %x%x %x%x %x%x ED"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Text'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 7E 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 81 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 00 83 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01 %x%x %x%x %x%x 13"</span>) <span class="keyword">then</span></div><div class="line">    	ls.dataType = <span class="string">'Voice'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 27 14 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Request'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 2A FC 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Request OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 27 10 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 2A F8 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Img'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span></div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 75 30 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Video'</span>..<span class="string">'-'</span>..<span class="string">'Send'</span>    </div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"AB 00 %x%x %x%x %x%x 79 18 00"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'Video'</span>..<span class="string">'-'</span>..<span class="string">'Send OK'</span> </div><div class="line">    <span class="keyword">elseif</span> <span class="built_in">string</span>.<span class="built_in">match</span>(str, <span class="string">"00 00 %x%x %x%x 00 10 00 01"</span>) <span class="keyword">then</span></div><div class="line">        ls.dataType = <span class="string">'WeChat'</span>..<span class="string">'-'</span>..<span class="string">'unknown'</span></div><div class="line">    <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure></p>
-<p>这种全是if/else的代码着实难堪的，嗯，很符合当时的水平,说明如下：</p>
-<pre><code>ls 为状态对象，是一个状态机的实现，用来记录每个手机实时的消息状态。
-将data数组拼接成字符串，以空格为间隔。
-可以看出，前12个字节用于判断类型，后四个字节用来记录序列号。
-然后匹配对应各自的消息类型。
-这些规则也是查阅资料论文和测试获得，微信也暂未公开这些信息。
-</code></pre><hr>
-<p>至此，已经可以获得消息类型了。当然只是常用的几种，文本，图片、语音及视频类型。但这里只完成了40%的任务，因为还需要统计发送消息的时延啊，例如发了一条消息，会马触发一条<code>Text-Send</code>的log，但直到有<code>Text-Send OK</code>的log上报，才会认定消息发送成功，二者之间的时间差就是需要记录的时延。</p>
-<p>但理想很丰满，上面的消息判断依旧是很粗糙的，总有一些意外情况，例如<code>Send-OK</code>消息的格式总是有意外情况，图片会有分包的情况，如何判断是一次而不是多次发送等等问。</p>
-<p>所以后来第二个迭代时就完全结束了这种不完全靠谱的做法，直接自定义两条log，在发送之前发一次，里面写好发送类型手机id等信息，发送完毕再发一条结束消息确认。这样来，一切就简单多了，相当于固定场景测试了。</p>
-<hr>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>总结下此次开发任务的收获和心得体会</p>
-<ul>
-<li><p>熟练掌握了lua的基本语法和使用，体验到了动态语言的优越性。</p>
-</li>
-<li><p>对IP数据包的结构有了基本认识，一切都是站在协议的肩膀上完成的</p>
-</li>
-<li><p>学会了如何分拆将一个稍微大点的任务分拆成小块，快速挖掘关注核心部分</p>
-</li>
-<li><p>收集资料的也是一种能力，懂业务比写代码实现更重要</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近试着做些工作总结，这也是我开始写博客的初衷，少bb，just do it！&lt;/p&gt;
-&lt;p&gt;这是我最早进公司做的一个小项目，需求是判断手机收发微信消息内容类型。就是手机发了一条微信消息之后，程序要能解析出发的是文本、语音还是图片等类型，并且统计时延。接收也是如此，主要需求是对发送类型的判断。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Lua" scheme="http://xu-li.cn/categories/Lua/"/>
-    
-    
-      <category term="wechat-message" scheme="http://xu-li.cn/tags/wechat-message/"/>
-    
-      <category term="lua" scheme="http://xu-li.cn/tags/lua/"/>
     
   </entry>
   

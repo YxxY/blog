@@ -65,7 +65,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT, blog" />
+  <meta name="keywords" content="express,Object-inheritance," />
 
 
 
@@ -83,15 +83,17 @@
 
 
 
-<meta name="description" content="share a story I just wrote with you">
-<meta property="og:type" content="website">
-<meta property="og:title" content="pandaQ&#39;s Site">
-<meta property="og:url" content="http://xu-li.cn/tags/EventEmitter/index.html">
+<meta name="description" content="nodejs web框架express源码中, 多处封装涉及到了对象继承，单独拿出来总结下它们的特点，参考学习">
+<meta name="keywords" content="express,Object-inheritance">
+<meta property="og:type" content="article">
+<meta property="og:title" content="express源码中的对象继承">
+<meta property="og:url" content="http://xu-li.cn/2018/express-object-inheritance/index.html">
 <meta property="og:site_name" content="pandaQ&#39;s Site">
-<meta property="og:description" content="share a story I just wrote with you">
+<meta property="og:description" content="nodejs web框架express源码中, 多处封装涉及到了对象继承，单独拿出来总结下它们的特点，参考学习">
+<meta property="og:updated_time" content="2018-02-09T13:35:23.130Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="pandaQ&#39;s Site">
-<meta name="twitter:description" content="share a story I just wrote with you">
+<meta name="twitter:title" content="express源码中的对象继承">
+<meta name="twitter:description" content="nodejs web框架express源码中, 多处封装涉及到了对象继承，单独拿出来总结下它们的特点，参考学习">
 
 
 
@@ -121,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://xu-li.cn/tags/EventEmitter/"/>
+  <link rel="canonical" href="http://xu-li.cn/2018/express-object-inheritance/"/>
 
 
 
 
 
-  <title>标签: EventEmitter | pandaQ's Site</title>
+  <title>express源码中的对象继承 | pandaQ's Site</title>
   
 
 
@@ -146,7 +148,7 @@
     
   
 
-  <div class="container sidebar-position-right ">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -291,110 +293,262 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block tag">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h2>EventEmitter<small>标签</small>
-        </h2>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xu-li.cn/2018/express-object-inheritance/">
 
-      <h3 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pandaQ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pandaQ's Site">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2017/events-final/" itemprop="url">
-              
-                <span itemprop="name">Node.js events模块(下)</span>
-              
-            </a>
         
-      </h3>
+          <h2 class="post-title" itemprop="name headline">express源码中的对象继承</h2>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-01T20:15:27+08:00"
-              content="2017-09-01" >
-          09-01
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-10T21:50:38+08:00">
+                2018-01-10
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye">阅读次数:</i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  666
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  3
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/events-Source/" itemprop="url">
-              
-                <span itemprop="name">Node.js events模块(中)</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-06-19T20:11:38+08:00"
-              content="2017-06-19" >
-          06-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/events-API/" itemprop="url">
-              
-                <span itemprop="name">Node.js events模块(上)</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-06-18T20:11:38+08:00"
-              content="2017-06-18" >
-          06-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <p>nodejs web框架<code>express</code>源码中, 多处封装涉及到了对象继承，单独拿出来总结下它们的特点，参考学习<br><a id="more"></a></p>
+<h2 id="对象继承方式"><a href="#对象继承方式" class="headerlink" title="对象继承方式"></a>对象继承方式</h2><p>简单阅读源码所看到的对象继承方式有三种</p>
+<ul>
+<li>merge-descriptors</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter;</div><div class="line"><span class="keyword">var</span> mixin = <span class="built_in">require</span>(<span class="string">'merge-descriptors'</span>);</div><div class="line"><span class="comment">//app对象从EventEmitter.prototype对象继承</span></div><div class="line">mixin(app, EventEmitter.prototype, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
+<ul>
+<li>Object.create()</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//app.request对象从req对象继承，并定义app属性</span></div><div class="line">app.request = <span class="built_in">Object</span>.create(req, &#123;</div><div class="line">    <span class="attr">app</span>: &#123; <span class="attr">configurable</span>: <span class="literal">true</span>, <span class="attr">enumerable</span>: <span class="literal">true</span>, <span class="attr">writable</span>: <span class="literal">true</span>, <span class="attr">value</span>: app &#125;</div><div class="line">  &#125;)</div></pre></td></tr></table></figure>
+<ul>
+<li>Object.setPrototypeOf()</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> setPrototypeOf = <span class="built_in">require</span>(<span class="string">'setprototypeof'</span>)</div><div class="line"><span class="comment">//将router对象的原型对象设置为proto</span></div><div class="line">setPrototypeOf(router, proto)</div></pre></td></tr></table></figure>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>这应该是最常用的的三种继承形式了</p>
+<h3 id="属性拷贝"><a href="#属性拷贝" class="headerlink" title="属性拷贝"></a>属性拷贝</h3><p>第一种为属性值拷贝，没什么技巧就是把要继承的属性全部拷贝到自己身上, 可以选择是否覆盖同名属性</p>
+<p>源码的实现如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//merge-descriptors</span></div><div class="line"><span class="built_in">module</span>.exports = merge</div><div class="line"></div><div class="line"><span class="keyword">var</span> hasOwnProperty = <span class="built_in">Object</span>.prototype.hasOwnProperty</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Merge the property descriptors of `src` into `dest`</div><div class="line"> *</div><div class="line"> * @param &#123;object&#125; dest Object to add descriptors to</div><div class="line"> * @param &#123;object&#125; src Object to clone descriptors from</div><div class="line"> * @param &#123;boolean&#125; [redefine=true] Redefine `dest` properties with `src` properties</div><div class="line"> * @returns &#123;object&#125; Reference to dest</div><div class="line"> * @public</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">merge</span>(<span class="params">dest, src, redefine</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (!dest) &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'argument dest is required'</span>)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (!src) &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'argument src is required'</span>)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (redefine === <span class="literal">undefined</span>) &#123;</div><div class="line">    <span class="comment">// Default to true</span></div><div class="line">    redefine = <span class="literal">true</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="built_in">Object</span>.getOwnPropertyNames(src).forEach(<span class="function"><span class="keyword">function</span> <span class="title">forEachOwnPropertyName</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (!redefine &amp;&amp; hasOwnProperty.call(dest, name)) &#123;</div><div class="line">      <span class="comment">// Skip desriptor</span></div><div class="line">      <span class="keyword">return</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// Copy descriptor</span></div><div class="line">    <span class="keyword">var</span> descriptor = <span class="built_in">Object</span>.getOwnPropertyDescriptor(src, name)</div><div class="line">    <span class="built_in">Object</span>.defineProperty(dest, name, descriptor)</div><div class="line">  &#125;)</div><div class="line"></div><div class="line">  <span class="keyword">return</span> dest</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>拷贝继承，继承时会耗费更多时间和空间，但后续访问时理论上效率更高</p>
+<p>常驻于内存中的对象更加适合这种继承方式, 一次继承多次使用</p>
+<p>后两种可归为一类，均是从原型对象继承</p>
+<h3 id="原型继承"><a href="#原型继承" class="headerlink" title="原型继承"></a>原型继承</h3><p>原型继承，是js中常见的的继承方式，这里有两种操作方法</p>
+<ul>
+<li><p><code>Object.create(proto[, propertiesObject])</code></p>
+<pre><code>返回在指定原型对象上添加新属性后的对象
+即除了继承之外，还可以自定义属性
+</code></pre></li>
+<li><p><code>setprototypeof</code></p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//setprototypeof</span></div><div class="line"><span class="built_in">module</span>.exports = <span class="built_in">Object</span>.setPrototypeOf || (&#123;<span class="attr">__proto__</span>:[]&#125; <span class="keyword">instanceof</span> <span class="built_in">Array</span> ? setProtoOf : mixinProperties);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setProtoOf</span>(<span class="params">obj, proto</span>) </span>&#123;</div><div class="line">	obj.__proto__ = proto;</div><div class="line">	<span class="keyword">return</span> obj;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mixinProperties</span>(<span class="params">obj, proto</span>) </span>&#123;</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> proto) &#123;</div><div class="line">		<span class="keyword">if</span> (!obj.hasOwnProperty(prop)) &#123;</div><div class="line">			obj[prop] = proto[prop];</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> obj;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一般来说调用的是原生接口<code>Object.setPrototypeOf</code></p>
+<p>同时也提供了两种兼容方案</p>
+<ul>
+<li><code>obj.__proto__ = proto;</code> </li>
+<li>属性值拷贝</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>自己写代码或者写库程序不可避免会涉及到继承封装，express提供了很好的最佳实践</p>
+<ul>
+<li>对于常驻对象推荐使用<code>属性拷贝</code>，用空间换时间</li>
+<li>原型继承有<code>Object.create()</code>和<code>Object.setPrototypeOf()</code>等方法，分别有各自适合的场景，更多了解可以参照MDN的说明</li>
+<li>不想自己造轮子，express的这俩久经考验的轮子也可以直接拿来使用，<code>merge-descriptors</code>和<code>setPrototypeOf</code>, 源码也十分简洁</li>
+</ul>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    pandaQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://xu-li.cn/2018/express-object-inheritance/" title="express源码中的对象继承">http://xu-li.cn/2018/express-object-inheritance/</a>
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/express/" <i class="fa fa-tag"></i> express</a>
+          
+            <a href="/tags/Object-inheritance/" <i class="fa fa-tag"></i> Object-inheritance</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/middleware/" rel="next" title="middleware">
+                <i class="fa fa-chevron-left"></i> middleware
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -402,6 +556,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="vcomments"></div>
+    
+  </div>
+
 
         </div>
         
@@ -424,8 +584,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
             <img class="site-author-image" itemprop="image"
@@ -525,6 +694,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#对象继承方式"><span class="nav-number">1.</span> <span class="nav-text">对象继承方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码分析"><span class="nav-number">2.</span> <span class="nav-text">源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#属性拷贝"><span class="nav-number">2.1.</span> <span class="nav-text">属性拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原型继承"><span class="nav-number">2.2.</span> <span class="nav-text">原型继承</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
