@@ -192,6 +192,228 @@
   </entry>
   
   <entry>
+    <title>XMLHttpRequest</title>
+    <link href="http://xu-li.cn/2017/xhr/"/>
+    <id>http://xu-li.cn/2017/xhr/</id>
+    <published>2017-12-29T12:50:38.000Z</published>
+    <updated>2018-02-25T04:05:03.216Z</updated>
+    
+    <content type="html"><![CDATA[<p>据说前端培训班第一课就会讲<code>XMLHttpRequest</code>和<code>AJAX</code>。<br>不说别的，至少能得出结论，这是个很基础，很重要的概念。<br>我没去过培训班，在此总结一下，如果被问到这个问题，我会怎么回答。<br><a id="more"></a></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
+<li><p>XMLHttpRequest (XHR) 是干嘛用的</p>
+<pre><code>使用xhr对象发送http请求和服务器通信
+你可以通过一个url传输和获取服务端的数据
+因为以前多用来传递xml格式的数据，所以名字里有个xml
+但xhr可以发送和接收多种类型的数据资源（现在更多的是JSON、html、text files）
+</code></pre></li>
+<li><p>XHR 是什么</p>
+<pre><code>是一个API
+是一个类
+是一个构造函数
+</code></pre></li>
+<li><p>为什么要用XHR</p>
+<pre><code>支持页面局部更新
+不用整体刷新页面，不会打断用户操作，用户体验好
+</code></pre></li>
+<li><p>哪些地方用到了XHR    </p>
+<pre><code>XMLHttpRequest 在 AJAX 中被大量使用
+</code></pre></li>
+<li><p>所以AJAX 又是啥</p>
+<pre><code>全称Asynchronous JavaScript And XML
+它使用XHR对象和服务器通信
+它是XHR的一个封装
+特点是Asynchronous（异步）
+</code></pre><h3 id="总述"><a href="#总述" class="headerlink" title="总述"></a>总述</h3></li>
+</ul>
+<p>XMLHttpRequest 是一个底层封装好的API, 通过它可以很容易的取回一个 URL 上的资源数据。尽管名字里有 XML，但 XMLHttpRequest 支持的数据类型并不局限于 XML。而且除了 HTTP ，它还支持 file 和 ftp 协议。</p>
+<p>AJAX 则是对XMLHttpRequest的进一步封装，让使用更加方便</p>
+<p>了解XMLHttpRequest，对AJAX的理解会更加深入</p>
+<p>本文着重讲XMLHttpRequest</p>
+<h2 id="XMLHttpRequest"><a href="#XMLHttpRequest" class="headerlink" title="XMLHttpRequest"></a>XMLHttpRequest</h2><p>想通过javascript发送一个http请求，我们需要一个具有必备功能的对象去做这件事，这个对象就是<code>XMLHttpRequest</code>对象</p>
+<p>这个概念最初由微软设计，在IE中作为一个”ActiveX”对象使用，被称作”XMLHTTP”,随后 Mozilla、Apple 和 Google跟进,<br>搞出了一个”XMLHttpRequest”对象，功能上和ActiveX对象差不多。如今，该对象已经被 W3C组织标准化。</p>
+<p>以下代码可以很好的说明这段历史<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Old compatibility code, no longer needed.</span></div><div class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.XMLHttpRequest) &#123; <span class="comment">// Mozilla, Safari, IE7+ ...</span></div><div class="line">    httpRequest = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">window</span>.ActiveXObject) &#123; <span class="comment">// IE 6 and older</span></div><div class="line">    httpRequest = <span class="keyword">new</span> ActiveXObject(<span class="string">"Microsoft.XMLHTTP"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>现代浏览器直接调用构造函数<code>new XMLHttpRequest()</code>即可创建一个新的xhr对象</p>
+<hr>
+<p>对象有了，怎么发送请求呢，当然调用对象方法<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">httpRequest.open(<span class="string">'GET'</span>, <span class="string">'http://www.example.org/some.file'</span>, <span class="literal">true</span>);</div><div class="line">httpRequest.send();</div></pre></td></tr></table></figure></p>
+<h3 id="xhr-open-requestMethod-url-isAsync"><a href="#xhr-open-requestMethod-url-isAsync" class="headerlink" title="xhr.open(requestMethod, url, isAsync)"></a>xhr.open(requestMethod, url, isAsync)</h3><ul>
+<li>第一个参数是http请求方法名，安装http标准应该全部为大写字母</li>
+<li>发送请求的url地址，出于安全性考虑，采用同源策略</li>
+<li>可选参数，是否异步（js继续执行，未收到服务器响应前用户可继续与页面交互），默认为true</li>
+</ul>
+<h3 id="xhr-send"><a href="#xhr-send" class="headerlink" title="xhr.send()"></a>xhr.send()</h3><ul>
+<li>发送请求参数</li>
+<li>如果是POST请求，发送表单数据时应该以一种服务器可以解析的格式，例如query字符串的形式</li>
+<li>支持多种格式的数据发送，multipart/form-data, JSON, XML 等等.</li>
+<li>如果是使用POST发送数据，还需要设定请求的MIME类型，即定义请求头部</li>
+</ul>
+<p>下例表示请求里的参数类型为query字符串<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">httpRequest.setRequestHeader(<span class="string">'Content-Type'</span>, <span class="string">'application/x-www-form-urlencoded'</span>);</div><div class="line">httpRequest.send(<span class="string">"name=value&amp;anothername="</span>+<span class="built_in">encodeURIComponent</span>(myVar)+<span class="string">"&amp;so=on"</span>)</div></pre></td></tr></table></figure></p>
+<hr>
+<p>发送请求后，需要接受响应。</p>
+<p>在这个阶段，需要告诉xhr对象调用哪个函数去处理响应。</p>
+<p>通过设置<code>onreadystatechange</code>属性值为一个函数，会在请求状态变化时调用</p>
+<h3 id="xhr-onreadystatechange"><a href="#xhr-onreadystatechange" class="headerlink" title="xhr.onreadystatechange"></a>xhr.onreadystatechange</h3><ul>
+<li>属性值为一个函数引用</li>
+<li>函数无参数</li>
+<li>相当于回调函数，处理服务器的响应</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">httpRequest.onreadystatechange = nameOfTheFunction;</div></pre></td></tr></table></figure>
+<p>处理函数如何处理响应呢，答案是根据请求状态</p>
+<h3 id="xhr-readyState"><a href="#xhr-readyState" class="headerlink" title="xhr.readyState"></a>xhr.readyState</h3><ul>
+<li>0 (uninitialized) or (request not initialized)</li>
+<li>1 (loading) or (server connection established)</li>
+<li>2 (loaded) or (request received)</li>
+<li>3 (interactive) or (processing request)</li>
+<li>4 (complete) or (request finished and response is ready)</li>
+</ul>
+<p>details:</p>
+<ul>
+<li>0, <code>UNSENT</code>, Client has been created. open() not called yet.</li>
+<li>1, <code>OPENED</code>, open() has been called.</li>
+<li>2, <code>HEADERS_RECEIVED</code>, send() has been called, and headers and status are available.</li>
+<li>3, <code>LOADING</code>, Downloading; responseText holds partial data.</li>
+<li>4, <code>DONE</code>, The operation is complete.</li>
+</ul>
+<p>因此，响应处理函数的内容可以是<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (httpRequest.readyState === XMLHttpRequest.DONE) &#123;</div><div class="line">    <span class="comment">// Everything is good, the response was received.</span></div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// Not ready yet.</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>除此之外，还可以参考http响应的状态码，如<code>200 ok</code>来确认响应结果</p>
+<h3 id="xhr-status"><a href="#xhr-status" class="headerlink" title="xhr.status"></a>xhr.status</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (httpRequest.status === <span class="number">200</span>) &#123;</div><div class="line">    <span class="comment">// Perfect!</span></div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// There was a problem with the request.</span></div><div class="line">    <span class="comment">// For example, the response may have a 404 (Not Found)</span></div><div class="line">    <span class="comment">// or 500 (Internal Server Error) response code.</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="xhr-responseType"><a href="#xhr-responseType" class="headerlink" title="xhr.responseType"></a>xhr.responseType</h3><p>属性<code>responseType</code>决定了响应的数据类型，如果返回的数据类型不符合设定，响应值将被置成<code>null</code></p>
+<p>该属性只在异步请求中可用，同步请求设置该值会报错</p>
+<p>支持的标准responseType如下：</p>
+<ul>
+<li><code>&quot;&quot;</code>, DOMString(default)</li>
+<li><code>&quot;arraybuffer&quot;</code></li>
+<li><code>&quot;blob&quot;</code></li>
+<li><code>&quot;document&quot;</code></li>
+<li><code>&quot;json&quot;</code></li>
+<li><code>&quot;text&quot;</code>, DOMString</li>
+</ul>
+<h3 id="xhr-response"><a href="#xhr-response" class="headerlink" title="xhr.response"></a>xhr.response</h3><p>返回对应<code>responseType</code>中的内容实体</p>
+<h3 id="xhr-responseText"><a href="#xhr-responseText" class="headerlink" title="xhr.responseText"></a>xhr.responseText</h3><p>将响应数据以<code>text</code>类型返回一个DOMString</p>
+<h3 id="xhr-responseURL"><a href="#xhr-responseURL" class="headerlink" title="xhr.responseURL"></a>xhr.responseURL</h3><p>返回请求的url，如果不存在则返回空字符串</p>
+<h3 id="xhr-responseXML"><a href="#xhr-responseXML" class="headerlink" title="xhr.responseXML"></a>xhr.responseXML</h3><p>返回一个XML 文档解析而来的 DOM 对象，也可用来解析HTML，设置responseType为document即可</p>
+<h3 id="xhr-timeout"><a href="#xhr-timeout" class="headerlink" title="xhr.timeout"></a>xhr.timeout</h3><p>超时时长，单位为ms</p>
+<hr>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ul>
+<li>对于相同请求，浏览器会默认缓存结果，不会重复提交请求。如果要请求相同内容，记得设置请求头部<code>Cache-Control: no-cache</code></li>
+<li><p>请求报错时，错误会在响应处理函数内部抛出，可以使用try…catch捕获</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">alertContents</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">if</span> (httpRequest.readyState === XMLHttpRequest.DONE) &#123;</div><div class="line">      <span class="keyword">if</span> (httpRequest.status === <span class="number">200</span>) &#123;</div><div class="line">        alert(httpRequest.responseText);</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        alert(<span class="string">'There was a problem with the request.'</span>);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">catch</span>( e ) &#123;</div><div class="line">    alert(<span class="string">'Caught Exception: '</span> + e.description);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>浏览器对xhr json格式响应数据的支持并不全面，需特殊处理，假设服务端返回的为json数据，处理可以如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">alertContents</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (httpRequest.readyState === XMLHttpRequest.DONE) &#123;</div><div class="line">    <span class="keyword">if</span> (httpRequest.status === <span class="number">200</span>) &#123;</div><div class="line">      <span class="keyword">var</span> response = <span class="built_in">JSON</span>.parse(httpRequest.responseText);</div><div class="line">      alert(response.computedString);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      alert(<span class="string">'There was a problem with the request.'</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="More"><a href="#More" class="headerlink" title="More"></a>More</h2><p><code>XMLHttpRequest</code>类从<code>XMLHttpRequestEventTarget</code>和<code>EventTarget</code>继承</p>
+<p>简单来说，一个处理http请求事件，一个可以监听事件消息，众多浏览器均以支持。</p>
+<p>提供标准的<code>addEventListener()</code>APIs注册消息，然后设置<code>on*</code>属性为消息处理函数</p>
+<p>因此可以看到类似以下形式的api：</p>
+<ul>
+<li>xhr.onload = reqListener</li>
+<li>xhr.onerror =  errorHandler</li>
+<li>xhr.onprogress = progressHandler</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>简单过了一遍XHR，总体来看依旧是典型的对象编程，对于普通使用者无非就是熟悉api，看了XHR的api，再去看ajax的api，会感觉非常容易接受，甚至自己动手写个ajax也是不难实现的。</p>
+<p>资料参考<br><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank" rel="external">MDN XMLHttpRequest</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;据说前端培训班第一课就会讲&lt;code&gt;XMLHttpRequest&lt;/code&gt;和&lt;code&gt;AJAX&lt;/code&gt;。&lt;br&gt;不说别的，至少能得出结论，这是个很基础，很重要的概念。&lt;br&gt;我没去过培训班，在此总结一下，如果被问到这个问题，我会怎么回答。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="common-sense" scheme="http://xu-li.cn/categories/common-sense/"/>
+    
+    
+      <category term="XMLHttpRequest" scheme="http://xu-li.cn/tags/XMLHttpRequest/"/>
+    
+      <category term="AJAX" scheme="http://xu-li.cn/tags/AJAX/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Cross-Origin</title>
+    <link href="http://xu-li.cn/2017/cross-origin/"/>
+    <id>http://xu-li.cn/2017/cross-origin/</id>
+    <published>2017-12-25T12:50:38.000Z</published>
+    <updated>2018-02-25T04:00:05.014Z</updated>
+    
+    <content type="html"><![CDATA[<p>前端跨域(cross-origin)是个应该掌握的基本常识，网上很多资料都有讲，全面总结下加深印象<br><a id="more"></a></p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>跨域资源共享：<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS" target="_blank" rel="external">Cross origin resource sharing(CORS)</a></p>
+<p>浏览器的安全策略-同源策略: <a href="https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy" target="_blank" rel="external">same origin policy)</a></p>
+<p>总结来说</p>
+<p>一个源的定义：</p>
+<p>如果<code>协议</code>，<code>端口</code>（如果指定了一个）和<code>域名</code>对于两个页面是相同的，则两个页面具有相同的<code>源</code></p>
+<p>请求<code>非同源</code>资源的请求叫做<code>跨域 HTTP 请求</code></p>
+<p>出于安全原因，浏览器限制<code>从脚本内发起的</code>跨域HTTP请求</p>
+<p>具体如何限制呢？</p>
+<ul>
+<li>请求成功，拦截响应（大部分是这条）</li>
+<li>拦截请求（例如部分浏览器不允许HTTPS跨域访问HTTP）</li>
+</ul>
+<p>但是！跨越请求资源的需求不可或缺，所以需要想办法绕过限制</p>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="AJAX中的同源限制"><a href="#AJAX中的同源限制" class="headerlink" title="AJAX中的同源限制"></a>AJAX中的同源限制</h2><p>实例示范跨域请求资源被拦截</p>
+<p>打开浏览器，在console中输入以下代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</div><div class="line">xhr.open(<span class="string">'GET'</span>, <span class="string">'https://baidu.com'</span>)</div><div class="line">xhr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(xhr.responseText)</div><div class="line">&#125;</div><div class="line">xhr.send()</div></pre></td></tr></table></figure></p>
+<p>可以看到请求是成功的，但是没有响应，会看到一串错误信息, 提示没有允许跨域请求头</p>
+<p>原因就是XHR遵循了浏览器的同源策略</p>
+<h2 id="天然跨域"><a href="#天然跨域" class="headerlink" title="天然跨域"></a>天然跨域</h2><p>然而上述场景很容易联想到另外的情况：表单提交<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"https://www.baidu.com"</span> <span class="attr">method</span>=<span class="string">"get"</span>&gt;</span> </div><div class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span>&gt;</span> </div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span> </div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>很显然这个是可以跳转成功的，类似的还有</p>
+<ul>
+<li><code>&lt;a&gt;</code>标签，GET请求， 会刷新或离开页面</li>
+<li><code>&lt;img&gt;</code>src属性，GET请求， 加载外部图片</li>
+<li><code>&lt;link&gt;</code>标签， GET请求，加载css等资源</li>
+<li><code>&lt;script&gt;</code>， GET请求，加载脚本资源</li>
+</ul>
+<p>这些都实现了获取非同源资源的请求，为什么没有被浏览器限制呢？</p>
+<p>有人称之为“天然跨越”，因为浏览器认为这些访问是安全的，从脚本内发起的资源请求则不在该范围内</p>
+<h1 id="跨域方法"><a href="#跨域方法" class="headerlink" title="跨域方法"></a>跨域方法</h1><p>虽然有些html标签实现了“天然跨域”，但这远远不够，页面不总是静态的，如何让AJAX实现跨域请求资源呢，传统的三个方法如下：</p>
+<h2 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h2><p>CORS 是一个 W3C 标准，它允许浏览器向跨源服务器，发出 XMLHttpRequest 请求，从而克服了 ajax 只能同源使用的限制。</p>
+<p>用法也很好理解，<code>响应头部</code>添加字段告诉浏览器，响应符合规范，是安全合法的，从而让浏览器不拦截响应</p>
+<p>eg:</p>
+<p><code>&#39;Access-Control-Allow-Origin&#39;: http://127.0.0.1:3000</code></p>
+<p>字段值包括源的三个“身份值”，协议，域名，端口</p>
+<p>当然这种设置只能是<code>服务器</code>去做，服务器有权决定自己的资源对谁开放</p>
+<p>另外一个不太算缺点的缺点，该标准仅支持IE10 及以上</p>
+<h2 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h2><p>JSONP 全称为：JSON with padding，可用于解决老版本浏览器的跨域数据访问问题。</p>
+<p>用法如下：</p>
+<p>前端逻辑：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// jsonp/index.html</div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">jsonpCallback</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">        alert(<span class="string">'获得 X 数据:'</span> + data.x);</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://localhost:3000?callback=jsonpCallback"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>后端用nodejs来模拟<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// jsonp/server.js</span></div><div class="line"><span class="keyword">const</span> url = <span class="built_in">require</span>(<span class="string">'url'</span>);</div><div class="line">	</div><div class="line"><span class="built_in">require</span>(<span class="string">'http'</span>).createServer(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</div><div class="line">	<span class="keyword">const</span> data = &#123;</div><div class="line">		<span class="attr">x</span>: <span class="number">10</span></div><div class="line">	&#125;;</div><div class="line">	<span class="comment">// 拿到回调函数名</span></div><div class="line">	<span class="keyword">const</span> callback = url.parse(req.url, <span class="literal">true</span>).query.callback;</div><div class="line">	<span class="built_in">console</span>.log(callback);</div><div class="line">	res.writeHead(<span class="number">200</span>);</div><div class="line">	res.end(<span class="string">`<span class="subst">$&#123;callback&#125;</span>(<span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(data)&#125;</span>)`</span>);</div><div class="line"></div><div class="line">&#125;).listen(<span class="number">3000</span>);</div></pre></td></tr></table></figure></p>
+<p>原理：</p>
+<pre><code>利用&lt;script&gt;标签src属性的天然跨越，向后端传递参数，响应返回为函数调用
+</code></pre><p>这个函数是前端事先准备的（jsonpCallback），函数参数由后端提供，后端响应是<code>jsonpCallback(data)</code>, 即调用函数，实现动态交互</p>
+<p>优点：</p>
+<ul>
+<li>不受浏览器同源策略影响</li>
+<li>兼容性好</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>只支持GET请求，原因是JSONP的实现是“借鸡下蛋”，<code>&lt;script&gt;</code>的src属性只支持GET请求方式获取资源</li>
+<li>无法捕获连接异常</li>
+</ul>
+<h2 id="服务端代理"><a href="#服务端代理" class="headerlink" title="服务端代理"></a>服务端代理</h2><p>这种方式依然是对同源策略的一种妥协，原理是在同源域名下使用代理转发请求</p>
+<p>eg:</p>
+<p><code>&#39;/proxy?url=http://baidu.com&#39;</code></p>
+<p>后端取得参数后自行访问目标资源，得到结果后再返回给浏览器</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;前端跨域(cross-origin)是个应该掌握的基本常识，网上很多资料都有讲，全面总结下加深印象&lt;br&gt;
+    
+    </summary>
+    
+      <category term="common-sense" scheme="http://xu-li.cn/categories/common-sense/"/>
+    
+    
+      <category term="Cross-Origin" scheme="http://xu-li.cn/tags/Cross-Origin/"/>
+    
+      <category term="CORS" scheme="http://xu-li.cn/tags/CORS/"/>
+    
+      <category term="JSONP" scheme="http://xu-li.cn/tags/JSONP/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Promise</title>
     <link href="http://xu-li.cn/2017/promise/"/>
     <id>http://xu-li.cn/2017/promise/</id>
@@ -1818,179 +2040,6 @@ code默认为`-9`,表示发送kill信号，另外提两个
     
     
       <category term="css" scheme="http://xu-li.cn/tags/css/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HTML</title>
-    <link href="http://xu-li.cn/2017/html/"/>
-    <id>http://xu-li.cn/2017/html/</id>
-    <published>2017-05-21T13:15:27.000Z</published>
-    <updated>2017-12-24T13:51:10.097Z</updated>
-    
-    <content type="html"><![CDATA[<p>到了这个阶段再来看html有一种说不出来的感觉，其实从未全面学习过，简单过一遍留个脚印。<br><a id="more"></a></p>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
-<li>html是一个文本描述语言，用来描述网页文档(web pages/documents)，几乎是专用的。</li>
-<li>该描述语言由一系列描述标签(tags)组成</li>
-<li>不同的标签描述不同的描述内容</li>
-<li>描述标签的集合组成了HTML文档</li>
-</ul>
-<p>示例:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Page Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>My First Heading<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>My first paragraph.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>样例说明：</p>
-<ul>
-<li>html对大小写不care，有过care的版本，但都是过去式，不必关心，但习惯上小写</li>
-<li><code>DOCTYPE</code>声明定义文档类型为html，写html表示HTML5，是2014年提出的最新标准</li>
-<li><code>&lt;html&gt;&lt;/html&gt;</code>标签内部的内容表示该文档的全部内容</li>
-<li><code>&lt;head&gt;&lt;/head&gt;</code>表示头部,类似人体结构</li>
-<li><code>&lt;body&gt;&lt;/body&gt;</code>表示主体部分</li>
-<li>html是写给机器读的，tags标签不会显示，仅用作标识，用来定义其内容的展示方式</li>
-<li>仅有body部分的内容会展现在浏览器中</li>
-<li>html5标准中，<code>&lt;html&gt;</code>、<code>&lt;body&gt;</code>、<code>&lt;head&gt;</code>标签都是可以省略的，浏览器也能解析，但是不推荐这么做<h2 id="html元素"><a href="#html元素" class="headerlink" title="html元素"></a>html元素</h2>标签对以及其中的内容构成html元素。</li>
-<li>元素内部可以包含元素，即元素是可嵌套的</li>
-<li><code>&lt;html&gt;</code>元素定义了整个文档，其他元素都是它的子元素</li>
-<li>不要忘记结束标签</li>
-</ul>
-<p>每个元素都有一个默认的展示值从而决定它展示的方式，这个值通常是<code>block</code>或者是<code>inline</code></p>
-<h3 id="块级元素（block）"><a href="#块级元素（block）" class="headerlink" title="块级元素（block）"></a>块级元素（block）</h3><p>一个块级元素通常起始于行首，并占据整行，后续元素不会与之并排。<br>常见的这类元素有：</p>
-<ul>
-<li><code>&lt;div&gt;</code></li>
-<li><code>&lt;h1&gt;-&lt;h6&gt;</code></li>
-<li><code>&lt;p&gt;</code></li>
-<li><code>&lt;form&gt;</code><h3 id="行内元素-（inline）"><a href="#行内元素-（inline）" class="headerlink" title="行内元素 （inline）"></a>行内元素 （inline）</h3>不需要从起始于行首，并且只占据它需要的宽度。<br>常见的这类元素有：</li>
-<li><code>&lt;span&gt;</code></li>
-<li><code>&lt;img&gt;</code></li>
-<li><code>&lt;a&gt;</code></li>
-</ul>
-<h3 id="行内块元素-（inline-block）"><a href="#行内块元素-（inline-block）" class="headerlink" title="行内块元素 （inline-block）"></a>行内块元素 （inline-block）</h3><p>强制改变块级元素的展现方式，让它们能同行并排，常见做法是改变该元素的CSS属性<code>display</code>为<br><code>inline-block</code></p>
-<h2 id="html属性"><a href="#html属性" class="headerlink" title="html属性"></a>html属性</h2><p>html属性具体的说是元素的属性，用来描述元素额外的信息。</p>
-<ul>
-<li>属性的作用是提供元素的额外信息</li>
-<li>属性通常在起始tag中的定义</li>
-<li>属性的定义规则是 <code>name=&quot;value&quot;</code>形式, 多个属性声明时，以<code>空格</code>间隔, 一般使用双引号，内部存在双引号时也可使用单引号<br>eg:<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en-US"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>在html元素中声明<code>lang</code>属性，用来表明文档的语言类型。<br>常见的还有，</p>
-<ul>
-<li>在<code>&lt;p&gt;</code>元素中增加<code>title</code>属性，当鼠标移动到该元素上时，title的内容会在提示框中显示。</li>
-<li><code>&lt;a&gt;</code>元素的<code>href</code>属性用于超链接</li>
-<li><code>&lt;img&gt;</code>元素<code>&lt;img src=&quot;w3schools.jpg&quot; alt=&quot;W3Schools.com&quot; width=&quot;104&quot; height=&quot;142&quot;&gt;</code>,其中width和height单位为屏幕像素<h3 id="style"><a href="#style" class="headerlink" title="style"></a>style</h3>设置元素的显示风格.<br>定义规则为<code>style=&quot;property:value;&quot;</code> property是一个css属性名，value是一个css属性值。<br>元素的展示形式属于视图层的范围，一般建议单独以css的形式定义，style属性提供内联的定义形式，这里不详细展开。只需区分style元素属性值的定义规则和元素属性定义规则的区别即可:</li>
-<li>name=”value” html元素属性定义以空格分隔</li>
-<li>style=”property:value;” style属性定义以<code>分号</code>分隔</li>
-</ul>
-<h2 id="html标签"><a href="#html标签" class="headerlink" title="html标签"></a>html标签</h2><p>html标签太多，但常用的虽然不多</p>
-<ul>
-<li><code>&lt;hr&gt;</code>水平分隔线，常与标题标签一起使用</li>
-<li><code>&lt;p&gt;</code> 无论多少空格都会被算为一个，通常使用<code>&amp;nbsp;</code>表示多个空格。换行同样不起作用，需独立使用<code>&lt;br&gt;</code>标签换行。与之相对的<code>&lt;pre&gt;&lt;/pre&gt;</code>标签的空格和换行都会保留，但<br>会使用固定宽度的字体</li>
-<li>…</li>
-</ul>
-<h2 id="html文本格式化"><a href="#html文本格式化" class="headerlink" title="html文本格式化"></a>html文本格式化</h2><ul>
-<li>Bold text - <code>&lt;b&gt;&lt;/b&gt;</code>, <code>&lt;strong&gt;&lt;/strong&gt;</code></li>
-<li>Italic text - <code>&lt;i&gt;&lt;/i&gt;</code>, <code>&lt;em&gt;&lt;/em&gt;</code>(Emphasized )</li>
-<li>Marked text - <code>&lt;mark&gt;&lt;/mark&gt;</code></li>
-<li>Small text - <code>&lt;small&gt;&lt;/small&gt;</code></li>
-<li>Deleted text - <code>&lt;del&gt;&lt;/del&gt;</code></li>
-<li>Inserted text - <code>&lt;ins&gt;&lt;/ins&gt;</code></li>
-<li>Subscripts - <code>&lt;sub&gt;&lt;/sub&gt;</code></li>
-<li>Superscripts - <code>&lt;sup&gt;&lt;/sup&gt;</code></li>
-<li>Quotations - <code>&lt;q&gt;&lt;/q&gt;</code>, <code>&lt;blockquote&gt;&lt;/blockquote&gt;</code>, <code>&lt;cite&gt;&lt;/cite&gt;</code></li>
-<li>Abbreviation - <code>&lt;abbr title=&quot;World Health Organization&quot;&gt;WHO&lt;/abbr&gt;</code></li>
-<li>Bi-Directional Override - 方向逆转， <code>&lt;bdo dir=&quot;rtl&quot;&gt;This text will be written from right to left&lt;/bdo&gt;</code></li>
-<li>comments - 注释 <code>&lt;!-- comment lines --&gt;</code></li>
-</ul>
-<h2 id="html布局"><a href="#html布局" class="headerlink" title="html布局"></a>html布局</h2><ol>
-<li>通常使用<code>&lt;div&gt;</code>元素作为布局的工具，因为它能很方便的被css定位，从而定义它的样式。</li>
-<li>html5提供了新的一套语义更清晰的元素来定义网页的不同部分。</li>
-</ol>
-<ul>
-<li><code>&lt;header&gt;</code> 整个网页或某个局部区域的头部</li>
-<li><code>&lt;nav&gt;</code> 导航链接的容器</li>
-<li><code>&lt;section&gt;</code> 定义网页的各个不同区域</li>
-<li><code>&lt;article&gt;</code> 定义一个独立的文章区域</li>
-<li><code>&lt;footer&gt;</code> 整个网页或某个局部区域的底部</li>
-</ul>
-<ol>
-<li>还有一些很老的网页使用<code>table</code>元素来布局，不推荐。</li>
-</ol>
-<h2 id="html响应式设计"><a href="#html响应式设计" class="headerlink" title="html响应式设计"></a>html响应式设计</h2><ol>
-<li>最简单的方式就是将整个页面使用块级元素分隔成固定大小的模块，然后使用<code>float</code>属性，让其随屏幕变化产生自适应效果。</li>
-<li>另一种方式就是使用响应式的样式表，例如<code>w3.css</code>等响应式css类库。</li>
-</ol>
-<h2 id="html实体符号"><a href="#html实体符号" class="headerlink" title="html实体符号"></a>html实体符号</h2><p>由于很多字符被html使用或其他原因被设定为保留字，因此想表达原有的意思只能选择替代方案。<br>一般有两种表达方式：</p>
-<ol>
-<li>&amp;entity_name</li>
-<li>&amp;#entity_number<br>例如：</li>
-</ol>
-<ul>
-<li>小于号的写法就为 <code>&amp;lt</code>或<code>&amp;#60</code></li>
-<li>常见的还有空格的表示，<code>&amp;nbsp</code></li>
-<li>copyright符号，<code>&amp;copy</code>或<code>&amp;#169</code></li>
-<li>人民币符号，<code>&amp;ren</code>, <code>$#165</code></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;到了这个阶段再来看html有一种说不出来的感觉，其实从未全面学习过，简单过一遍留个脚印。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="HTML" scheme="http://xu-li.cn/categories/HTML/"/>
-    
-    
-      <category term="html" scheme="http://xu-li.cn/tags/html/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JavaScript箭头函数</title>
-    <link href="http://xu-li.cn/2017/arrow_function/"/>
-    <id>http://xu-li.cn/2017/arrow_function/</id>
-    <published>2017-05-18T12:50:38.000Z</published>
-    <updated>2017-09-20T11:54:37.828Z</updated>
-    
-    <content type="html"><![CDATA[<p>js从ES6开始引入一种新函数，箭头函数。<br>它拥有无比简洁优雅的写法，不用显式的写<code>function</code>，确实方便不少。但并非适应所有的函数应用场景，这里结合资料和个人理解做个总结。<br><a id="more"></a></p>
-<pre><code>An arrow function expression has a shorter syntax than a function expression 
-and does not bind its own this, arguments, super, or new.target. 
-These function expressions are best suited for non-method functions, 
-and they cannot be used as constructors.
-</code></pre><p>箭头函数相比声明式的函数表达式语法更加简洁，但它不绑定自己的<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this" target="_blank" rel="external">this</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments" target="_blank" rel="external">arguments</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super" target="_blank" rel="external">super</a>, 以及<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new.target" target="_blank" rel="external">new.target</a>, 箭头非常适合<code>非对象方法</code>的函数场景，而且也不能作为构造函数。</p>
-<p>以上是我直接翻译的一段MDN资料,对于对象方法的使用场景特殊说明下：<br>不是说箭头函数不能用作对象方法，如果方法里不涉及this的调用，是完全可以的。<br>而如果使用了this，情况可能会和你想的不一样，这个后续会说到。</p>
-<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">(param1, param2, …, paramN) =&gt; &#123; statements &#125;</div><div class="line">(param1, param2, …, paramN) =&gt; expression</div><div class="line"><span class="comment">/*当函数体只有一个表达式时，可以省略大括号， </span></div><div class="line">等价于: (param1, param2, …, paramN) =&gt; &#123; return expression; &#125; */</div><div class="line"></div><div class="line">(singleParam) =&gt; &#123; statements &#125;</div><div class="line">singleParam =&gt; &#123; statements &#125;</div><div class="line"><span class="comment">/*当只有一个参数时,可以省略括号 */</span></div><div class="line"></div><div class="line">() =&gt; &#123; statements &#125;</div><div class="line"><span class="comment">/* 无参数时，括号不可省 */</span></div><div class="line"></div><div class="line">params =&gt; (&#123;<span class="attr">foo</span>: bar&#125;)</div><div class="line"><span class="comment">/* 给函数体加上括号，表示函数返回一个对象 */</span></div><div class="line"></div><div class="line">(param1, param2, ...rest) =&gt; &#123; statements &#125;</div><div class="line">(param1 = defaultValue1, param2, …, paramN = defaultValueN) =&gt; &#123; statements &#125;</div><div class="line"><span class="comment">/* 支持Rest参数和默认参数 */</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> f = <span class="function">(<span class="params">[a, b] = [<span class="number">1</span>, <span class="number">2</span>], &#123;x: c&#125; = &#123;x: a + b&#125;</span>) =&gt;</span> a + b + c</div><div class="line">f()  <span class="comment">//6</span></div><div class="line"><span class="comment">//支持带参数列表的解构赋值</span></div></pre></td></tr></table></figure>
-<h2 id="从this说起"><a href="#从this说起" class="headerlink" title="从this说起"></a>从this说起</h2><p>this的用法，在面向对象编程的领域里显得非常的另类。<br>在箭头函数出现之前，每一个新的函数，都定义了自己的this这个特殊变量。<br>如果是作为构造函数，this指代一个新的对象;<br>如果是在strict模式下的函数调用，this被定义为undefind;<br>非strict模式则指向全局对象(window或global);<br>如果是被当做对象的方法调用，this则指代调用该方法的对象。</p>
-<p>然而对于箭头函数，它不绑定自己的this。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> age = <span class="number">5</span>; <span class="comment">/* nodejs 需写成 global.age = 5  */</span> </div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">/* this.age = 0;//this 指向构造函数Foo的实例 */</span></div><div class="line">    <span class="keyword">var</span> test= <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="comment">/* 非strict模式下指向全局对象，非Foo的实例 */</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.age);</div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    test();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Foo(); </div><div class="line"><span class="comment">//5</span></div></pre></td></tr></table></figure>
-<p>如想让以上这段代码输出为0怎么办呢？<br>在ES 3/5里，this可以被赋值给其他变量，于是可以有如下的这种办法</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> that = <span class="keyword">this</span>; <span class="comment">/* 一开始捕获this，将它存为that */</span></div><div class="line">    that.age = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> test = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(that.age);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    test();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Foo();</div><div class="line"><span class="comment">//0</span></div></pre></td></tr></table></figure>
-<p>当然还可以使用绑定函数，给函数绑定this的指向，如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> age = <span class="number">5</span>; <span class="comment">/* 如果是nodejs，需写成global.age = 5 */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.age = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> test= <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.age);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> test = test.bind(<span class="keyword">this</span>);<span class="comment">/* 也可以用call或者apply </span></div><div class="line">    test.call(this, null); </div><div class="line">    test.apply(this, null); */</div><div class="line"></div><div class="line">    test();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Foo();</div><div class="line"><span class="comment">//0</span></div></pre></td></tr></table></figure></p>
-<p>但是，这个场景刚好适合箭头函数登场<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> age = <span class="number">5</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.age = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> test = <span class="function"><span class="params">()</span>=&gt;</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.age);</div><div class="line">    &#125;</div><div class="line">  </div><div class="line">    test();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Foo();</div><div class="line"><span class="comment">//0</span></div></pre></td></tr></table></figure></p>
-<p>因为箭头函数没有自己的this上下文，所以它会根据外围的上下文获取this，<br>在这里就是我们希望所希望的Foo实例对象。</p>
-<pre><code>总之正常函数里使用this时，指向虽然不确定，但是至少有迹可循，
-但在箭头函数里使用，就是真的不确定，因为它是绑定在外层作用域的。
-倘若不使用this，只亲睐它的简洁语法，那当然就没有这些问题了。
-一旦使用，就要考虑清楚它是从哪里继承。
-</code></pre><p>举最后一个例子,验收测试<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">            &#125;;</div><div class="line">        &#125;;</div><div class="line">    &#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">new</span> foo()()()()     <span class="comment">/* this ? */</span></div><div class="line">foo()()()()         <span class="comment">/* this ? */</span></div></pre></td></tr></table></figure></p>
-<p>这段代码的两个结果分别是什么呢？可以自己验证下。<br>答案如下:<br>第一个this指向foo()的实例对象<br>第二个指向全局对象</p>
-<h2 id="依次类推"><a href="#依次类推" class="headerlink" title="依次类推"></a>依次类推</h2><p>说完this，同理对一开始说到的arguments, super等也是适用的<br>参考下面这段代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">   <span class="keyword">var</span> test = <span class="function"><span class="params">()</span>=&gt;</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"args:"</span>, <span class="built_in">arguments</span>);</div><div class="line">   &#125;</div><div class="line">   test()</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">new</span> Foo(<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>);</div><div class="line"><span class="comment">// args: &#123;'0':2, '1':4, '2':6, '3':8&#125;</span></div></pre></td></tr></table></figure></p>
-<p>箭头函数没有自己的arguments, 它就取Foo()的arguments。和不绑定this一个道理。</p>
-<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><p>箭头函数的箭头和参数之间不能有换行，否则报语法错误<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> func = <span class="function"><span class="params">()</span></span></div><div class="line">           =&gt; <span class="number">1</span>; </div><div class="line"><span class="comment">// SyntaxError: expected expression, got '=&gt;'</span></div></pre></td></tr></table></figure></p>
-<p>箭头符号不是一个操作符，但会被误认为操作符，和其他操作符混用时需注意<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> callback;</div><div class="line"></div><div class="line">callback = callback || <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;; <span class="comment">/* ok */</span></div><div class="line"></div><div class="line">callback = callback || <span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;;      </div><div class="line"><span class="comment">/* SyntaxError: invalid arrow-function arguments */</span></div><div class="line"></div><div class="line">callback = callback || <span class="function">(<span class="params">(</span>) =&gt;</span> &#123;&#125;);    <span class="comment">// ok</span></div></pre></td></tr></table></figure></p>
-<p>参考资料：<a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions" target="_blank" rel="external">箭头函数</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;js从ES6开始引入一种新函数，箭头函数。&lt;br&gt;它拥有无比简洁优雅的写法，不用显式的写&lt;code&gt;function&lt;/code&gt;，确实方便不少。但并非适应所有的函数应用场景，这里结合资料和个人理解做个总结。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
-    
-    
-      <category term="JavaScript" scheme="http://xu-li.cn/tags/JavaScript/"/>
-    
-      <category term="箭头函数" scheme="http://xu-li.cn/tags/%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0/"/>
-    
-      <category term="this" scheme="http://xu-li.cn/tags/this/"/>
     
   </entry>
   

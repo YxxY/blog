@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://xu-li.cn/2017/xhr/</loc>
+    
+    <lastmod>2018-02-25T04:05:03.216Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/cross-origin/</loc>
+    
+    <lastmod>2018-02-25T04:00:05.014Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://xu-li.cn/2018/express-object-inheritance/</loc>
     
     <lastmod>2018-02-09T13:35:23.130Z</lastmod>

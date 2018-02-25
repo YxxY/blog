@@ -4,6 +4,52 @@
 
     
   <url>
+    <loc>http://xu-li.cn/2017/xhr/</loc>
+    <lastmod>2018-02-25T04:05:03.216Z</lastmod>
+    <data>
+        <display>
+        <title>XMLHttpRequest</title>
+        <pubTime>2017-12-29T12:50:38.000Z</pubTime>
+        
+        <tag>XMLHttpRequest</tag>
+         
+        <tag>AJAX</tag>
+         
+         
+           
+             
+              <breadCrumb title="common-sense" url="http://xu-li.cn/categories/common-sense/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/2017/cross-origin/</loc>
+    <lastmod>2018-02-25T04:00:05.014Z</lastmod>
+    <data>
+        <display>
+        <title>Cross-Origin</title>
+        <pubTime>2017-12-25T12:50:38.000Z</pubTime>
+        
+        <tag>Cross-Origin</tag>
+         
+        <tag>CORS</tag>
+         
+        <tag>JSONP</tag>
+         
+         
+           
+             
+              <breadCrumb title="common-sense" url="http://xu-li.cn/categories/common-sense/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://xu-li.cn/2018/express-object-inheritance/</loc>
     <lastmod>2018-02-09T13:35:23.130Z</lastmod>
     <data>
