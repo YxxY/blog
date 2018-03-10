@@ -951,6 +951,99 @@
     </entry>
     
     <entry>
+      <title><![CDATA[自动化测试环境搭建]]></title>
+      <url>/2017/robotframework/</url>
+      <content type="html"><![CDATA[<p>在我有限的自动化测试经历中，我接触了基于robotframework测试框架+jenkins管理平台的一整套CI测试流程，受益良多。<br>验收测试驱动(ATDD)的思想确实有助于保证产品质量，提高开发效率。总结下这块的学习经验，以后应该还用得上。</p>
+<h2 id="robotframework"><a href="#robotframework" class="headerlink" title="robotframework"></a>robotframework</h2><p>简称<code>RF</code>,<br>详细介绍可以参考<a href="http://robotframework.org" target="_blank" rel="external">官网</a> </p>
+<p>代码托管在github <a href="https://github.com/robotframework/robotframework" target="_blank" rel="external">robotframework</a></p>
+<p>总的来说RF是一个为验收测试和验收测试驱动开发的自动化测试框架，技术上以关键字驱动实现测试用例的编写。</p>
+<p>特点是易于使用，易扩展，结构层次分明，整个生态异常庞大。</p>
+<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p><a href="https://github.com/robotframework/robotframework/blob/master/INSTALL.rst#introduction" target="_blank" rel="external">官方安装文档</a></p>
+<p>RF是用python实现的，同时也支持jython和IronPython，大部分项目应该是直接使用python</p>
+<p>此处当然又会遇到python的世纪难题，到底是py2还是py3。</p>
+<p>先说结论，还是py2吧</p>
+<p>原因有两点</p>
+<ul>
+<li>RF 从v3.0开始才支持py3，但依旧支持py2</li>
+<li>虽然官网推荐生态圈中的库和工具也应该开始支持py3，然而支持度还不够全面，例如官方编辑器<code>RIDE</code>依然仅支持py2，目前没看到有支持py3的计划。虽然可以选择其他编辑器，但对于新手来说不够友好，还是建议先使用RIDE的GUI界面，方便快速入门</li>
+</ul>
+<h4 id="安装RF"><a href="#安装RF" class="headerlink" title="安装RF"></a>安装RF</h4><ul>
+<li>安装python v2.7及以上版本</li>
+<li>安装robotframework, v3.0及以上版本. <code>pip install robotframework</code></li>
+<li>确认已配置环境变量</li>
+<li>验证安装是否成功<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">robot --version</div><div class="line">rebot --version</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>命令行工具介绍</p>
+<ul>
+<li><code>robot</code> 执行测试用例</li>
+<li><code>rebot</code> log和report文件生成器。将生成的<code>output.xml</code>记录输出文件二次解析成可读性更强的<code>log.html</code>和<code>report.html</code>结果文件。作用相当于XML解析器</li>
+</ul>
+<p>详细信息可通过<br><code>robot--help</code> 和 <code>rebot --help</code> 查看</p>
+<h4 id="安装编辑器"><a href="#安装编辑器" class="headerlink" title="安装编辑器"></a>安装编辑器</h4><p>测试用例一般编写完成保存在文件中。</p>
+<p>支持多种格式的文件，例如<code>txt</code>,<code>csv</code>等。<br>更推荐带有标识的后缀名，例如<code>tests.robot</code></p>
+<p>具体编写时，推荐使用官方编辑工具 <a href="https://github.com/robotframework/RIDE/wiki" target="_blank" rel="external">RIDE</a></p>
+<p>官方安装文档见 <a href="https://github.com/robotframework/RIDE/wiki/Installation-Instructions" target="_blank" rel="external">RIDE Installation</a></p>
+<p>总的来说就是</p>
+<ul>
+<li>安装wxPython依赖</li>
+<li>安装ride</li>
+</ul>
+<p>启动编辑器</p>
+<ul>
+<li>运行ride.py</li>
+<li>指定参数 ride.py path/to/tests</li>
+<li>windows上双击桌面快捷方式</li>
+</ul>
+<h4 id="执行测试用例"><a href="#执行测试用例" class="headerlink" title="执行测试用例"></a>执行测试用例</h4><p>执行测试用例命令<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">robot [options] data_source</div><div class="line">python -m robot [options] data_source</div><div class="line">python path/to/robot [options] data_source</div></pre></td></tr></table></figure></p>
+<p>所有的optsions参数可通过<code>robot --help</code>命令查看</p>
+<p>常用的有：</p>
+<ul>
+<li><code>-t --test name *</code>, 选取指定用例名来执行测试，默认为<code>*</code>,匹配所有用例</li>
+<li><code>-s --suite name *</code>, 同上，通过测试套名指定</li>
+<li><code>-i --include tag *</code>, 通过标签指定</li>
+<li><code>-e --exclude tag *</code>, 排除特定标签的用例</li>
+<li><code>-d --outputdir dir</code>, 输出目录，默认为当前测试用例执行的路径</li>
+<li><code>-o --output file</code>, 输出文件名，默认为<code>output.xml</code>, 设置为<code>NONE</code>可禁用输出。其他log、report等输出都是基于该文件，</li>
+<li><code>-r --report file</code>, 测试报告名，默认<code>report.html</code>, 设置为<code>NONE</code>不输出，也可以通过<code>rebot</code>工具后续再输出</li>
+<li><code>-l --log file</code>, 测试log文件名， 同上</li>
+</ul>
+<p><code>python -m rebot</code>到RF3.0版本才支持</p>
+<p>旧版本需要使用<code>python -m robot.run</code></p>
+<p>解析xml也同理<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rebot output.xml</div><div class="line">python -m robot.rebot output.xml</div><div class="line">python -m robot.rebot -d ./output output.xml</div></pre></td></tr></table></figure></p>
+<h2 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h2><p><a href="https://jenkins.io/" target="_blank" rel="external">jenkins</a>的logo很好的说明的它的作用，简单来说它就是一个“管家”，可以定制各种任务的构建，测试，部署等各种工作的开源自动化持续集成服务器。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li>安装Java8</li>
+<li>下载最新jenkins资源包<code>jenkins.war</code></li>
+<li>启动<code>java -jar jenkins.war --httpPort=8080</code></li>
+<li>打开浏览器网址，根据提示完成安装</li>
+<li>插件下载地址  <a href="http://updates.jenkins-ci.org/download/plugins/" target="_blank" rel="external">plugins</a></li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>RF 实现了测试主体，并提供了便捷的命令行启动接口。</p>
+<p>jenkins是任务执行者，定制任务然后执行启动RF测试的命令，二者相结合实现了端到端的完整测试流程</p>
+<p>RF创建的测试可以说是验收测试，也可以算是单元测试和系统测试。总之，测试保证了开发质量，提升了开发效率</p>
+]]></content>
+      
+        <categories>
+            
+            <category> robotframework </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> robotframework </tag>
+            
+            <tag> jenkins </tag>
+            
+            <tag> python </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[JavaScript Object]]></title>
       <url>/2017/js-Object/</url>
       <content type="html"><![CDATA[<p>javascript里的对象是我一直没认真研究过的，每次看到Object的调用总觉得是高级语法。然而其实它一直都在那里，不难不易，只是我没有去了解。查了下MDN，仍旧是做下API层面的总结。<br><a id="more"></a></p>
