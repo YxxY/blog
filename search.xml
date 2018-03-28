@@ -3,6 +3,290 @@
   
     
     <entry>
+      <title><![CDATA[async/await]]></title>
+      <url>/2018/async-await/</url>
+      <content type="html"><![CDATA[<p>async/await, 号称js异步的终极方案……虽然似乎只是语法糖，但确实减少了代码量，让代码同步化，一直拖着没用，但不学不行啊<br><a id="more"></a></p>
+<h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><ul>
+<li><code>async</code>修饰放在函数声明前，表示函数里有异步操作</li>
+<li><code>async</code>函数的返回值会被封装为<code>promise</code>对象</li>
+<li><code>await</code>只能出现在<code>async</code>函数中，表示后面的表达式需要等待结果，</li>
+<li><code>await</code>后面的返回值一般是promise对象，如果不是也会被<code>Promise.resolve()</code>转换</li>
+<li><code>await</code>后面的promise对象状态如果变为<code>reject</code>,会有<code>return</code> 的效果，不再执行后续语句</li>
+<li>如果希望前一个异步失败不影响后面的状态，需要将<code>await</code>语句用<code>try...catch</code>包裹</li>
+</ul>
+<p>基本示例：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">timeout</span>(<span class="params">ms</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</div><div class="line">    setTimeout(resolve, ms);</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncPrint</span>(<span class="params">value, ms</span>) </span>&#123;</div><div class="line">  <span class="keyword">await</span> timeout(ms);</div><div class="line">  <span class="built_in">console</span>.log(value);</div><div class="line">  <span class="keyword">return</span> <span class="string">'bye'</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">asyncPrint(<span class="string">'hello world'</span>, <span class="number">2000</span>).then(<span class="function"><span class="params">ret</span>=&gt;</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(ret);</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>await状态转为失败时的处理<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">await</span> somethingThatReturnsAPromise();</div><div class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</div><div class="line">    <span class="built_in">console</span>.log(err);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 另一种写法</span></div><div class="line"></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">await</span> somethingThatReturnsAPromise()</div><div class="line">  .catch(<span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(err);</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="同时执行"><a href="#同时执行" class="headerlink" title="同时执行"></a>同时执行</h3><p><code>await</code>语句会保持顺序执行，如果不存在顺序关系的两个操作，可以并行执行<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//方式一</span></div><div class="line"><span class="keyword">var</span> [foo, bar] = <span class="keyword">await</span> <span class="built_in">Promise</span>.all([getFoo(), getBar()])</div><div class="line"><span class="comment">//方式二</span></div><div class="line"><span class="keyword">let</span> fooPromise = getFoo();</div><div class="line"><span class="keyword">let</span> barPromise = getBar();</div><div class="line"><span class="keyword">let</span> foo = <span class="keyword">await</span> fooPromise;</div><div class="line"><span class="keyword">let</span> bar = <span class="keyword">await</span> barPromise;</div></pre></td></tr></table></figure></p>
+<h3 id="await与for循环"><a href="#await与for循环" class="headerlink" title="await与for循环"></a>await与for循环</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">i</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">res, rej</span>)=&gt;</span>&#123;</div><div class="line">    setTimeout(res, <span class="number">1000</span>*i, i)</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i&lt;<span class="number">5</span>; i++)&#123;</div><div class="line">        <span class="built_in">console</span>.time(i);</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'ret: '</span> + <span class="keyword">await</span> f(i));</div><div class="line">        <span class="built_in">console</span>.timeEnd(i)</div><div class="line">    &#125;   </div><div class="line">&#125;</div><div class="line"></div><div class="line">test()</div></pre></td></tr></table></figure>
+<p>这段输出如下，for循环有被中断的效果<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">ret: <span class="number">0</span></div><div class="line"><span class="number">0</span>: <span class="number">5.512</span>ms</div><div class="line">ret: <span class="number">1</span></div><div class="line"><span class="number">1</span>: <span class="number">1000.404</span>ms</div><div class="line">ret: <span class="number">2</span></div><div class="line"><span class="number">2</span>: <span class="number">2000.869</span>ms</div><div class="line">ret: <span class="number">3</span></div><div class="line"><span class="number">3</span>: <span class="number">3001.408</span>ms</div><div class="line">ret: <span class="number">4</span></div><div class="line"><span class="number">4</span>: <span class="number">4000.921</span>ms</div></pre></td></tr></table></figure></p>
+<h3 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h3><p>async/await 从promise迁移过来使用还是很简单的，之前已经总结了部分错误处理</p>
+<p>那就是<code>try...catch</code>,但每个await写个<code>try...catch</code>实在是不够优雅</p>
+<p>那就简单写个封装<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">to</span>(<span class="params">promise</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> promise.then(<span class="function"><span class="params">ret</span>=&gt;</span>&#123;</div><div class="line">        <span class="keyword">return</span> [<span class="literal">null</span>, ret]</div><div class="line">    &#125;).catch(<span class="function"><span class="params">err</span>=&gt;</span>[err])</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    [err, ret] = <span class="keyword">await</span> to(getFoo())</div><div class="line">    <span class="keyword">if</span>(err)&#123;</div><div class="line">        <span class="comment">//do something</span></div><div class="line">    &#125;</div><div class="line">    [err, ret] = <span class="keyword">await</span> to(getBar())</div><div class="line">    <span class="keyword">if</span>(err)&#123;</div><div class="line">        <span class="comment">//do something</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>虽然也没有多高级，但显然比<code>try...catch</code>要优雅的多……</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本来想从ES6的generator开始总结起，然而ES6规范还没普及就被ES7的async/await干掉了……</p>
+<p>不存在兼容性问题的情况下，直接使用async/await能让语义更清晰，也能减少代码量，值得学习和使用</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="http://es6.ruanyifeng.com/#docs/async" target="_blank" rel="external">async函数</a></li>
+<li><a href="https://blog.grossman.io/how-to-write-async-await-without-try-catch-blocks-in-javascript/" target="_blank" rel="external">How to write async await without try-catch blocks in Javascript</a></li>
+</ul>
+]]></content>
+      
+        <categories>
+            
+            <category> JavaScript </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> javaScript </tag>
+            
+            <tag> async </tag>
+            
+            <tag> await </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[基本数据结构：Python vs Javascript]]></title>
+      <url>/2018/datatype-py-vs-js/</url>
+      <content type="html"><![CDATA[<p>写多了nodejs再回来写python提笔就忘，说出来还被人说代码量少……嗯，无法反驳。<br>仔细想了下，徒手写代码到底困难在哪儿，想来大概是数据结构和基本语法了。<br>把这两种语言放一块儿对比着来总结下，主要就数据结构和基本语法两部分，备忘。<br><a id="more"></a></p>
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="js"><a href="#js" class="headerlink" title="js"></a>js</h2><p>六大基本类型以及引用类型</p>
+<p>基本类型：number, string, boolean(true/false), null, undefined, Symbol<br>引用类型：Object</p>
+<p>对象还可细分为 <code>Array</code>, <code>Functio</code>n, <code>Date</code>, <code>Math</code>等</p>
+<p>ES6新增了<code>Set</code>和<code>Map</code>对象等</p>
+<h2 id="py"><a href="#py" class="headerlink" title="py"></a>py</h2><p>基本类型和集合</p>
+<p>基本类型：number, string, boolean(True/False), None(空值)<br>集合：list, tuple, set, dictionary</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="py-1"><a href="#py-1" class="headerlink" title="py"></a>py</h3><p>python的变量不用特殊声明，除非在局部作用域使用全局变量需要使用<code>global</code>声明</p>
+<p>另外，python里一切皆对象，变量的赋值相当于将name和object绑定在一起<br><figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a= <span class="number">3</span></div></pre></td></tr></table></figure></p>
+<ul>
+<li>创建name a</li>
+<li>创建object 3</li>
+<li>将name a 关联到 3这个object </li>
+</ul>
+<p>以后就可以用a来调用3这个object</p>
+<h3 id="js-1"><a href="#js-1" class="headerlink" title="js"></a>js</h3><p>相比python，js就要显得麻烦一些</p>
+<h4 id="变量声明"><a href="#变量声明" class="headerlink" title="变量声明"></a>变量声明</h4><p>ES6新增<code>let</code>,<code>const</code>声明关键字</p>
+<ul>
+<li><code>let</code>，块级作用域</li>
+<li><code>var</code>，函数作用域</li>
+<li><code>const</code>， 声明变量值不可更改，对象则是指针的指向不可变</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="keyword">let</span> a = <span class="number">10</span>;</div><div class="line">  <span class="keyword">var</span> b = <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">a <span class="comment">// ReferenceError: a is not defined.</span></div><div class="line">b <span class="comment">// 1</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</div><div class="line">  <span class="keyword">let</span> i = <span class="string">'lalala'</span> <span class="comment">//不会报错，for循环体和循环条件是两个作用域</span></div><div class="line">  <span class="built_in">console</span>.log(i) </div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(i); <span class="comment">//ReferenceError: i is not defined</span></div></pre></td></tr></table></figure>
+<ul>
+<li><code>var</code>可重复声明，后续变量值会覆盖前面</li>
+<li><code>let</code>和<code>const</code>均不可重复声明，否则会报错</li>
+</ul>
+<h4 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h4><ul>
+<li><code>var</code>存在变量提升，</li>
+<li><code>let</code>和<code>const</code>不存在变量提升</li>
+<li>函数声明也会得到提升<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(foo); <span class="comment">// 输出undefined, 声明未赋值</span></div><div class="line"><span class="keyword">var</span> foo = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(bar); <span class="comment">// 报错ReferenceError</span></div><div class="line"><span class="keyword">let</span> bar = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(bar); <span class="comment">// 报错ReferenceError</span></div><div class="line"><span class="keyword">const</span> bar = <span class="number">2</span>;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>再举一个例子<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(tmp);</div><div class="line">  <span class="keyword">if</span> (<span class="literal">false</span>) &#123;</div><div class="line">    <span class="keyword">var</span> tmp = <span class="string">'hello world'</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">f();</div></pre></td></tr></table></figure></p>
+<p>输出不是当前日期，而是<code>undefined</code>, 因为函数内部tmp的声明被提升</p>
+<p>虽然日常代码不会这么写，但非常具备迷惑性</p>
+<h4 id="let和const的暂时性死区（Temporal-Dead-Zone）"><a href="#let和const的暂时性死区（Temporal-Dead-Zone）" class="headerlink" title="let和const的暂时性死区（Temporal Dead Zone）"></a>let和const的暂时性死区（Temporal Dead Zone）</h4><p>只要<code>块级作用域</code>内存在let或const命令，它所声明的变量就<code>绑定</code>（binding）这个区域，不再受外部的影响。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = <span class="number">123</span>;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</div><div class="line">  tmp = <span class="string">'abc'</span>; <span class="comment">// ReferenceError</span></div><div class="line">  <span class="keyword">let</span> tmp;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果注释掉let的声明，这段代码是没有问题的</p>
+<p>但是块级作用域内let又声明了一个局部变量tmp，导致后者绑定这个块级作用域，所以在let声明变量前，对tmp赋值会报错</p>
+<pre><code>总之，暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量
+</code></pre><h2 id="数据类型判断"><a href="#数据类型判断" class="headerlink" title="数据类型判断"></a>数据类型判断</h2><h3 id="js-2"><a href="#js-2" class="headerlink" title="js"></a>js</h3><ul>
+<li><code>typeof</code>, 运算符，返回表达式数据类型的全小写<code>字符串</code><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typeof</span> <span class="number">123</span>       <span class="comment">// 'number'</span></div><div class="line"><span class="keyword">typeof</span> <span class="literal">NaN</span>       <span class="comment">// 'number'</span></div><div class="line"></div><div class="line"><span class="keyword">typeof</span> <span class="string">'abc'</span>     <span class="comment">// 'string`</span></div><div class="line"></div><div class="line"><span class="keyword">typeof</span> <span class="literal">undefined</span> <span class="comment">// 'undefined'</span></div><div class="line"></div><div class="line"><span class="keyword">typeof</span> <span class="literal">null</span>      <span class="comment">// 'object'</span></div><div class="line"></div><div class="line"><span class="keyword">typeof</span> <span class="literal">true</span>      <span class="comment">// 'boolean'</span></div><div class="line"></div><div class="line"><span class="keyword">typeof</span> &#123;&#125;        <span class="comment">// 'object'</span></div><div class="line"><span class="keyword">typeof</span> []        <span class="comment">// 'object'</span></div><div class="line"><span class="keyword">typeof</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;    <span class="comment">// 'function'</span></div><div class="line"></div><div class="line"><span class="keyword">typeof</span> unknownVariable <span class="comment">// 'undefined'</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>数组的判断使用ES6里的新增方法<code>Array.isArray</code>, 接受一个参数返回布尔值。</p>
+<p>或者自行如下实现<br><code>Object.prototype.toString.call(arg) === &#39;[object Array]&#39;;</code></p>
+<p><code>NaN</code>的判断使用<code>Number.isNaN</code></p>
+<h3 id="py-2"><a href="#py-2" class="headerlink" title="py"></a>py</h3><ul>
+<li><p><code>type(var)</code>,和已知变量类型对比</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">type(myInt) <span class="keyword">is</span> type(<span class="number">1</span>)</div><div class="line">type(myFloat) <span class="keyword">is</span> type(<span class="number">.1</span>)</div><div class="line">type(myLong) <span class="keyword">is</span> type(<span class="number">1111111111111</span>)</div><div class="line">type(myBool) <span class="keyword">is</span> type(<span class="keyword">True</span>)</div><div class="line">type(myStr) <span class="keyword">is</span> type(<span class="string">"a"</span>)</div><div class="line">type(myList) <span class="keyword">is</span> type([<span class="number">1</span>])</div><div class="line">type(myTuple) <span class="keyword">is</span> type((<span class="number">1</span>,))</div><div class="line">type(mySet) <span class="keyword">is</span> type(set([<span class="number">1</span>]))</div><div class="line">type(myDict) <span class="keyword">is</span> type(&#123;<span class="number">1</span>:<span class="number">2</span>&#125;)</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>isinstance(object, class-or-type-or-tuple)</code>, 返回布尔值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">isinstance(myInt, int)</div><div class="line">isinstance(myFloat, float)</div><div class="line">isinstance(myLong, float)</div><div class="line">isinstance(myBool, bool)</div><div class="line">isinstance(myStr, str)</div><div class="line">isinstance(myList, list)</div><div class="line">isinstance(myTuple, tuple)</div><div class="line">isinstance(mySet, set)</div><div class="line">isinstance(myDict, dict)</div><div class="line"><span class="comment"># 第二个参数使用tuple类型</span></div><div class="line">isinstance(myDict, (list, tuple, set, dict))</div></pre></td></tr></table></figure>
+</li>
+<li><p>内置库，types</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> types</div><div class="line"></div><div class="line">type(myInt) <span class="keyword">is</span> types.IntType</div><div class="line">type(myFloat) <span class="keyword">is</span> types.FloatType</div><div class="line">type(myLong) <span class="keyword">is</span> types.LongType</div><div class="line">type(myBool) <span class="keyword">is</span> types.BooleanType</div><div class="line">type(myStr) <span class="keyword">is</span> types.String</div><div class="line">type(myList) <span class="keyword">is</span> types.ListType</div><div class="line">type(myTuple) <span class="keyword">is</span> types.TupleType</div><div class="line"><span class="comment"># types库中没有对应的set类型，需要前两种方法</span></div><div class="line">type(myDict) <span class="keyword">is</span> types.DictType</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="判断相等"><a href="#判断相等" class="headerlink" title="判断相等"></a>判断相等</h2><h3 id="js-3"><a href="#js-3" class="headerlink" title="js"></a>js</h3><p>使用<code>===</code>,不建议使用<code>==</code>来自找麻烦<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="literal">null</span> === <span class="literal">null</span>            <span class="comment">//true</span></div><div class="line"><span class="literal">undefined</span> === <span class="literal">undefined</span>  <span class="comment">//true</span></div><div class="line">&#123;&#125; === &#123;&#125;                <span class="comment">//false</span></div><div class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span>              <span class="comment">//false</span></div></pre></td></tr></table></figure></p>
+<h3 id="py-3"><a href="#py-3" class="headerlink" title="py"></a>py</h3><p>判断相等，python和js出入较大</p>
+<p>python的对象包含三要素:id，type，value</p>
+<ul>
+<li><code>is</code>，id和value都相等</li>
+<li><code>==</code>，value相等<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">a = b = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">c = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">d = &#123;<span class="string">'a'</span>:<span class="number">1</span>&#125; </div><div class="line">e = &#123;<span class="string">'a'</span>:<span class="number">1</span>&#125; </div><div class="line"></div><div class="line"><span class="keyword">print</span> a == b  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> a == c  <span class="comment"># True !!!</span></div><div class="line"><span class="keyword">print</span> a <span class="keyword">is</span> b  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> a <span class="keyword">is</span> c  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> d == e  <span class="comment"># True !!!</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这里主要说明了<code>is</code>和<code>==</code>的区别。同时也引出了第二个问题，对象相等</p>
+<p>另外同一类的实例对象，一般是不相等，因为内存地址不同</p>
+<p>但可以重载<code>__eq__</code>方法实现定制</p>
+<p>与之相反的是<code>__ne__</code>方法<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></div><div class="line">        self.name=name</div><div class="line">        </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__eq__</span><span class="params">(self, other)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.name == other.name</div><div class="line"></div><div class="line"><span class="keyword">print</span> Foo(<span class="string">'zhangsan'</span>) == Foo(<span class="string">'lisi'</span>)     <span class="comment"># False</span></div><div class="line"><span class="keyword">print</span> Foo(<span class="string">'zhangsan'</span>) == Foo(<span class="string">'zhangsan'</span>) <span class="comment"># True</span></div></pre></td></tr></table></figure></p>
+<p>从而不难理解为什么python里引用类型也会出现相等的情况了，其实只是单纯的值相等而已</p>
+<h2 id="假值"><a href="#假值" class="headerlink" title="假值"></a>假值</h2><h3 id="js-4"><a href="#js-4" class="headerlink" title="js"></a>js</h3><ul>
+<li><code>false</code> (boolean)</li>
+<li>空字符串</li>
+<li>数值为<code>0</code></li>
+<li><code>undefined</code></li>
+<li><code>null</code></li>
+<li><code>NaN</code><h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3></li>
+<li><code>False</code> (boolean)</li>
+<li>空序列，包括空字符串, [], {}, ()</li>
+<li>数值为<code>0</code></li>
+<li><code>None</code></li>
+</ul>
+<h2 id="判断及循环"><a href="#判断及循环" class="headerlink" title="判断及循环"></a>判断及循环</h2><h3 id="js-5"><a href="#js-5" class="headerlink" title="js"></a>js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// if/else</span></div><div class="line"><span class="keyword">if</span>()&#123;</div><div class="line"></div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>&#123;</div><div class="line"></div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//while</span></div><div class="line"><span class="keyword">while</span>()&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//for</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> obj)&#123;  <span class="comment">//i: index or key</span></div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> x <span class="keyword">of</span> array_obj)&#123; <span class="comment">//x: value</span></div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="python-1"><a href="#python-1" class="headerlink" title="python"></a>python</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># if/else</span></div><div class="line"><span class="keyword">if</span> cond:</div><div class="line">    statement</div><div class="line"><span class="keyword">elif</span> cond:</div><div class="line">    statement</div><div class="line"><span class="keyword">else</span></div><div class="line">    statement</div><div class="line"></div><div class="line"><span class="comment"># while</span></div><div class="line"><span class="keyword">while</span> cond:</div><div class="line">    statement</div><div class="line"></div><div class="line"><span class="comment"># for, 任何可迭代的对象都可以for循环</span></div><div class="line"><span class="keyword">for</span> value <span class="keyword">in</span> array_list:</div><div class="line">    <span class="keyword">print</span> value</div><div class="line"></div><div class="line"><span class="keyword">for</span> index <span class="keyword">in</span> range[len(array_list)]</div><div class="line">    <span class="keyword">print</span> index</div><div class="line"></div><div class="line">d = [(<span class="number">1</span>,<span class="number">2</span>),(<span class="number">2</span>,<span class="number">3</span>),(<span class="number">3</span>,<span class="number">4</span>)]  </div><div class="line"><span class="comment"># 迭代二元list </span></div><div class="line"><span class="keyword">for</span> x, y <span class="keyword">in</span> d:  </div><div class="line">    <span class="keyword">print</span> x, y</div><div class="line"></div><div class="line">d = &#123; <span class="string">'Adam'</span>: <span class="number">95</span>, <span class="string">'Lisa'</span>: <span class="number">85</span>, <span class="string">'Bart'</span>: <span class="number">59</span>, <span class="string">'Paul'</span>: <span class="number">74</span> &#125;  </div><div class="line"></div><div class="line"><span class="comment"># 迭代dict的键，相当于将字典转换成key的list，相比iterkeys更费内存 </span></div><div class="line"><span class="keyword">for</span> x <span class="keyword">in</span> d.keys():  </div><div class="line">    <span class="keyword">print</span> x  </div><div class="line">  </div><div class="line"><span class="comment"># 也可以采用这种方式迭代  </span></div><div class="line"><span class="keyword">for</span> x <span class="keyword">in</span> d.iterkeys():  </div><div class="line">    <span class="keyword">print</span> x  </div><div class="line">  </div><div class="line"><span class="comment"># 迭代dict的值  </span></div><div class="line"><span class="keyword">for</span> x <span class="keyword">in</span> d.values():  </div><div class="line">    <span class="keyword">print</span> x  </div><div class="line">  </div><div class="line"><span class="keyword">for</span> x <span class="keyword">in</span> d.itervalues():  </div><div class="line">    <span class="keyword">print</span> x  </div><div class="line">  </div><div class="line"><span class="comment"># 迭代键值对  </span></div><div class="line"><span class="keyword">for</span> k, v <span class="keyword">in</span> d.items():  </div><div class="line">    <span class="keyword">print</span> k, <span class="string">":"</span>, v  </div><div class="line">  </div><div class="line"><span class="keyword">for</span> k, v <span class="keyword">in</span> d.iteritems():  </div><div class="line">    <span class="keyword">print</span> k, <span class="string">":"</span>, v</div></pre></td></tr></table></figure>
+<h2 id="常用数据结构"><a href="#常用数据结构" class="headerlink" title="常用数据结构"></a>常用数据结构</h2><h3 id="js-6"><a href="#js-6" class="headerlink" title="js"></a>js</h3><h4 id="数组"><a href="#数组" class="headerlink" title="数组 - []"></a>数组 - <code>[]</code></h4><ul>
+<li>索引越界访问返回<code>undefined</code></li>
+</ul>
+<p>常用属性方法：</p>
+<ul>
+<li><code>length</code> 返回数组长度</li>
+<li><code>push(element1[, ...[, elementN]])</code>,</li>
+<li><code>unshift(element1[, ...[, elementN]])</code></li>
+<li><code>pop()</code></li>
+<li><code>shift()</code></li>
+<li><code>sort([compareFunction])</code>, 默认从小到大</li>
+<li><code>includes()</code></li>
+<li><code>join()</code>， 返回字符串，默认逗号分隔</li>
+</ul>
+<h4 id="对象"><a href="#对象" class="headerlink" title="对象 - {}"></a>对象 - <code>{}</code></h4><ul>
+<li>key-value赋值，点运算符或<code>[属性名]</code>均可</li>
+<li>访问不存在的属性返回<code>undefined</code></li>
+<li><code>key</code>一般为字符串</li>
+<li>for循环取到的是key值</li>
+<li>ES6 支持对象属性解构</li>
+<li><code>Object.keys(obj)</code>,返回对象可枚举属性的字符串数组</li>
+<li><code>Object.values(obj)</code>,返回对象可枚举属性值的数组</li>
+</ul>
+<h3 id="py-4"><a href="#py-4" class="headerlink" title="py"></a>py</h3><h4 id="list"><a href="#list" class="headerlink" title="list - []"></a>list - <code>[]</code></h4><ul>
+<li>索引越界访问返回<code>IndexError</code></li>
+<li><code>-1</code>做索引可以取到最后一个元素，依次类推</li>
+<li>获取长度使用<code>len(list_var)</code></li>
+</ul>
+<p>常用属性方法</p>
+<ul>
+<li><code>append(element)</code>, 追加元素到末尾</li>
+<li><code>insert(index, element)</code>, 查人元素到指定位置</li>
+<li><code>pop(index)</code>, 删除指定位置的元素，返回该元素</li>
+</ul>
+<p>列表生成器<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">l = [x * x <span class="keyword">for</span> x <span class="keyword">in</span> xrange(<span class="number">10</span>)]</div></pre></td></tr></table></figure></p>
+<p>将中括号<code>[]</code>换成括号<code>()</code>,即返回一个生成器<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">g = (x * x <span class="keyword">for</span> x <span class="keyword">in</span> xrange(<span class="number">3</span>))</div><div class="line"><span class="keyword">print</span> next(g) <span class="comment"># 0</span></div><div class="line"><span class="keyword">for</span> x <span class="keyword">in</span> g:</div><div class="line">    <span class="keyword">print</span> x</div><div class="line"><span class="comment"># 1</span></div><div class="line"><span class="comment"># 4</span></div></pre></td></tr></table></figure></p>
+<h4 id="tuple"><a href="#tuple" class="headerlink" title="tuple - ()"></a>tuple - <code>()</code></h4><p>和list类似，但是tuple一旦初始化就<code>不能修改</code>（指向）</p>
+<p>也因此没有动态修改的方法，只有通过索引来访问值</p>
+<p>定义一个tuple使用<code>t=()</code><br>但是定义一个元素的tuple要使用<code>t=(1,)</code>,否则会返回<code>数字1</code></p>
+<h4 id="dict"><a href="#dict" class="headerlink" title="dict - {}"></a>dict - <code>{}</code></h4><ul>
+<li><p>访问通过索引或者<code>get</code>方法</p>
+<ul>
+<li>通过索引访问的key不存在会报<code>keyError</code></li>
+<li>通过get方法，返回None或指定值<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;d[<span class="string">'tom'</span>] = <span class="number">7</span></div><div class="line">&gt;&gt;&gt;d[<span class="string">'jerry'</span>]</div><div class="line">keyError</div><div class="line">&gt;&gt;&gt;d.get(<span class="string">'jerry'</span>, <span class="number">-1</span>)</div><div class="line"><span class="number">-1</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><code>key</code>值可以是任意类型，但必须是<code>不可变对象</code></p>
+</li>
+<li><code>pop(key)</code>, 删除指定key，返回value</li>
+</ul>
+<h3 id="set"><a href="#set" class="headerlink" title="set - ([])"></a>set - <code>([])</code></h3><p>和<code>dict</code>类似，但set只是一组key的集合，key值不重复，且不包含value</p>
+<p>重复值会被过滤掉，且不保证顺序，是数学意义上的无序不重复元素的集合</p>
+<ul>
+<li><p>初始化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">### 直接定义</span></div><div class="line">s = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>&#125;     <span class="comment">#set([1,2,3])</span></div><div class="line"></div><div class="line"><span class="comment">### 接受一个list参数</span></div><div class="line">s= set([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">2</span>]) <span class="comment">#set([1,2,3])</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>set的元素只能是不可变对象，可变对象无法哈希化确定唯一值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">s = &#123;(<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>)&#125;    <span class="comment"># ok</span></div><div class="line">s = &#123;(<span class="number">1</span>,<span class="number">2</span>,[<span class="number">3</span>])&#125;  <span class="comment"># typeError</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>常用方法</p>
+<ul>
+<li><code>add(key)</code>, 添加新元素，重复添加无效</li>
+<li><code>remove(key)</code>, 删除元素</li>
+<li><code>s1 &amp; s2</code>, 取交集</li>
+<li><code>s1 | s2</code>, 取并集</li>
+</ul>
+]]></content>
+      
+        <categories>
+            
+            <category> common-sense </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> javaScript </tag>
+            
+            <tag> python </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[包机制：Python vs Node.js]]></title>
+      <url>/2018/package-in-python-and-nodejs/</url>
+      <content type="html"><![CDATA[<p>专注在nodejs上有一段时间了，回头看看python发现忘得差不多了，还是得多做做总结加强记忆啊。<br>先从包机制入手，对比来看下python和nodejs的异同<br><a id="more"></a></p>
+<h2 id="python-package"><a href="#python-package" class="headerlink" title="python package"></a>python package</h2><h3 id="导出模块"><a href="#导出模块" class="headerlink" title="导出模块"></a>导出模块</h3><p>python将一个文件或一个文件夹视为一个模块</p>
+<p>如果是文件件，需要显示的创建<code>__init__.py</code>来标明</p>
+<p>模块内定义的所有变量都可以被导出</p>
+<p>python中的变量不强制使用前声明，默认为局部变量，但使用前必须被定义或赋值</p>
+<p>全局变量需要用<code>global</code>声明</p>
+<h3 id="导出模块-1"><a href="#导出模块-1" class="headerlink" title="导出模块"></a>导出模块</h3><p>python2.6以后及python3 默认支持的是绝对引用，也推荐这种方式</p>
+<p>通过<code>import</code>关键字引入模块, 模块名不需要带<code>.py</code>后缀<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pkg</div><div class="line"><span class="keyword">from</span> pkg <span class="keyword">import</span> foo</div><div class="line"><span class="keyword">from</span> pkg.moduleA <span class="keyword">import</span> foo</div><div class="line"><span class="keyword">from</span> pkg.moduleA <span class="keyword">import</span> foo <span class="keyword">as</span> bar</div><div class="line"><span class="keyword">from</span> pkg <span class="keyword">import</span> *</div></pre></td></tr></table></figure></p>
+<p>python解释器会自动在<code>sys.path</code>下去搜索<code>pkg</code>包</p>
+<p>windows下可以定义<code>PYTHONPATH</code>使得路径永久生效</p>
+<p><code>python -m</code>的方案可解决一些包引入错误，原理即使将<code>当前目录</code>加到<code>sys.path</code>中，<br>相当于提供了顶级目录。</p>
+<p>引入模块的时候会执行内部代码，一些不想在引入时执行的内容一般处理如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># pkg.py</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'123'</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> __name__  <span class="comment">#pkg</span></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    test()</div></pre></td></tr></table></figure></p>
+<p>当作为模块引入时<code>__name__</code> 为包名，直接执行时为<code>__main__</code>, 以此来做区分</p>
+<p>引入一个文件夹包，相当于引入它目录下的<code>__init__.py</code>, 一般为空文件</p>
+<p>如果在里面引入子模块，则后续可以用<code>.</code>的形式链式调用<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="string">"""</span></div><div class="line">pkg</div><div class="line">├── __init__.py</div><div class="line">└── main.py</div><div class="line">test.py</div><div class="line">"""</div><div class="line"><span class="comment"># main.py</span></div><div class="line">a = <span class="number">2</span></div><div class="line"></div><div class="line"><span class="comment"># __init__.py 为空时，从test.py 引入变量a</span></div><div class="line"><span class="comment"># test.py</span></div><div class="line"><span class="keyword">from</span> pkg.main <span class="keyword">import</span> a</div><div class="line"><span class="keyword">print</span> a</div><div class="line"></div><div class="line"><span class="comment"># __init__.py</span></div><div class="line"><span class="keyword">import</span> main</div><div class="line"></div><div class="line"><span class="comment"># 可以在__init__.py中提前引入模块，方便后续调用</span></div><div class="line"><span class="comment"># test.py</span></div><div class="line"><span class="keyword">import</span> pkg</div><div class="line"><span class="keyword">print</span> pkg.main.a</div></pre></td></tr></table></figure></p>
+<p>模块的<code>__all__</code>变量可以定制对外暴露的对象，不在其中的内容不能被外部引用<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="string">"""</span></div><div class="line">pkg</div><div class="line">├── test.py</div><div class="line">└── main.py</div><div class="line">"""</div><div class="line"><span class="comment"># main.py</span></div><div class="line">__all__ = [<span class="string">'a'</span>]</div><div class="line"></div><div class="line">a = <span class="number">2</span></div><div class="line">b = <span class="number">3</span></div><div class="line"><span class="comment"># test.py</span></div><div class="line"><span class="keyword">from</span> main <span class="keyword">import</span> *</div><div class="line"><span class="keyword">print</span> a</div><div class="line"><span class="keyword">print</span> b</div></pre></td></tr></table></figure></p>
+<p>执行 <code>test.py</code>,会得到错误<code># NameError: name &#39;b&#39; is not defined</code></p>
+<p>注释掉<code>__all__</code>那行就不会报错了</p>
+<h2 id="node-package"><a href="#node-package" class="headerlink" title="node package"></a>node package</h2><h3 id="导出模块-2"><a href="#导出模块-2" class="headerlink" title="导出模块"></a>导出模块</h3><p>node中一个文件就是一个模块</p>
+<p>如果是文件夹，则目录下的<code>index.js</code>为默认导出文件</p>
+<p>导出的内容和python不同，<code>必须</code>显性指定到<code>module.exports</code>上，该值默认为<code>{}</code></p>
+<p>ES6的语法，则是利用<code>export</code>关键字去实现导出<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">exports = <span class="built_in">module</span>.exports = &#123;&#125;</div><div class="line"><span class="comment">//ES6 </span></div><div class="line"><span class="keyword">export</span> <span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line"><span class="keyword">export</span> &#123;a&#125;</div><div class="line"><span class="keyword">export</span> &#123;a <span class="keyword">as</span> b&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> a;</div></pre></td></tr></table></figure></p>
+<h3 id="导入模块"><a href="#导入模块" class="headerlink" title="导入模块"></a>导入模块</h3><p>node中包导入方式：</p>
+<ul>
+<li>传统的<code>require</code>函数</li>
+<li>ES6的<code>import</code>函数</li>
+</ul>
+<p>先看require函数的用法</p>
+<h4 id="模块名导入"><a href="#模块名导入" class="headerlink" title="模块名导入"></a>模块名导入</h4><p>直接使用<code>不带路径</code>的模块名一般为内置包或安装的第三方包<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</div></pre></td></tr></table></figure></p>
+<h4 id="相对路径导入"><a href="#相对路径导入" class="headerlink" title="相对路径导入"></a>相对路径导入</h4><p>导入模块的后缀可省<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'./index'</span>)</div></pre></td></tr></table></figure></p>
+<p>会寻找当前目录下的<code>index.js</code>,如果不存在则认为<code>index</code>是一个文件夹，<br>继续寻找<code>./index/index.js</code></p>
+<h4 id="绝对路径导入"><a href="#绝对路径导入" class="headerlink" title="绝对路径导入"></a>绝对路径导入</h4><p>没什么可说的，参数数为模块的绝对路径</p>
+<h4 id="import函数的用法"><a href="#import函数的用法" class="headerlink" title="import函数的用法"></a>import函数的用法</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> _ <span class="keyword">from</span> <span class="string">'lodash'</span></div><div class="line"><span class="keyword">import</span> _, &#123; each, each <span class="keyword">as</span> forEach &#125; <span class="keyword">from</span> <span class="string">'lodash'</span>;</div><div class="line"><span class="keyword">import</span> &#123; a &#125; <span class="keyword">from</span> <span class="string">'./someModule'</span>;</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>python 和 nodejs 均以单个文件为<code>module</code>, 同时也支持文件夹的包裹，细分又有很多不同</p>
+<p>二者包的路径查找也有很大区别，python需要保证包在系统路径下，添加PYTHON_PATH可以永久添加</p>
+<p>nodejs是在当前目录下查找，同时也支持全局安装包</p>
+]]></content>
+      
+        <categories>
+            
+            <category> package </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> module </tag>
+            
+            <tag> node.js </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[express源码中的对象继承]]></title>
       <url>/2018/express-object-inheritance/</url>
       <content type="html"><![CDATA[<p>nodejs web框架<code>express</code>源码中, 多处封装涉及到了对象继承，单独拿出来总结下它们的特点，参考学习<br><a id="more"></a></p>
@@ -479,12 +763,13 @@
 <h3 id="promise-的-then-或者-catch-可以被调用多次"><a href="#promise-的-then-或者-catch-可以被调用多次" class="headerlink" title="promise 的 .then 或者 .catch 可以被调用多次"></a>promise 的 .then 或者 .catch 可以被调用多次</h3><p>但这里 Promise 构造函数只执行一次。或者说 promise 内部状态一经改变，并且有了一个值，那么后续每次调用 .then 或者 .catch 都会直接拿到该值。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'once'</span>)</div><div class="line">    resolve(<span class="string">'success'</span>)</div><div class="line">  &#125;, <span class="number">1000</span>)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">promise.then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(res)</div><div class="line">&#125;)</div><div class="line">promise.then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(res)</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">//success</span></div><div class="line"><span class="comment">//success</span></div></pre></td></tr></table></figure>
 <h3 id="then-或者-catch-中-return-一个-error-对象并不会抛出错误"><a href="#then-或者-catch-中-return-一个-error-对象并不会抛出错误" class="headerlink" title="then 或者 .catch 中 return 一个 error 对象并不会抛出错误"></a>then 或者 .catch 中 return 一个 error 对象并不会抛出错误</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Promise</span>.resolve()</div><div class="line">  .then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'error!!!'</span>)</div><div class="line">  &#125;)</div><div class="line">  .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'then: '</span>, res)</div><div class="line">  &#125;)</div><div class="line">  .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'catch: '</span>, err)</div><div class="line">  &#125;)</div><div class="line"></div><div class="line"><span class="comment">// then: Error: error!!!</span></div><div class="line"><span class="comment">//     at Promise.resolve.then (...)</span></div><div class="line"><span class="comment">//     at ...</span></div></pre></td></tr></table></figure>
-<p>因为返回任意一个非 promise 的值都会被包裹成 promise 对象，即 return new Error(‘error!!!’) 等价于<code>return Promise.resolve(new Error(&#39;error!!!&#39;))</code></p>
+<p>因为返回任意一个非 promise 的值都会被包裹成 promise 对象<br>即 <code>return new Error(&#39;error!!!&#39;)</code></p>
+<p>等价于<code>return Promise.resolve(new Error(&#39;error!!!&#39;))</code></p>
 <p>传递错误的方式有</p>
-<ol>
-<li>return Promise.reject(new Error(‘error!!!’))</li>
-<li>throw new Error(‘error!!!’)</li>
-</ol>
+<ul>
+<li><code>return Promise.reject(new Error(&#39;error!!!&#39;))</code></li>
+<li><code>throw new Error(&#39;error!!!&#39;)</code></li>
+</ul>
 <h3 id="then-或-catch-返回的值不能是-promise-本身，否则会造成死循环。"><a href="#then-或-catch-返回的值不能是-promise-本身，否则会造成死循环。" class="headerlink" title=".then 或 .catch 返回的值不能是 promise 本身，否则会造成死循环。"></a>.then 或 .catch 返回的值不能是 promise 本身，否则会造成死循环。</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise = <span class="built_in">Promise</span>.resolve()</div><div class="line">  .then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> promise</div><div class="line">  &#125;)</div><div class="line"><span class="comment">//TypeError</span></div></pre></td></tr></table></figure>
 <h3 id="then-或者-catch-的参数期望是函数，传入非函数则会发生值穿透"><a href="#then-或者-catch-的参数期望是函数，传入非函数则会发生值穿透" class="headerlink" title=".then 或者 .catch 的参数期望是函数，传入非函数则会发生值穿透"></a>.then 或者 .catch 的参数期望是函数，传入非函数则会发生值穿透</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Promise</span>.resolve(<span class="number">1</span>)</div><div class="line">  .then(<span class="number">2</span>)</div><div class="line">  .then(<span class="built_in">Promise</span>.resolve(<span class="number">3</span>))</div><div class="line">  .then(<span class="built_in">console</span>.log)</div><div class="line"><span class="comment">//1</span></div></pre></td></tr></table></figure>
 ]]></content>
@@ -951,9 +1236,113 @@
     </entry>
     
     <entry>
+      <title><![CDATA[RobotFramework Library API]]></title>
+      <url>/2017/rf-library/</url>
+      <content type="html"><![CDATA[<p>RF本身是用Python写的，它的扩展库也可以用Python来写。如果是跑在Jython上，也是可以用java来扩展。<br>纯python的扩展具备通用性，本文也主要总结基于python的RF扩展库的API，RF版本为V3.0.2<br><a id="more"></a></p>
+<h2 id="API-分类"><a href="#API-分类" class="headerlink" title="API 分类"></a>API 分类</h2><p>RF有三种不同的库API:</p>
+<ul>
+<li>静态API, 最常用的。提供一个包或者一个类，里面的公有方法名会被映射为<code>关键字名</code></li>
+<li>动态API, 动态的生成和执行关键字，除了运行时生成的特点，其他和静态API相同</li>
+<li>混合API, 即动态的引用静态API创建的关键字</li>
+</ul>
+<p>本文仅总结静态API,其它两类差不太多，只是有一些炫酷的用法而已</p>
+<h2 id="创编Library库"><a href="#创编Library库" class="headerlink" title="创编Library库"></a>创编Library库</h2><p>Library的名字导入后会和包名或者类名保持一致</p>
+<p>eg：现在引入一个Python库 MyLibrary(一个文件，MyLibrary.py)，<br>它将创建一个名字也为MyLibrary的库</p>
+<h3 id="编写类"><a href="#编写类" class="headerlink" title="编写类"></a>编写类</h3><p>通常一个包里包含的是一个类，如果类名和包名相同，RF允许在导入时省略类名</p>
+<p>如果类名和包名不一致，则Library名需要补全导入的类名</p>
+<p>举例说明<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Test.py</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="string">'''testing library'''</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(self, str1, str2)</span>:</span></div><div class="line">        <span class="keyword">return</span> str1 + str2</div></pre></td></tr></table></figure></p>
+<p>现在引入<code>Test.py</code>, 则库名为<code>Test</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Library     Test</div></pre></td></tr></table></figure></p>
+<p>此时<code>foo</code>关键字可以直接使用，接受两个参数返回拼接后的内容</p>
+<p>但如果改变类名为<code>Foo</code>, 在执行就会报错<code>找不到关键字foo</code></p>
+<p>这个时候两个解决方案，将类名改成和包名一致，或者更改导入库如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Library     Test.Foo</div></pre></td></tr></table></figure></p>
+<p>其实，之前的导入库相当于<code>Test.Test</code>的别名</p>
+<h3 id="编写函数和变量"><a href="#编写函数和变量" class="headerlink" title="编写函数和变量"></a>编写函数和变量</h3><p>除了类之外也可以创建变量和函数, 包命名空间里的方法也会变成关键字</p>
+<p>包括导入的库名<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># test.py</span></div><div class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> current_thread</div><div class="line"></div><div class="line">bar = <span class="number">233</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'hello world'</span></div></pre></td></tr></table></figure></p>
+<p>分别引入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Library           test</div><div class="line">Variables         test.py</div></pre></td></tr></table></figure></p>
+<p><code>current_thread</code>和<code>test</code>会成为关键字</p>
+<p><code>${bar}</code>会成为可使用的变量</p>
+<p>函数、变量不能和类同时导出</p>
+<p>原因我猜大概是导出类时其实是精确指定类名了，自然不会包括其他内容</p>
+<p>如果不想current_thread被导出，有两种方法</p>
+<ul>
+<li>导入时，写成<code>import threading</code>,使用时写成<code>threading.current_thread()</code></li>
+<li>通过包属性<code>__all__</code>限定导出的方法和变量</li>
+</ul>
+<h3 id="库参数"><a href="#库参数" class="headerlink" title="库参数"></a>库参数</h3><p>如果是导入的是一个类，自然是可以接受参数的，这些参数会被传递给构造器创建类实例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">*** Settings ***</div><div class="line">Library    MyLibrary     10.0.0.1    8080</div><div class="line">Library    AnotherLib    $&#123;VAR&#125;</div></pre></td></tr></table></figure></p>
+<p>参数会保证顺序和个数传递，这个很好理解</p>
+<p>需要注意的是RF里默认的参数类型是字符串，所以传递的数字会被转换</p>
+<h3 id="库引入方式"><a href="#库引入方式" class="headerlink" title="库引入方式"></a>库引入方式</h3><p>一般Library为一个文件或第三方库，引入的方式有两种：</p>
+<ul>
+<li>在测试套里直接引入<code>Library</code></li>
+<li>在测试套里引入<code>Resource</code>，在Resource文件里引入Library</li>
+</ul>
+<p>第二种方式多用于多处引入或批量引入</p>
+<h3 id="库作用域"><a href="#库作用域" class="headerlink" title="库作用域"></a>库作用域</h3><p>当引入的库是各种类时，它们是可以有一个内部状态的，内部状态会在初始化和关键字执行时被改变，同时也会影响关键字的行为。</p>
+<p>说简单点就是，关键字执行其实是执行类实例的方法，那其实就是这个类实例是每个用例一个实例还是大家共有一个实例的问题</p>
+<p>默认行为是每个用例一个实例，互不影响</p>
+<p>但这个行为也是可控的，通过一个类属性<code>ROBOT_LIBRARY_SCOPR</code></p>
+<p>该属性有三个值</p>
+<ul>
+<li><code>TEST_CASE</code>, 默认值</li>
+<li><code>TEST_SUIT</code>, 一个测试套共用一个实例</li>
+<li><code>GLOBAL</code>, 全局单例</li>
+</ul>
+<p>eg：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleLibrary</span>:</span></div><div class="line"></div><div class="line">    ROBOT_LIBRARY_SCOPE = <span class="string">'TEST SUITE'</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self._counter = <span class="number">0</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">count</span><span class="params">(self)</span>:</span></div><div class="line">        self._counter += <span class="number">1</span></div><div class="line">        <span class="keyword">print</span> self._counter</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clear_counter</span><span class="params">(self)</span>:</span></div><div class="line">        self._counter = <span class="number">0</span></div></pre></td></tr></table></figure></p>
+<h3 id="库版本"><a href="#库版本" class="headerlink" title="库版本"></a>库版本</h3><p>同库作用域，通过类属性<code>ROBOT_LIBRARY_VERSION</code>定义</p>
+<p>如果不存在会尝试从<code>__version__</code>属性读取</p>
+<h3 id="文档格式化"><a href="#文档格式化" class="headerlink" title="文档格式化"></a>文档格式化</h3><p>同上，通过类型<code>ROBOT_LIBRARY_DOC_FORMAT</code>指定文档格式，后续可以使用<code>Libdoc</code>工具生成对应格式的文档</p>
+<p>属性值大小写不敏感</p>
+<p>可能的值有<code>ROBOT</code>(default),<code>HTML</code>,<code>TEXT</code></p>
+<p>也可以使用第三方工具<code>docutil</code>,属性值为<code>reST</code></p>
+<h3 id="创建静态关键字"><a href="#创建静态关键字" class="headerlink" title="创建静态关键字"></a>创建静态关键字</h3><p>前面说过，如果是静态API，RF会自动的将引入库里的公有方法转化为关键字</p>
+<p>这里面仍有一些细节需要说明</p>
+<ul>
+<li>以下划线开头的方法会被忽略</li>
+<li>关键字的解析大小写不敏感</li>
+<li>关键字中的下划线和空格会被忽略</li>
+</ul>
+<p>eg：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_helper_method</span><span class="params">(self, arg)</span>:</span></div><div class="line">        <span class="keyword">return</span> arg.upper()</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">(name)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"Hello, %s!"</span> % name</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_nothing</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>引用时<code>_helper_method</code>不能被使用</p>
+<p><code>hello</code>方法对应的关键字可以是<code>hello</code>, <code>Hello</code>, <code>h e l l o</code></p>
+<p><code>do_nothing</code>或<code>doNothing</code>的关键字名都可以是<code>Do Nothing</code></p>
+<h4 id="自定义关键字名"><a href="#自定义关键字名" class="headerlink" title="自定义关键字名"></a>自定义关键字名</h4><p>关键名也可以按照自己的意愿命名</p>
+<p>实现上最先想到的应该就是装饰器了，实际也是如此</p>
+<p>通过<code>robot.api.deco.keyword</code>在方法上设置一个<code>robot_name</code>属性实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> robot.api.deco <span class="keyword">import</span> keyword</div><div class="line"></div><div class="line"><span class="meta">@keyword(u'登录')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">(username, password)</span>:</span></div><div class="line">    <span class="comment"># ...</span></div></pre></td></tr></table></figure>
+<p>使用时, 直接使用<code>登录</code>即可，原来<code>login</code>不再映射为关键字<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">*** Test Cases ***</div><div class="line">My Test</div><div class="line">    登录   $&#123;username&#125;    $&#123;password&#125;</div></pre></td></tr></table></figure></p>
+<p>从RF v3.0.2开始，通过这种方式，即使是以下划线开头的私有方法也能转换为可用关键字</p>
+<h5 id="关键字嵌套参数"><a href="#关键字嵌套参数" class="headerlink" title="关键字嵌套参数"></a>关键字嵌套参数</h5><p>关键字还可以接受嵌套参数，示例如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> robot.api.deco <span class="keyword">import</span> keyword</div><div class="line"></div><div class="line"><span class="meta">@keyword('Add $&#123;quantity:\d+&#125; Copies Of $&#123;item&#125; To Cart')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_copies_to_cart</span><span class="params">(quantity, item)</span>:</span></div><div class="line">    <span class="comment"># ...</span></div></pre></td></tr></table></figure></p>
+<p>使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">*** Test Cases ***</div><div class="line">My Test</div><div class="line">    Add 7 Copies Of Coffee To Cart</div></pre></td></tr></table></figure></p>
+<h3 id="打印信息"><a href="#打印信息" class="headerlink" title="打印信息"></a>打印信息</h3><p>异常信息会被打印，除此之外，向标准输出流(stdout/stderr)写入的信息也会被写入log文件，同时也还可定义不同的log level</p>
+<h4 id="打印级别"><a href="#打印级别" class="headerlink" title="打印级别"></a>打印级别</h4><p>默认是<code>INFO</code>, 除此之外还有<code>TRACE</code>, <code>DEBUG</code>,<code>WARN</code>,<code>ERROR</code>,<code>HTML</code></p>
+<p><code>WARN</code>,<code>ERROR</code>级别的信息会被自动写入到控制台</p>
+<p>如果是<code>HTML</code>, 则支持所有html语法的展现，eg：<code>&lt;b&gt;foo&lt;/b&gt;</code>，但需要慎用<code>&lt;table&gt;</code>便签，支持不是很好</p>
+<h4 id="打印到控制台"><a href="#打印到控制台" class="headerlink" title="打印到控制台"></a>打印到控制台</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_keyword</span><span class="params">(arg)</span>:</span></div><div class="line">   sys.__stdout__.write(<span class="string">'Got arg %s\n'</span> % arg)</div><div class="line"></div><div class="line"><span class="comment"># The final option is using the public logging API:</span></div><div class="line"><span class="keyword">from</span> robot.api <span class="keyword">import</span> logger</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">log_to_console</span><span class="params">(arg)</span>:</span></div><div class="line">   logger.console(<span class="string">'Got arg %s'</span> % arg)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">log_to_console_and_log_file</span><span class="params">(arg)</span>:</span></div><div class="line">   logger.info(<span class="string">'Got arg %s'</span> % arg, also_console=<span class="keyword">True</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">log_with_html_format</span><span class="params">()</span>:</span></div><div class="line">    logger.info(<span class="string">'&lt;i&gt;This&lt;/i&gt; is a boring example'</span>, html=<span class="keyword">True</span>)</div></pre></td></tr></table></figure>
+<p>直接使用<code>print</code>函数也行<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">print</span> <span class="string">'Hello from a library.'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'*WARN* Warning from a library.'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'*ERROR* Something unexpected happen that may indicate a problem in the test.'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'*INFO* Hello again!'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'This will be part of the previous message.'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'*INFO* This is a new message.'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'*INFO* This is &lt;b&gt;normal text&lt;/b&gt;.'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'*HTML* This is &lt;b&gt;bold&lt;/b&gt;.'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'*HTML* &lt;a href="http://robotframework.org"&gt;Robot Framework&lt;/a&gt;'</span></div></pre></td></tr></table></figure></p>
+<p>结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">16:18:42.123	INFO	Hello from a library.</div><div class="line">16:18:42.123	WARN	Warning from a library.</div><div class="line">16:18:42.123	ERROR	Something unexpected happen that may indicate a problem in the test.</div><div class="line">16:18:42.123	INFO	Hello again!</div><div class="line">This will be part of the previous message.</div><div class="line">16:18:42.123	INFO	This is a new message.</div><div class="line">16:18:42.123	INFO	This is &lt;b&gt;normal text&lt;/b&gt;.</div><div class="line">16:18:42.123	INFO	This is bold.</div><div class="line">16:18:42.123	INFO	Robot Framework</div></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>RF框架包含的内容很多，了解一些基本使用足以支撑应用，更详细的用法参考<a href="http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html" target="_blank" rel="external">官方文档</a></p>
+<p>本文主要参考官方文档一部分<a href="http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#id704" target="_blank" rel="external">Extending Robot Framework</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> RobotFramework </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> RobotFramework </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[自动化测试环境搭建]]></title>
       <url>/2017/robotframework/</url>
-      <content type="html"><![CDATA[<p>在我有限的自动化测试经历中，我接触了基于robotframework测试框架+jenkins管理平台的一整套CI测试流程，受益良多。<br>验收测试驱动(ATDD)的思想确实有助于保证产品质量，提高开发效率。总结下这块的学习经验，以后应该还用得上。</p>
+      <content type="html"><![CDATA[<p>在我有限的自动化测试经历中，我接触了基于robotframework测试框架+jenkins管理平台的一整套CI测试流程，受益良多。<br>验收测试驱动(ATDD)的思想确实有助于保证产品质量，提高开发效率。总结下这块的学习经验，以后应该还用得上。<br><a id="more"></a></p>
 <h2 id="robotframework"><a href="#robotframework" class="headerlink" title="robotframework"></a>robotframework</h2><p>简称<code>RF</code>,<br>详细介绍可以参考<a href="http://robotframework.org" target="_blank" rel="external">官网</a> </p>
 <p>代码托管在github <a href="https://github.com/robotframework/robotframework" target="_blank" rel="external">robotframework</a></p>
 <p>总的来说RF是一个为验收测试和验收测试驱动开发的自动化测试框架，技术上以关键字驱动实现测试用例的编写。</p>
@@ -1008,7 +1397,7 @@
 <li><code>-r --report file</code>, 测试报告名，默认<code>report.html</code>, 设置为<code>NONE</code>不输出，也可以通过<code>rebot</code>工具后续再输出</li>
 <li><code>-l --log file</code>, 测试log文件名， 同上</li>
 </ul>
-<p><code>python -m rebot</code>到RF3.0版本才支持</p>
+<p><code>python -m robot</code>到RF3.0版本才支持</p>
 <p>旧版本需要使用<code>python -m robot.run</code></p>
 <p>解析xml也同理<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rebot output.xml</div><div class="line">python -m robot.rebot output.xml</div><div class="line">python -m robot.rebot -d ./output output.xml</div></pre></td></tr></table></figure></p>
 <h2 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h2><p><a href="https://jenkins.io/" target="_blank" rel="external">jenkins</a>的logo很好的说明的它的作用，简单来说它就是一个“管家”，可以定制各种任务的构建，测试，部署等各种工作的开源自动化持续集成服务器。</p>
@@ -1033,11 +1422,11 @@
         
         <tags>
             
+            <tag> python </tag>
+            
             <tag> robotframework </tag>
             
             <tag> jenkins </tag>
-            
-            <tag> python </tag>
             
         </tags>
         

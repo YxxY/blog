@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta name="baidu-site-verification" content="ZmOJF1nohC" />
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="RobotFramework," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="pandaQ's Site" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="RF本身是用Python写的，它的扩展库也可以用Python来写。如果是跑在Jython上，也是可以用java来扩展。纯python的扩展具备通用性，本文也主要总结基于python的RF扩展库的API，RF版本为V3.0.2">
+<meta name="keywords" content="RobotFramework">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RobotFramework Library API">
+<meta property="og:url" content="http://xu-li.cn/2017/rf-library/index.html">
+<meta property="og:site_name" content="pandaQ&#39;s Site">
+<meta property="og:description" content="RF本身是用Python写的，它的扩展库也可以用Python来写。如果是跑在Jython上，也是可以用java来扩展。纯python的扩展具备通用性，本文也主要总结基于python的RF扩展库的API，RF版本为V3.0.2">
+<meta property="og:updated_time" content="2018-03-28T12:17:57.750Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RobotFramework Library API">
+<meta name="twitter:description" content="RF本身是用Python写的，它的扩展库也可以用Python来写。如果是跑在Jython上，也是可以用java来扩展。纯python的扩展具备通用性，本文也主要总结基于python的RF扩展库的API，RF版本为V3.0.2">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.2',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideUpIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '作者'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xu-li.cn/2017/rf-library/"/>
+
+
+
+
+
+  <title>RobotFramework Library API | pandaQ's Site</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+      <div class="site-meta-headline">
+        <a>
+          <img class="custom-logo-image" src="http://opxo4bto2.bkt.clouddn.com/me.jpg"
+               alt="pandaQ's Site"/>
+        </a>
+      </div>
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">pandaQ's Site</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">May the force be with you</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xu-li.cn/2017/rf-library/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pandaQ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pandaQ's Site">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">RobotFramework Library API</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-22T21:45:27+08:00">
+                2017-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/RobotFramework/" itemprop="url" rel="index">
+                    <span itemprop="name">RobotFramework</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye">阅读次数:</i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,829
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>RF本身是用Python写的，它的扩展库也可以用Python来写。如果是跑在Jython上，也是可以用java来扩展。<br>纯python的扩展具备通用性，本文也主要总结基于python的RF扩展库的API，RF版本为V3.0.2<br><a id="more"></a></p>
+<h2 id="API-分类"><a href="#API-分类" class="headerlink" title="API 分类"></a>API 分类</h2><p>RF有三种不同的库API:</p>
+<ul>
+<li>静态API, 最常用的。提供一个包或者一个类，里面的公有方法名会被映射为<code>关键字名</code></li>
+<li>动态API, 动态的生成和执行关键字，除了运行时生成的特点，其他和静态API相同</li>
+<li>混合API, 即动态的引用静态API创建的关键字</li>
+</ul>
+<p>本文仅总结静态API,其它两类差不太多，只是有一些炫酷的用法而已</p>
+<h2 id="创编Library库"><a href="#创编Library库" class="headerlink" title="创编Library库"></a>创编Library库</h2><p>Library的名字导入后会和包名或者类名保持一致</p>
+<p>eg：现在引入一个Python库 MyLibrary(一个文件，MyLibrary.py)，<br>它将创建一个名字也为MyLibrary的库</p>
+<h3 id="编写类"><a href="#编写类" class="headerlink" title="编写类"></a>编写类</h3><p>通常一个包里包含的是一个类，如果类名和包名相同，RF允许在导入时省略类名</p>
+<p>如果类名和包名不一致，则Library名需要补全导入的类名</p>
+<p>举例说明<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Test.py</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="string">'''testing library'''</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(self, str1, str2)</span>:</span></div><div class="line">        <span class="keyword">return</span> str1 + str2</div></pre></td></tr></table></figure></p>
+<p>现在引入<code>Test.py</code>, 则库名为<code>Test</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Library     Test</div></pre></td></tr></table></figure></p>
+<p>此时<code>foo</code>关键字可以直接使用，接受两个参数返回拼接后的内容</p>
+<p>但如果改变类名为<code>Foo</code>, 在执行就会报错<code>找不到关键字foo</code></p>
+<p>这个时候两个解决方案，将类名改成和包名一致，或者更改导入库如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Library     Test.Foo</div></pre></td></tr></table></figure></p>
+<p>其实，之前的导入库相当于<code>Test.Test</code>的别名</p>
+<h3 id="编写函数和变量"><a href="#编写函数和变量" class="headerlink" title="编写函数和变量"></a>编写函数和变量</h3><p>除了类之外也可以创建变量和函数, 包命名空间里的方法也会变成关键字</p>
+<p>包括导入的库名<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># test.py</span></div><div class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> current_thread</div><div class="line"></div><div class="line">bar = <span class="number">233</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'hello world'</span></div></pre></td></tr></table></figure></p>
+<p>分别引入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Library           test</div><div class="line">Variables         test.py</div></pre></td></tr></table></figure></p>
+<p><code>current_thread</code>和<code>test</code>会成为关键字</p>
+<p><code>${bar}</code>会成为可使用的变量</p>
+<p>函数、变量不能和类同时导出</p>
+<p>原因我猜大概是导出类时其实是精确指定类名了，自然不会包括其他内容</p>
+<p>如果不想current_thread被导出，有两种方法</p>
+<ul>
+<li>导入时，写成<code>import threading</code>,使用时写成<code>threading.current_thread()</code></li>
+<li>通过包属性<code>__all__</code>限定导出的方法和变量</li>
+</ul>
+<h3 id="库参数"><a href="#库参数" class="headerlink" title="库参数"></a>库参数</h3><p>如果是导入的是一个类，自然是可以接受参数的，这些参数会被传递给构造器创建类实例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">*** Settings ***</div><div class="line">Library    MyLibrary     10.0.0.1    8080</div><div class="line">Library    AnotherLib    $&#123;VAR&#125;</div></pre></td></tr></table></figure></p>
+<p>参数会保证顺序和个数传递，这个很好理解</p>
+<p>需要注意的是RF里默认的参数类型是字符串，所以传递的数字会被转换</p>
+<h3 id="库引入方式"><a href="#库引入方式" class="headerlink" title="库引入方式"></a>库引入方式</h3><p>一般Library为一个文件或第三方库，引入的方式有两种：</p>
+<ul>
+<li>在测试套里直接引入<code>Library</code></li>
+<li>在测试套里引入<code>Resource</code>，在Resource文件里引入Library</li>
+</ul>
+<p>第二种方式多用于多处引入或批量引入</p>
+<h3 id="库作用域"><a href="#库作用域" class="headerlink" title="库作用域"></a>库作用域</h3><p>当引入的库是各种类时，它们是可以有一个内部状态的，内部状态会在初始化和关键字执行时被改变，同时也会影响关键字的行为。</p>
+<p>说简单点就是，关键字执行其实是执行类实例的方法，那其实就是这个类实例是每个用例一个实例还是大家共有一个实例的问题</p>
+<p>默认行为是每个用例一个实例，互不影响</p>
+<p>但这个行为也是可控的，通过一个类属性<code>ROBOT_LIBRARY_SCOPR</code></p>
+<p>该属性有三个值</p>
+<ul>
+<li><code>TEST_CASE</code>, 默认值</li>
+<li><code>TEST_SUIT</code>, 一个测试套共用一个实例</li>
+<li><code>GLOBAL</code>, 全局单例</li>
+</ul>
+<p>eg：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleLibrary</span>:</span></div><div class="line"></div><div class="line">    ROBOT_LIBRARY_SCOPE = <span class="string">'TEST SUITE'</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self._counter = <span class="number">0</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">count</span><span class="params">(self)</span>:</span></div><div class="line">        self._counter += <span class="number">1</span></div><div class="line">        <span class="keyword">print</span> self._counter</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clear_counter</span><span class="params">(self)</span>:</span></div><div class="line">        self._counter = <span class="number">0</span></div></pre></td></tr></table></figure></p>
+<h3 id="库版本"><a href="#库版本" class="headerlink" title="库版本"></a>库版本</h3><p>同库作用域，通过类属性<code>ROBOT_LIBRARY_VERSION</code>定义</p>
+<p>如果不存在会尝试从<code>__version__</code>属性读取</p>
+<h3 id="文档格式化"><a href="#文档格式化" class="headerlink" title="文档格式化"></a>文档格式化</h3><p>同上，通过类型<code>ROBOT_LIBRARY_DOC_FORMAT</code>指定文档格式，后续可以使用<code>Libdoc</code>工具生成对应格式的文档</p>
+<p>属性值大小写不敏感</p>
+<p>可能的值有<code>ROBOT</code>(default),<code>HTML</code>,<code>TEXT</code></p>
+<p>也可以使用第三方工具<code>docutil</code>,属性值为<code>reST</code></p>
+<h3 id="创建静态关键字"><a href="#创建静态关键字" class="headerlink" title="创建静态关键字"></a>创建静态关键字</h3><p>前面说过，如果是静态API，RF会自动的将引入库里的公有方法转化为关键字</p>
+<p>这里面仍有一些细节需要说明</p>
+<ul>
+<li>以下划线开头的方法会被忽略</li>
+<li>关键字的解析大小写不敏感</li>
+<li>关键字中的下划线和空格会被忽略</li>
+</ul>
+<p>eg：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_helper_method</span><span class="params">(self, arg)</span>:</span></div><div class="line">        <span class="keyword">return</span> arg.upper()</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">(name)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"Hello, %s!"</span> % name</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_nothing</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>引用时<code>_helper_method</code>不能被使用</p>
+<p><code>hello</code>方法对应的关键字可以是<code>hello</code>, <code>Hello</code>, <code>h e l l o</code></p>
+<p><code>do_nothing</code>或<code>doNothing</code>的关键字名都可以是<code>Do Nothing</code></p>
+<h4 id="自定义关键字名"><a href="#自定义关键字名" class="headerlink" title="自定义关键字名"></a>自定义关键字名</h4><p>关键名也可以按照自己的意愿命名</p>
+<p>实现上最先想到的应该就是装饰器了，实际也是如此</p>
+<p>通过<code>robot.api.deco.keyword</code>在方法上设置一个<code>robot_name</code>属性实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> robot.api.deco <span class="keyword">import</span> keyword</div><div class="line"></div><div class="line"><span class="meta">@keyword(u'登录')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">(username, password)</span>:</span></div><div class="line">    <span class="comment"># ...</span></div></pre></td></tr></table></figure>
+<p>使用时, 直接使用<code>登录</code>即可，原来<code>login</code>不再映射为关键字<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">*** Test Cases ***</div><div class="line">My Test</div><div class="line">    登录   $&#123;username&#125;    $&#123;password&#125;</div></pre></td></tr></table></figure></p>
+<p>从RF v3.0.2开始，通过这种方式，即使是以下划线开头的私有方法也能转换为可用关键字</p>
+<h5 id="关键字嵌套参数"><a href="#关键字嵌套参数" class="headerlink" title="关键字嵌套参数"></a>关键字嵌套参数</h5><p>关键字还可以接受嵌套参数，示例如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> robot.api.deco <span class="keyword">import</span> keyword</div><div class="line"></div><div class="line"><span class="meta">@keyword('Add $&#123;quantity:\d+&#125; Copies Of $&#123;item&#125; To Cart')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_copies_to_cart</span><span class="params">(quantity, item)</span>:</span></div><div class="line">    <span class="comment"># ...</span></div></pre></td></tr></table></figure></p>
+<p>使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">*** Test Cases ***</div><div class="line">My Test</div><div class="line">    Add 7 Copies Of Coffee To Cart</div></pre></td></tr></table></figure></p>
+<h3 id="打印信息"><a href="#打印信息" class="headerlink" title="打印信息"></a>打印信息</h3><p>异常信息会被打印，除此之外，向标准输出流(stdout/stderr)写入的信息也会被写入log文件，同时也还可定义不同的log level</p>
+<h4 id="打印级别"><a href="#打印级别" class="headerlink" title="打印级别"></a>打印级别</h4><p>默认是<code>INFO</code>, 除此之外还有<code>TRACE</code>, <code>DEBUG</code>,<code>WARN</code>,<code>ERROR</code>,<code>HTML</code></p>
+<p><code>WARN</code>,<code>ERROR</code>级别的信息会被自动写入到控制台</p>
+<p>如果是<code>HTML</code>, 则支持所有html语法的展现，eg：<code>&lt;b&gt;foo&lt;/b&gt;</code>，但需要慎用<code>&lt;table&gt;</code>便签，支持不是很好</p>
+<h4 id="打印到控制台"><a href="#打印到控制台" class="headerlink" title="打印到控制台"></a>打印到控制台</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_keyword</span><span class="params">(arg)</span>:</span></div><div class="line">   sys.__stdout__.write(<span class="string">'Got arg %s\n'</span> % arg)</div><div class="line"></div><div class="line"><span class="comment"># The final option is using the public logging API:</span></div><div class="line"><span class="keyword">from</span> robot.api <span class="keyword">import</span> logger</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">log_to_console</span><span class="params">(arg)</span>:</span></div><div class="line">   logger.console(<span class="string">'Got arg %s'</span> % arg)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">log_to_console_and_log_file</span><span class="params">(arg)</span>:</span></div><div class="line">   logger.info(<span class="string">'Got arg %s'</span> % arg, also_console=<span class="keyword">True</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">log_with_html_format</span><span class="params">()</span>:</span></div><div class="line">    logger.info(<span class="string">'&lt;i&gt;This&lt;/i&gt; is a boring example'</span>, html=<span class="keyword">True</span>)</div></pre></td></tr></table></figure>
+<p>直接使用<code>print</code>函数也行<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">print</span> <span class="string">'Hello from a library.'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'*WARN* Warning from a library.'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'*ERROR* Something unexpected happen that may indicate a problem in the test.'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'*INFO* Hello again!'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'This will be part of the previous message.'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'*INFO* This is a new message.'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'*INFO* This is &lt;b&gt;normal text&lt;/b&gt;.'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'*HTML* This is &lt;b&gt;bold&lt;/b&gt;.'</span></div><div class="line"><span class="keyword">print</span> <span class="string">'*HTML* &lt;a href="http://robotframework.org"&gt;Robot Framework&lt;/a&gt;'</span></div></pre></td></tr></table></figure></p>
+<p>结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">16:18:42.123	INFO	Hello from a library.</div><div class="line">16:18:42.123	WARN	Warning from a library.</div><div class="line">16:18:42.123	ERROR	Something unexpected happen that may indicate a problem in the test.</div><div class="line">16:18:42.123	INFO	Hello again!</div><div class="line">This will be part of the previous message.</div><div class="line">16:18:42.123	INFO	This is a new message.</div><div class="line">16:18:42.123	INFO	This is &lt;b&gt;normal text&lt;/b&gt;.</div><div class="line">16:18:42.123	INFO	This is bold.</div><div class="line">16:18:42.123	INFO	Robot Framework</div></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>RF框架包含的内容很多，了解一些基本使用足以支撑应用，更详细的用法参考<a href="http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html" target="_blank" rel="external">官方文档</a></p>
+<p>本文主要参考官方文档一部分<a href="http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#id704" target="_blank" rel="external">Extending Robot Framework</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    pandaQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://xu-li.cn/2017/rf-library/" title="RobotFramework Library API">http://xu-li.cn/2017/rf-library/</a>
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RobotFramework/" <i class="fa fa-tag"></i> RobotFramework</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/robotframework/" rel="next" title="自动化测试环境搭建">
+                <i class="fa fa-chevron-left"></i> 自动化测试环境搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/events-final/" rel="prev" title="Node.js events模块(下)">
+                Node.js events模块(下) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="vcomments"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="pandaQ" />
+          
+            <p class="site-author-name" itemprop="name">pandaQ</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yxxy" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i></a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Lx89757@126.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i></a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cqumzh.cn/bbs/frame.php" title="民主湖论坛" target="_blank" rel="external nofollow">民主湖论坛</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#API-分类"><span class="nav-number">1.</span> <span class="nav-text">API 分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创编Library库"><span class="nav-number">2.</span> <span class="nav-text">创编Library库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编写类"><span class="nav-number">2.1.</span> <span class="nav-text">编写类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写函数和变量"><span class="nav-number">2.2.</span> <span class="nav-text">编写函数和变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#库参数"><span class="nav-number">2.3.</span> <span class="nav-text">库参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#库引入方式"><span class="nav-number">2.4.</span> <span class="nav-text">库引入方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#库作用域"><span class="nav-number">2.5.</span> <span class="nav-text">库作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#库版本"><span class="nav-number">2.6.</span> <span class="nav-text">库版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文档格式化"><span class="nav-number">2.7.</span> <span class="nav-text">文档格式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建静态关键字"><span class="nav-number">2.8.</span> <span class="nav-text">创建静态关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义关键字名"><span class="nav-number">2.8.1.</span> <span class="nav-text">自定义关键字名</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#关键字嵌套参数"><span class="nav-number">2.8.1.1.</span> <span class="nav-text">关键字嵌套参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打印信息"><span class="nav-number">2.9.</span> <span class="nav-text">打印信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#打印级别"><span class="nav-number">2.9.1.</span> <span class="nav-text">打印级别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#打印到控制台"><span class="nav-number">2.9.2.</span> <span class="nav-text">打印到控制台</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 &mdash; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pandaQ</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">
+      48.9k
+    </span>
+  
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  <script src="/js/src/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: 'JoO3wX781AtzKm0g8T8qSyW4-gzGzoHsz',
+        appKey: 'gKf7C2etJLvoygA7syHY58ja',
+        placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+        avatar: 'monsterid',
+        guest_info: guest,
+        pageSize: '' || 10,
+    });
+  </script>
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

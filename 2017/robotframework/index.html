@@ -65,7 +65,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="robotframework,jenkins,python," />
+  <meta name="keywords" content="python,robotframework,jenkins," />
 
 
 
@@ -83,17 +83,17 @@
 
 
 
-<meta name="description" content="在我有限的自动化测试经历中，我接触了基于robotframework测试框架+jenkins管理平台的一整套CI测试流程，受益良多。验收测试驱动(ATDD)的思想确实有助于保证产品质量，提高开发效率。总结下这块的学习经验，以后应该还用得上。 robotframework简称RF,详细介绍可以参考官网  代码托管在github robotframework 总的来说RF是一个为验收测试和验收测试驱动">
-<meta name="keywords" content="robotframework,jenkins,python">
+<meta name="description" content="在我有限的自动化测试经历中，我接触了基于robotframework测试框架+jenkins管理平台的一整套CI测试流程，受益良多。验收测试驱动(ATDD)的思想确实有助于保证产品质量，提高开发效率。总结下这块的学习经验，以后应该还用得上。">
+<meta name="keywords" content="python,robotframework,jenkins">
 <meta property="og:type" content="article">
 <meta property="og:title" content="自动化测试环境搭建">
 <meta property="og:url" content="http://xu-li.cn/2017/robotframework/index.html">
 <meta property="og:site_name" content="pandaQ&#39;s Site">
-<meta property="og:description" content="在我有限的自动化测试经历中，我接触了基于robotframework测试框架+jenkins管理平台的一整套CI测试流程，受益良多。验收测试驱动(ATDD)的思想确实有助于保证产品质量，提高开发效率。总结下这块的学习经验，以后应该还用得上。 robotframework简称RF,详细介绍可以参考官网  代码托管在github robotframework 总的来说RF是一个为验收测试和验收测试驱动">
-<meta property="og:updated_time" content="2018-03-10T14:01:06.745Z">
+<meta property="og:description" content="在我有限的自动化测试经历中，我接触了基于robotframework测试框架+jenkins管理平台的一整套CI测试流程，受益良多。验收测试驱动(ATDD)的思想确实有助于保证产品质量，提高开发效率。总结下这块的学习经验，以后应该还用得上。">
+<meta property="og:updated_time" content="2018-03-28T12:23:33.661Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自动化测试环境搭建">
-<meta name="twitter:description" content="在我有限的自动化测试经历中，我接触了基于robotframework测试框架+jenkins管理平台的一整套CI测试流程，受益良多。验收测试驱动(ATDD)的思想确实有助于保证产品质量，提高开发效率。总结下这块的学习经验，以后应该还用得上。 robotframework简称RF,详细介绍可以参考官网  代码托管在github robotframework 总的来说RF是一个为验收测试和验收测试驱动">
+<meta name="twitter:description" content="在我有限的自动化测试经历中，我接触了基于robotframework测试框架+jenkins管理平台的一整套CI测试流程，受益良多。验收测试驱动(ATDD)的思想确实有助于保证产品质量，提高开发效率。总结下这块的学习经验，以后应该还用得上。">
 
 
 
@@ -432,7 +432,7 @@
       
 
       
-        <p>在我有限的自动化测试经历中，我接触了基于robotframework测试框架+jenkins管理平台的一整套CI测试流程，受益良多。<br>验收测试驱动(ATDD)的思想确实有助于保证产品质量，提高开发效率。总结下这块的学习经验，以后应该还用得上。</p>
+        <p>在我有限的自动化测试经历中，我接触了基于robotframework测试框架+jenkins管理平台的一整套CI测试流程，受益良多。<br>验收测试驱动(ATDD)的思想确实有助于保证产品质量，提高开发效率。总结下这块的学习经验，以后应该还用得上。<br><a id="more"></a></p>
 <h2 id="robotframework"><a href="#robotframework" class="headerlink" title="robotframework"></a>robotframework</h2><p>简称<code>RF</code>,<br>详细介绍可以参考<a href="http://robotframework.org" target="_blank" rel="external">官网</a> </p>
 <p>代码托管在github <a href="https://github.com/robotframework/robotframework" target="_blank" rel="external">robotframework</a></p>
 <p>总的来说RF是一个为验收测试和验收测试驱动开发的自动化测试框架，技术上以关键字驱动实现测试用例的编写。</p>
@@ -487,7 +487,7 @@
 <li><code>-r --report file</code>, 测试报告名，默认<code>report.html</code>, 设置为<code>NONE</code>不输出，也可以通过<code>rebot</code>工具后续再输出</li>
 <li><code>-l --log file</code>, 测试log文件名， 同上</li>
 </ul>
-<p><code>python -m rebot</code>到RF3.0版本才支持</p>
+<p><code>python -m robot</code>到RF3.0版本才支持</p>
 <p>旧版本需要使用<code>python -m robot.run</code></p>
 <p>解析xml也同理<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rebot output.xml</div><div class="line">python -m robot.rebot output.xml</div><div class="line">python -m robot.rebot -d ./output output.xml</div></pre></td></tr></table></figure></p>
 <h2 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h2><p><a href="https://jenkins.io/" target="_blank" rel="external">jenkins</a>的logo很好的说明的它的作用，简单来说它就是一个“管家”，可以定制各种任务的构建，测试，部署等各种工作的开源自动化持续集成服务器。</p>
@@ -532,11 +532,11 @@
       
         <div class="post-tags">
           
+            <a href="/tags/python/" <i class="fa fa-tag"></i> python</a>
+          
             <a href="/tags/robotframework/" <i class="fa fa-tag"></i> robotframework</a>
           
             <a href="/tags/jenkins/" <i class="fa fa-tag"></i> jenkins</a>
-          
-            <a href="/tags/python/" <i class="fa fa-tag"></i> python</a>
           
         </div>
       
@@ -559,8 +559,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/events-final/" rel="prev" title="Node.js events模块(下)">
-                Node.js events模块(下) <i class="fa fa-chevron-right"></i>
+              <a href="/2017/rf-library/" rel="prev" title="RobotFramework Library API">
+                RobotFramework Library API <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -645,7 +645,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -656,7 +656,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -667,7 +667,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -775,7 +775,7 @@
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
     <span title="Site words total count">
-      43.5k
+      48.9k
     </span>
   
 </div>
@@ -922,8 +922,8 @@
 
 
 
-  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script src="/js/src/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
   
   <script type="text/javascript">
     var GUEST = ['nick','mail','link'];

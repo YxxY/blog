@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta name="baidu-site-verification" content="ZmOJF1nohC" />
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javaScript,python," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="pandaQ's Site" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="写多了nodejs再回来写python提笔就忘，说出来还被人说代码量少……嗯，无法反驳。仔细想了下，徒手写代码到底困难在哪儿，想来大概是数据结构和基本语法了。把这两种语言放一块儿对比着来总结下，主要就数据结构和基本语法两部分，备忘。">
+<meta name="keywords" content="javaScript,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基本数据结构：Python vs Javascript">
+<meta property="og:url" content="http://xu-li.cn/2018/datatype-py-vs-js/index.html">
+<meta property="og:site_name" content="pandaQ&#39;s Site">
+<meta property="og:description" content="写多了nodejs再回来写python提笔就忘，说出来还被人说代码量少……嗯，无法反驳。仔细想了下，徒手写代码到底困难在哪儿，想来大概是数据结构和基本语法了。把这两种语言放一块儿对比着来总结下，主要就数据结构和基本语法两部分，备忘。">
+<meta property="og:updated_time" content="2018-03-28T12:26:15.119Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基本数据结构：Python vs Javascript">
+<meta name="twitter:description" content="写多了nodejs再回来写python提笔就忘，说出来还被人说代码量少……嗯，无法反驳。仔细想了下，徒手写代码到底困难在哪儿，想来大概是数据结构和基本语法了。把这两种语言放一块儿对比着来总结下，主要就数据结构和基本语法两部分，备忘。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.2',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideUpIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '作者'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xu-li.cn/2018/datatype-py-vs-js/"/>
+
+
+
+
+
+  <title>基本数据结构：Python vs Javascript | pandaQ's Site</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+      <div class="site-meta-headline">
+        <a>
+          <img class="custom-logo-image" src="http://opxo4bto2.bkt.clouddn.com/me.jpg"
+               alt="pandaQ's Site"/>
+        </a>
+      </div>
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">pandaQ's Site</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">May the force be with you</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xu-li.cn/2018/datatype-py-vs-js/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pandaQ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pandaQ's Site">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">基本数据结构：Python vs Javascript</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-22T21:35:27+08:00">
+                2018-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/common-sense/" itemprop="url" rel="index">
+                    <span itemprop="name">common-sense</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye">阅读次数:</i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,040
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>写多了nodejs再回来写python提笔就忘，说出来还被人说代码量少……嗯，无法反驳。<br>仔细想了下，徒手写代码到底困难在哪儿，想来大概是数据结构和基本语法了。<br>把这两种语言放一块儿对比着来总结下，主要就数据结构和基本语法两部分，备忘。<br><a id="more"></a></p>
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="js"><a href="#js" class="headerlink" title="js"></a>js</h2><p>六大基本类型以及引用类型</p>
+<p>基本类型：number, string, boolean(true/false), null, undefined, Symbol<br>引用类型：Object</p>
+<p>对象还可细分为 <code>Array</code>, <code>Functio</code>n, <code>Date</code>, <code>Math</code>等</p>
+<p>ES6新增了<code>Set</code>和<code>Map</code>对象等</p>
+<h2 id="py"><a href="#py" class="headerlink" title="py"></a>py</h2><p>基本类型和集合</p>
+<p>基本类型：number, string, boolean(True/False), None(空值)<br>集合：list, tuple, set, dictionary</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="py-1"><a href="#py-1" class="headerlink" title="py"></a>py</h3><p>python的变量不用特殊声明，除非在局部作用域使用全局变量需要使用<code>global</code>声明</p>
+<p>另外，python里一切皆对象，变量的赋值相当于将name和object绑定在一起<br><figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a= <span class="number">3</span></div></pre></td></tr></table></figure></p>
+<ul>
+<li>创建name a</li>
+<li>创建object 3</li>
+<li>将name a 关联到 3这个object </li>
+</ul>
+<p>以后就可以用a来调用3这个object</p>
+<h3 id="js-1"><a href="#js-1" class="headerlink" title="js"></a>js</h3><p>相比python，js就要显得麻烦一些</p>
+<h4 id="变量声明"><a href="#变量声明" class="headerlink" title="变量声明"></a>变量声明</h4><p>ES6新增<code>let</code>,<code>const</code>声明关键字</p>
+<ul>
+<li><code>let</code>，块级作用域</li>
+<li><code>var</code>，函数作用域</li>
+<li><code>const</code>， 声明变量值不可更改，对象则是指针的指向不可变</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="keyword">let</span> a = <span class="number">10</span>;</div><div class="line">  <span class="keyword">var</span> b = <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">a <span class="comment">// ReferenceError: a is not defined.</span></div><div class="line">b <span class="comment">// 1</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</div><div class="line">  <span class="keyword">let</span> i = <span class="string">'lalala'</span> <span class="comment">//不会报错，for循环体和循环条件是两个作用域</span></div><div class="line">  <span class="built_in">console</span>.log(i) </div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(i); <span class="comment">//ReferenceError: i is not defined</span></div></pre></td></tr></table></figure>
+<ul>
+<li><code>var</code>可重复声明，后续变量值会覆盖前面</li>
+<li><code>let</code>和<code>const</code>均不可重复声明，否则会报错</li>
+</ul>
+<h4 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h4><ul>
+<li><code>var</code>存在变量提升，</li>
+<li><code>let</code>和<code>const</code>不存在变量提升</li>
+<li>函数声明也会得到提升<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(foo); <span class="comment">// 输出undefined, 声明未赋值</span></div><div class="line"><span class="keyword">var</span> foo = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(bar); <span class="comment">// 报错ReferenceError</span></div><div class="line"><span class="keyword">let</span> bar = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(bar); <span class="comment">// 报错ReferenceError</span></div><div class="line"><span class="keyword">const</span> bar = <span class="number">2</span>;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>再举一个例子<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(tmp);</div><div class="line">  <span class="keyword">if</span> (<span class="literal">false</span>) &#123;</div><div class="line">    <span class="keyword">var</span> tmp = <span class="string">'hello world'</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">f();</div></pre></td></tr></table></figure></p>
+<p>输出不是当前日期，而是<code>undefined</code>, 因为函数内部tmp的声明被提升</p>
+<p>虽然日常代码不会这么写，但非常具备迷惑性</p>
+<h4 id="let和const的暂时性死区（Temporal-Dead-Zone）"><a href="#let和const的暂时性死区（Temporal-Dead-Zone）" class="headerlink" title="let和const的暂时性死区（Temporal Dead Zone）"></a>let和const的暂时性死区（Temporal Dead Zone）</h4><p>只要<code>块级作用域</code>内存在let或const命令，它所声明的变量就<code>绑定</code>（binding）这个区域，不再受外部的影响。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = <span class="number">123</span>;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</div><div class="line">  tmp = <span class="string">'abc'</span>; <span class="comment">// ReferenceError</span></div><div class="line">  <span class="keyword">let</span> tmp;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果注释掉let的声明，这段代码是没有问题的</p>
+<p>但是块级作用域内let又声明了一个局部变量tmp，导致后者绑定这个块级作用域，所以在let声明变量前，对tmp赋值会报错</p>
+<pre><code>总之，暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量
+</code></pre><h2 id="数据类型判断"><a href="#数据类型判断" class="headerlink" title="数据类型判断"></a>数据类型判断</h2><h3 id="js-2"><a href="#js-2" class="headerlink" title="js"></a>js</h3><ul>
+<li><code>typeof</code>, 运算符，返回表达式数据类型的全小写<code>字符串</code><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typeof</span> <span class="number">123</span>       <span class="comment">// 'number'</span></div><div class="line"><span class="keyword">typeof</span> <span class="literal">NaN</span>       <span class="comment">// 'number'</span></div><div class="line"></div><div class="line"><span class="keyword">typeof</span> <span class="string">'abc'</span>     <span class="comment">// 'string`</span></div><div class="line"></div><div class="line"><span class="keyword">typeof</span> <span class="literal">undefined</span> <span class="comment">// 'undefined'</span></div><div class="line"></div><div class="line"><span class="keyword">typeof</span> <span class="literal">null</span>      <span class="comment">// 'object'</span></div><div class="line"></div><div class="line"><span class="keyword">typeof</span> <span class="literal">true</span>      <span class="comment">// 'boolean'</span></div><div class="line"></div><div class="line"><span class="keyword">typeof</span> &#123;&#125;        <span class="comment">// 'object'</span></div><div class="line"><span class="keyword">typeof</span> []        <span class="comment">// 'object'</span></div><div class="line"><span class="keyword">typeof</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;    <span class="comment">// 'function'</span></div><div class="line"></div><div class="line"><span class="keyword">typeof</span> unknownVariable <span class="comment">// 'undefined'</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>数组的判断使用ES6里的新增方法<code>Array.isArray</code>, 接受一个参数返回布尔值。</p>
+<p>或者自行如下实现<br><code>Object.prototype.toString.call(arg) === &#39;[object Array]&#39;;</code></p>
+<p><code>NaN</code>的判断使用<code>Number.isNaN</code></p>
+<h3 id="py-2"><a href="#py-2" class="headerlink" title="py"></a>py</h3><ul>
+<li><p><code>type(var)</code>,和已知变量类型对比</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">type(myInt) <span class="keyword">is</span> type(<span class="number">1</span>)</div><div class="line">type(myFloat) <span class="keyword">is</span> type(<span class="number">.1</span>)</div><div class="line">type(myLong) <span class="keyword">is</span> type(<span class="number">1111111111111</span>)</div><div class="line">type(myBool) <span class="keyword">is</span> type(<span class="keyword">True</span>)</div><div class="line">type(myStr) <span class="keyword">is</span> type(<span class="string">"a"</span>)</div><div class="line">type(myList) <span class="keyword">is</span> type([<span class="number">1</span>])</div><div class="line">type(myTuple) <span class="keyword">is</span> type((<span class="number">1</span>,))</div><div class="line">type(mySet) <span class="keyword">is</span> type(set([<span class="number">1</span>]))</div><div class="line">type(myDict) <span class="keyword">is</span> type(&#123;<span class="number">1</span>:<span class="number">2</span>&#125;)</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>isinstance(object, class-or-type-or-tuple)</code>, 返回布尔值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">isinstance(myInt, int)</div><div class="line">isinstance(myFloat, float)</div><div class="line">isinstance(myLong, float)</div><div class="line">isinstance(myBool, bool)</div><div class="line">isinstance(myStr, str)</div><div class="line">isinstance(myList, list)</div><div class="line">isinstance(myTuple, tuple)</div><div class="line">isinstance(mySet, set)</div><div class="line">isinstance(myDict, dict)</div><div class="line"><span class="comment"># 第二个参数使用tuple类型</span></div><div class="line">isinstance(myDict, (list, tuple, set, dict))</div></pre></td></tr></table></figure>
+</li>
+<li><p>内置库，types</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> types</div><div class="line"></div><div class="line">type(myInt) <span class="keyword">is</span> types.IntType</div><div class="line">type(myFloat) <span class="keyword">is</span> types.FloatType</div><div class="line">type(myLong) <span class="keyword">is</span> types.LongType</div><div class="line">type(myBool) <span class="keyword">is</span> types.BooleanType</div><div class="line">type(myStr) <span class="keyword">is</span> types.String</div><div class="line">type(myList) <span class="keyword">is</span> types.ListType</div><div class="line">type(myTuple) <span class="keyword">is</span> types.TupleType</div><div class="line"><span class="comment"># types库中没有对应的set类型，需要前两种方法</span></div><div class="line">type(myDict) <span class="keyword">is</span> types.DictType</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="判断相等"><a href="#判断相等" class="headerlink" title="判断相等"></a>判断相等</h2><h3 id="js-3"><a href="#js-3" class="headerlink" title="js"></a>js</h3><p>使用<code>===</code>,不建议使用<code>==</code>来自找麻烦<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="literal">null</span> === <span class="literal">null</span>            <span class="comment">//true</span></div><div class="line"><span class="literal">undefined</span> === <span class="literal">undefined</span>  <span class="comment">//true</span></div><div class="line">&#123;&#125; === &#123;&#125;                <span class="comment">//false</span></div><div class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span>              <span class="comment">//false</span></div></pre></td></tr></table></figure></p>
+<h3 id="py-3"><a href="#py-3" class="headerlink" title="py"></a>py</h3><p>判断相等，python和js出入较大</p>
+<p>python的对象包含三要素:id，type，value</p>
+<ul>
+<li><code>is</code>，id和value都相等</li>
+<li><code>==</code>，value相等<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">a = b = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">c = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">d = &#123;<span class="string">'a'</span>:<span class="number">1</span>&#125; </div><div class="line">e = &#123;<span class="string">'a'</span>:<span class="number">1</span>&#125; </div><div class="line"></div><div class="line"><span class="keyword">print</span> a == b  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> a == c  <span class="comment"># True !!!</span></div><div class="line"><span class="keyword">print</span> a <span class="keyword">is</span> b  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> a <span class="keyword">is</span> c  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> d == e  <span class="comment"># True !!!</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这里主要说明了<code>is</code>和<code>==</code>的区别。同时也引出了第二个问题，对象相等</p>
+<p>另外同一类的实例对象，一般是不相等，因为内存地址不同</p>
+<p>但可以重载<code>__eq__</code>方法实现定制</p>
+<p>与之相反的是<code>__ne__</code>方法<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></div><div class="line">        self.name=name</div><div class="line">        </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__eq__</span><span class="params">(self, other)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.name == other.name</div><div class="line"></div><div class="line"><span class="keyword">print</span> Foo(<span class="string">'zhangsan'</span>) == Foo(<span class="string">'lisi'</span>)     <span class="comment"># False</span></div><div class="line"><span class="keyword">print</span> Foo(<span class="string">'zhangsan'</span>) == Foo(<span class="string">'zhangsan'</span>) <span class="comment"># True</span></div></pre></td></tr></table></figure></p>
+<p>从而不难理解为什么python里引用类型也会出现相等的情况了，其实只是单纯的值相等而已</p>
+<h2 id="假值"><a href="#假值" class="headerlink" title="假值"></a>假值</h2><h3 id="js-4"><a href="#js-4" class="headerlink" title="js"></a>js</h3><ul>
+<li><code>false</code> (boolean)</li>
+<li>空字符串</li>
+<li>数值为<code>0</code></li>
+<li><code>undefined</code></li>
+<li><code>null</code></li>
+<li><code>NaN</code><h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3></li>
+<li><code>False</code> (boolean)</li>
+<li>空序列，包括空字符串, [], {}, ()</li>
+<li>数值为<code>0</code></li>
+<li><code>None</code></li>
+</ul>
+<h2 id="判断及循环"><a href="#判断及循环" class="headerlink" title="判断及循环"></a>判断及循环</h2><h3 id="js-5"><a href="#js-5" class="headerlink" title="js"></a>js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// if/else</span></div><div class="line"><span class="keyword">if</span>()&#123;</div><div class="line"></div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>&#123;</div><div class="line"></div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//while</span></div><div class="line"><span class="keyword">while</span>()&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//for</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> obj)&#123;  <span class="comment">//i: index or key</span></div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> x <span class="keyword">of</span> array_obj)&#123; <span class="comment">//x: value</span></div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="python-1"><a href="#python-1" class="headerlink" title="python"></a>python</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># if/else</span></div><div class="line"><span class="keyword">if</span> cond:</div><div class="line">    statement</div><div class="line"><span class="keyword">elif</span> cond:</div><div class="line">    statement</div><div class="line"><span class="keyword">else</span></div><div class="line">    statement</div><div class="line"></div><div class="line"><span class="comment"># while</span></div><div class="line"><span class="keyword">while</span> cond:</div><div class="line">    statement</div><div class="line"></div><div class="line"><span class="comment"># for, 任何可迭代的对象都可以for循环</span></div><div class="line"><span class="keyword">for</span> value <span class="keyword">in</span> array_list:</div><div class="line">    <span class="keyword">print</span> value</div><div class="line"></div><div class="line"><span class="keyword">for</span> index <span class="keyword">in</span> range[len(array_list)]</div><div class="line">    <span class="keyword">print</span> index</div><div class="line"></div><div class="line">d = [(<span class="number">1</span>,<span class="number">2</span>),(<span class="number">2</span>,<span class="number">3</span>),(<span class="number">3</span>,<span class="number">4</span>)]  </div><div class="line"><span class="comment"># 迭代二元list </span></div><div class="line"><span class="keyword">for</span> x, y <span class="keyword">in</span> d:  </div><div class="line">    <span class="keyword">print</span> x, y</div><div class="line"></div><div class="line">d = &#123; <span class="string">'Adam'</span>: <span class="number">95</span>, <span class="string">'Lisa'</span>: <span class="number">85</span>, <span class="string">'Bart'</span>: <span class="number">59</span>, <span class="string">'Paul'</span>: <span class="number">74</span> &#125;  </div><div class="line"></div><div class="line"><span class="comment"># 迭代dict的键，相当于将字典转换成key的list，相比iterkeys更费内存 </span></div><div class="line"><span class="keyword">for</span> x <span class="keyword">in</span> d.keys():  </div><div class="line">    <span class="keyword">print</span> x  </div><div class="line">  </div><div class="line"><span class="comment"># 也可以采用这种方式迭代  </span></div><div class="line"><span class="keyword">for</span> x <span class="keyword">in</span> d.iterkeys():  </div><div class="line">    <span class="keyword">print</span> x  </div><div class="line">  </div><div class="line"><span class="comment"># 迭代dict的值  </span></div><div class="line"><span class="keyword">for</span> x <span class="keyword">in</span> d.values():  </div><div class="line">    <span class="keyword">print</span> x  </div><div class="line">  </div><div class="line"><span class="keyword">for</span> x <span class="keyword">in</span> d.itervalues():  </div><div class="line">    <span class="keyword">print</span> x  </div><div class="line">  </div><div class="line"><span class="comment"># 迭代键值对  </span></div><div class="line"><span class="keyword">for</span> k, v <span class="keyword">in</span> d.items():  </div><div class="line">    <span class="keyword">print</span> k, <span class="string">":"</span>, v  </div><div class="line">  </div><div class="line"><span class="keyword">for</span> k, v <span class="keyword">in</span> d.iteritems():  </div><div class="line">    <span class="keyword">print</span> k, <span class="string">":"</span>, v</div></pre></td></tr></table></figure>
+<h2 id="常用数据结构"><a href="#常用数据结构" class="headerlink" title="常用数据结构"></a>常用数据结构</h2><h3 id="js-6"><a href="#js-6" class="headerlink" title="js"></a>js</h3><h4 id="数组"><a href="#数组" class="headerlink" title="数组 - []"></a>数组 - <code>[]</code></h4><ul>
+<li>索引越界访问返回<code>undefined</code></li>
+</ul>
+<p>常用属性方法：</p>
+<ul>
+<li><code>length</code> 返回数组长度</li>
+<li><code>push(element1[, ...[, elementN]])</code>,</li>
+<li><code>unshift(element1[, ...[, elementN]])</code></li>
+<li><code>pop()</code></li>
+<li><code>shift()</code></li>
+<li><code>sort([compareFunction])</code>, 默认从小到大</li>
+<li><code>includes()</code></li>
+<li><code>join()</code>， 返回字符串，默认逗号分隔</li>
+</ul>
+<h4 id="对象"><a href="#对象" class="headerlink" title="对象 - {}"></a>对象 - <code>{}</code></h4><ul>
+<li>key-value赋值，点运算符或<code>[属性名]</code>均可</li>
+<li>访问不存在的属性返回<code>undefined</code></li>
+<li><code>key</code>一般为字符串</li>
+<li>for循环取到的是key值</li>
+<li>ES6 支持对象属性解构</li>
+<li><code>Object.keys(obj)</code>,返回对象可枚举属性的字符串数组</li>
+<li><code>Object.values(obj)</code>,返回对象可枚举属性值的数组</li>
+</ul>
+<h3 id="py-4"><a href="#py-4" class="headerlink" title="py"></a>py</h3><h4 id="list"><a href="#list" class="headerlink" title="list - []"></a>list - <code>[]</code></h4><ul>
+<li>索引越界访问返回<code>IndexError</code></li>
+<li><code>-1</code>做索引可以取到最后一个元素，依次类推</li>
+<li>获取长度使用<code>len(list_var)</code></li>
+</ul>
+<p>常用属性方法</p>
+<ul>
+<li><code>append(element)</code>, 追加元素到末尾</li>
+<li><code>insert(index, element)</code>, 查人元素到指定位置</li>
+<li><code>pop(index)</code>, 删除指定位置的元素，返回该元素</li>
+</ul>
+<p>列表生成器<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">l = [x * x <span class="keyword">for</span> x <span class="keyword">in</span> xrange(<span class="number">10</span>)]</div></pre></td></tr></table></figure></p>
+<p>将中括号<code>[]</code>换成括号<code>()</code>,即返回一个生成器<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">g = (x * x <span class="keyword">for</span> x <span class="keyword">in</span> xrange(<span class="number">3</span>))</div><div class="line"><span class="keyword">print</span> next(g) <span class="comment"># 0</span></div><div class="line"><span class="keyword">for</span> x <span class="keyword">in</span> g:</div><div class="line">    <span class="keyword">print</span> x</div><div class="line"><span class="comment"># 1</span></div><div class="line"><span class="comment"># 4</span></div></pre></td></tr></table></figure></p>
+<h4 id="tuple"><a href="#tuple" class="headerlink" title="tuple - ()"></a>tuple - <code>()</code></h4><p>和list类似，但是tuple一旦初始化就<code>不能修改</code>（指向）</p>
+<p>也因此没有动态修改的方法，只有通过索引来访问值</p>
+<p>定义一个tuple使用<code>t=()</code><br>但是定义一个元素的tuple要使用<code>t=(1,)</code>,否则会返回<code>数字1</code></p>
+<h4 id="dict"><a href="#dict" class="headerlink" title="dict - {}"></a>dict - <code>{}</code></h4><ul>
+<li><p>访问通过索引或者<code>get</code>方法</p>
+<ul>
+<li>通过索引访问的key不存在会报<code>keyError</code></li>
+<li>通过get方法，返回None或指定值<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;d[<span class="string">'tom'</span>] = <span class="number">7</span></div><div class="line">&gt;&gt;&gt;d[<span class="string">'jerry'</span>]</div><div class="line">keyError</div><div class="line">&gt;&gt;&gt;d.get(<span class="string">'jerry'</span>, <span class="number">-1</span>)</div><div class="line"><span class="number">-1</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><code>key</code>值可以是任意类型，但必须是<code>不可变对象</code></p>
+</li>
+<li><code>pop(key)</code>, 删除指定key，返回value</li>
+</ul>
+<h3 id="set"><a href="#set" class="headerlink" title="set - ([])"></a>set - <code>([])</code></h3><p>和<code>dict</code>类似，但set只是一组key的集合，key值不重复，且不包含value</p>
+<p>重复值会被过滤掉，且不保证顺序，是数学意义上的无序不重复元素的集合</p>
+<ul>
+<li><p>初始化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">### 直接定义</span></div><div class="line">s = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>&#125;     <span class="comment">#set([1,2,3])</span></div><div class="line"></div><div class="line"><span class="comment">### 接受一个list参数</span></div><div class="line">s= set([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">2</span>]) <span class="comment">#set([1,2,3])</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>set的元素只能是不可变对象，可变对象无法哈希化确定唯一值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">s = &#123;(<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>)&#125;    <span class="comment"># ok</span></div><div class="line">s = &#123;(<span class="number">1</span>,<span class="number">2</span>,[<span class="number">3</span>])&#125;  <span class="comment"># typeError</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>常用方法</p>
+<ul>
+<li><code>add(key)</code>, 添加新元素，重复添加无效</li>
+<li><code>remove(key)</code>, 删除元素</li>
+<li><code>s1 &amp; s2</code>, 取交集</li>
+<li><code>s1 | s2</code>, 取并集</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    pandaQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://xu-li.cn/2018/datatype-py-vs-js/" title="基本数据结构：Python vs Javascript">http://xu-li.cn/2018/datatype-py-vs-js/</a>
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javaScript/" <i class="fa fa-tag"></i> javaScript</a>
+          
+            <a href="/tags/python/" <i class="fa fa-tag"></i> python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/package-in-python-and-nodejs/" rel="next" title="包机制：Python vs Node.js">
+                <i class="fa fa-chevron-left"></i> 包机制：Python vs Node.js
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/async-await/" rel="prev" title="async/await">
+                async/await <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="vcomments"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="pandaQ" />
+          
+            <p class="site-author-name" itemprop="name">pandaQ</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yxxy" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i></a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Lx89757@126.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i></a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cqumzh.cn/bbs/frame.php" title="民主湖论坛" target="_blank" rel="external nofollow">民主湖论坛</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据类型"><span class="nav-number">1.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#js"><span class="nav-number">1.1.</span> <span class="nav-text">js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#py"><span class="nav-number">1.2.</span> <span class="nav-text">py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">1.3.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#py-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#js-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">js</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#变量声明"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">变量声明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#变量提升"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">变量提升</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#let和const的暂时性死区（Temporal-Dead-Zone）"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">let和const的暂时性死区（Temporal Dead Zone）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型判断"><span class="nav-number">1.4.</span> <span class="nav-text">数据类型判断</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#js-2"><span class="nav-number">1.4.1.</span> <span class="nav-text">js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#py-2"><span class="nav-number">1.4.2.</span> <span class="nav-text">py</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判断相等"><span class="nav-number">1.5.</span> <span class="nav-text">判断相等</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#js-3"><span class="nav-number">1.5.1.</span> <span class="nav-text">js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#py-3"><span class="nav-number">1.5.2.</span> <span class="nav-text">py</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#假值"><span class="nav-number">1.6.</span> <span class="nav-text">假值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#js-4"><span class="nav-number">1.6.1.</span> <span class="nav-text">js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python"><span class="nav-number">1.6.2.</span> <span class="nav-text">python</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判断及循环"><span class="nav-number">1.7.</span> <span class="nav-text">判断及循环</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#js-5"><span class="nav-number">1.7.1.</span> <span class="nav-text">js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-1"><span class="nav-number">1.7.2.</span> <span class="nav-text">python</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用数据结构"><span class="nav-number">1.8.</span> <span class="nav-text">常用数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#js-6"><span class="nav-number">1.8.1.</span> <span class="nav-text">js</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数组"><span class="nav-number">1.8.1.1.</span> <span class="nav-text">数组 - []</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象"><span class="nav-number">1.8.1.2.</span> <span class="nav-text">对象 - {}</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#py-4"><span class="nav-number">1.8.2.</span> <span class="nav-text">py</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#list"><span class="nav-number">1.8.2.1.</span> <span class="nav-text">list - []</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tuple"><span class="nav-number">1.8.2.2.</span> <span class="nav-text">tuple - ()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dict"><span class="nav-number">1.8.2.3.</span> <span class="nav-text">dict - {}</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set"><span class="nav-number">1.8.3.</span> <span class="nav-text">set - ([])</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 &mdash; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pandaQ</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">
+      48.9k
+    </span>
+  
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  <script src="/js/src/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: 'JoO3wX781AtzKm0g8T8qSyW4-gzGzoHsz',
+        appKey: 'gKf7C2etJLvoygA7syHY58ja',
+        placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+        avatar: 'monsterid',
+        guest_info: guest,
+        pageSize: '' || 10,
+    });
+  </script>
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

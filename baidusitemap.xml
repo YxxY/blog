@@ -4,23 +4,135 @@
 
     
   <url>
-    <loc>http://xu-li.cn/2017/robotframework/</loc>
-    <lastmod>2018-03-10T14:01:06.745Z</lastmod>
+    <loc>http://xu-li.cn/2018/package-in-python-and-nodejs/</loc>
+    <lastmod>2018-03-28T14:03:45.036Z</lastmod>
     <data>
         <display>
-        <title>自动化测试环境搭建</title>
-        <pubTime>2017-07-13T13:15:27.000Z</pubTime>
+        <title>包机制：Python vs Node.js</title>
+        <pubTime>2018-01-31T12:45:27.000Z</pubTime>
         
-        <tag>robotframework</tag>
+        <tag>python</tag>
          
-        <tag>jenkins</tag>
+        <tag>module</tag>
+         
+        <tag>node.js</tag>
+         
+         
+           
+             
+              <breadCrumb title="package" url="http://xu-li.cn/categories/package/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/2018/async-await/</loc>
+    <lastmod>2018-03-28T12:27:38.503Z</lastmod>
+    <data>
+        <display>
+        <title>async/await</title>
+        <pubTime>2018-02-28T13:15:27.000Z</pubTime>
+        
+        <tag>javaScript</tag>
+         
+        <tag>async</tag>
+         
+        <tag>await</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="http://xu-li.cn/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/2018/datatype-py-vs-js/</loc>
+    <lastmod>2018-03-28T12:26:15.119Z</lastmod>
+    <data>
+        <display>
+        <title>基本数据结构：Python vs Javascript</title>
+        <pubTime>2018-02-22T13:35:27.000Z</pubTime>
+        
+        <tag>javaScript</tag>
          
         <tag>python</tag>
          
          
            
              
+              <breadCrumb title="common-sense" url="http://xu-li.cn/categories/common-sense/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/2017/robotframework/</loc>
+    <lastmod>2018-03-28T12:23:33.661Z</lastmod>
+    <data>
+        <display>
+        <title>自动化测试环境搭建</title>
+        <pubTime>2017-07-13T13:15:27.000Z</pubTime>
+        
+        <tag>python</tag>
+         
+        <tag>robotframework</tag>
+         
+        <tag>jenkins</tag>
+         
+         
+           
+             
               <breadCrumb title="robotframework" url="http://xu-li.cn/categories/robotframework/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/2017/rf-library/</loc>
+    <lastmod>2018-03-28T12:17:57.750Z</lastmod>
+    <data>
+        <display>
+        <title>RobotFramework Library API</title>
+        <pubTime>2017-07-22T13:45:27.000Z</pubTime>
+        
+        <tag>RobotFramework</tag>
+         
+         
+           
+             
+              <breadCrumb title="RobotFramework" url="http://xu-li.cn/categories/RobotFramework/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/2017/promise/</loc>
+    <lastmod>2018-03-28T11:58:44.426Z</lastmod>
+    <data>
+        <display>
+        <title>Promise</title>
+        <pubTime>2017-12-21T13:15:27.000Z</pubTime>
+        
+        <tag>javaScript</tag>
+         
+        <tag>promise</tag>
+         
+         
+           
+             
+              <breadCrumb title="Promise" url="http://xu-li.cn/categories/Promise/"/>
           
         </display>
     </data>
@@ -111,28 +223,6 @@
            
              
               <breadCrumb title="JavaScript" url="http://xu-li.cn/categories/JavaScript/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xu-li.cn/2017/promise/</loc>
-    <lastmod>2018-01-24T13:12:54.708Z</lastmod>
-    <data>
-        <display>
-        <title>Promise</title>
-        <pubTime>2017-12-21T13:15:27.000Z</pubTime>
-        
-        <tag>javaScript</tag>
-         
-        <tag>promise</tag>
-         
-         
-           
-             
-              <breadCrumb title="Promise" url="http://xu-li.cn/categories/Promise/"/>
           
         </display>
     </data>
