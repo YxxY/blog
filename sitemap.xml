@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://xu-li.cn/2018/async-await/</loc>
+    
+    <lastmod>2018-03-31T14:17:28.038Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2018/datatype-py-vs-js/</loc>
+    
+    <lastmod>2018-03-31T14:16:53.352Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/rf-library/</loc>
+    
+    <lastmod>2018-03-31T14:16:39.323Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/promise/</loc>
+    
+    <lastmod>2018-03-28T14:25:30.544Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://xu-li.cn/2018/package-in-python-and-nodejs/</loc>
     
     <lastmod>2018-03-28T14:03:45.036Z</lastmod>
@@ -9,37 +37,9 @@
   </url>
   
   <url>
-    <loc>http://xu-li.cn/2018/async-await/</loc>
-    
-    <lastmod>2018-03-28T12:27:38.503Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2018/datatype-py-vs-js/</loc>
-    
-    <lastmod>2018-03-28T12:26:15.119Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://xu-li.cn/2017/robotframework/</loc>
     
     <lastmod>2018-03-28T12:23:33.661Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/rf-library/</loc>
-    
-    <lastmod>2018-03-28T12:17:57.750Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/promise/</loc>
-    
-    <lastmod>2018-03-28T11:58:44.426Z</lastmod>
     
   </url>
   

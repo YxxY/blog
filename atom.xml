@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xu-li.cn/"/>
-  <updated>2018-03-28T12:27:38.503Z</updated>
+  <updated>2018-03-31T14:17:28.038Z</updated>
   <id>http://xu-li.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://xu-li.cn/2018/async-await/"/>
     <id>http://xu-li.cn/2018/async-await/</id>
     <published>2018-02-28T13:15:27.000Z</published>
-    <updated>2018-03-28T12:27:38.503Z</updated>
+    <updated>2018-03-31T14:17:28.038Z</updated>
     
     <content type="html"><![CDATA[<p>async/await, 号称js异步的终极方案……虽然似乎只是语法糖，但确实减少了代码量，让代码同步化，一直拖着没用，但不学不行啊<br><a id="more"></a></p>
 <h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><ul>
@@ -71,14 +71,14 @@
     <link href="http://xu-li.cn/2018/datatype-py-vs-js/"/>
     <id>http://xu-li.cn/2018/datatype-py-vs-js/</id>
     <published>2018-02-22T13:35:27.000Z</published>
-    <updated>2018-03-28T12:26:15.119Z</updated>
+    <updated>2018-03-31T14:16:53.352Z</updated>
     
     <content type="html"><![CDATA[<p>写多了nodejs再回来写python提笔就忘，说出来还被人说代码量少……嗯，无法反驳。<br>仔细想了下，徒手写代码到底困难在哪儿，想来大概是数据结构和基本语法了。<br>把这两种语言放一块儿对比着来总结下，主要就数据结构和基本语法两部分，备忘。<br><a id="more"></a></p>
-<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="js"><a href="#js" class="headerlink" title="js"></a>js</h2><p>六大基本类型以及引用类型</p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="js"><a href="#js" class="headerlink" title="js"></a>js</h3><p>六大基本类型以及引用类型</p>
 <p>基本类型：number, string, boolean(true/false), null, undefined, Symbol<br>引用类型：Object</p>
 <p>对象还可细分为 <code>Array</code>, <code>Functio</code>n, <code>Date</code>, <code>Math</code>等</p>
 <p>ES6新增了<code>Set</code>和<code>Map</code>对象等</p>
-<h2 id="py"><a href="#py" class="headerlink" title="py"></a>py</h2><p>基本类型和集合</p>
+<h3 id="py"><a href="#py" class="headerlink" title="py"></a>py</h3><p>基本类型和集合</p>
 <p>基本类型：number, string, boolean(True/False), None(空值)<br>集合：list, tuple, set, dictionary</p>
 <h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="py-1"><a href="#py-1" class="headerlink" title="py"></a>py</h3><p>python的变量不用特殊声明，除非在局部作用域使用全局变量需要使用<code>global</code>声明</p>
 <p>另外，python里一切皆对象，变量的赋值相当于将name和object绑定在一起<br><figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a= <span class="number">3</span></div></pre></td></tr></table></figure></p>
@@ -136,7 +136,8 @@
 <p>python的对象包含三要素:id，type，value</p>
 <ul>
 <li><code>is</code>，id和value都相等</li>
-<li><code>==</code>，value相等<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">a = b = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">c = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">d = &#123;<span class="string">'a'</span>:<span class="number">1</span>&#125; </div><div class="line">e = &#123;<span class="string">'a'</span>:<span class="number">1</span>&#125; </div><div class="line"></div><div class="line"><span class="keyword">print</span> a == b  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> a == c  <span class="comment"># True !!!</span></div><div class="line"><span class="keyword">print</span> a <span class="keyword">is</span> b  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> a <span class="keyword">is</span> c  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> d == e  <span class="comment"># True !!!</span></div></pre></td></tr></table></figure>
+<li><code>==</code>，value相等</li>
+<li><code>!=</code>，value不相等<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">a = b = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">c = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">d = &#123;<span class="string">'a'</span>:<span class="number">1</span>&#125; </div><div class="line">e = &#123;<span class="string">'a'</span>:<span class="number">1</span>&#125; </div><div class="line"></div><div class="line"><span class="keyword">print</span> a == b  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> a == c  <span class="comment"># True !!!</span></div><div class="line"><span class="keyword">print</span> a <span class="keyword">is</span> b  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> a <span class="keyword">is</span> c  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> d == e  <span class="comment"># True !!!</span></div><div class="line"><span class="keyword">print</span> <span class="keyword">None</span> <span class="keyword">is</span> <span class="keyword">None</span> <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> <span class="keyword">None</span> == <span class="keyword">None</span> <span class="comment"># True</span></div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>这里主要说明了<code>is</code>和<code>==</code>的区别。同时也引出了第二个问题，对象相等</p>
@@ -708,7 +709,7 @@
     <link href="http://xu-li.cn/2017/promise/"/>
     <id>http://xu-li.cn/2017/promise/</id>
     <published>2017-12-21T13:15:27.000Z</published>
-    <updated>2018-03-28T11:58:44.426Z</updated>
+    <updated>2018-03-28T14:25:30.544Z</updated>
     
     <content type="html"><![CDATA[<p>作为es6的新特性，<code>promise</code>的出现，使得<code>callback hell</code>有了优雅的解决方案，掌握promise的使用无疑是一种技能提升。本文基于《ECMAScript 6 入门》和诸多碎片化的阅读以及实践中遇到的问题做一次全面总结。<br><a id="more"></a></p>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Promise 是异步编程的一种解决方案，比传统的解决方案<code>回调函数和事件</code>更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Promise对象是一个构造函数</span></div><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">res, rej</span>)=&gt;</span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="comment">/* 异步操作成功 */</span>)&#123;</div><div class="line">        res(value);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        rej(error);</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
@@ -1284,9 +1285,9 @@
     <link href="http://xu-li.cn/2017/rf-library/"/>
     <id>http://xu-li.cn/2017/rf-library/</id>
     <published>2017-07-22T13:45:27.000Z</published>
-    <updated>2018-03-28T12:17:57.750Z</updated>
+    <updated>2018-03-31T14:16:39.323Z</updated>
     
-    <content type="html"><![CDATA[<p>RF本身是用Python写的，它的扩展库也可以用Python来写。如果是跑在Jython上，也是可以用java来扩展。<br>纯python的扩展具备通用性，本文也主要总结基于python的RF扩展库的API，RF版本为V3.0.2<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p>RF本身是用Python写的，它的扩展库也可以用Python来写。<br>如果是跑在Jython上，也是可以用java来扩展。<br>纯python的扩展具备通用性，本文也主要总结基于python的RF扩展库的API，RF版本为截止到当前最新的V3.0.2<br><a id="more"></a></p>
 <h2 id="API-分类"><a href="#API-分类" class="headerlink" title="API 分类"></a>API 分类</h2><p>RF有三种不同的库API:</p>
 <ul>
 <li>静态API, 最常用的。提供一个包或者一个类，里面的公有方法名会被映射为<code>关键字名</code></li>
@@ -1374,7 +1375,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;RF本身是用Python写的，它的扩展库也可以用Python来写。如果是跑在Jython上，也是可以用java来扩展。&lt;br&gt;纯python的扩展具备通用性，本文也主要总结基于python的RF扩展库的API，RF版本为V3.0.2&lt;br&gt;
+      &lt;p&gt;RF本身是用Python写的，它的扩展库也可以用Python来写。&lt;br&gt;如果是跑在Jython上，也是可以用java来扩展。&lt;br&gt;纯python的扩展具备通用性，本文也主要总结基于python的RF扩展库的API，RF版本为截止到当前最新的V3.0.2&lt;br&gt;
     
     </summary>
     

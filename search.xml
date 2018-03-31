@@ -55,11 +55,11 @@
       <title><![CDATA[基本数据结构：Python vs Javascript]]></title>
       <url>/2018/datatype-py-vs-js/</url>
       <content type="html"><![CDATA[<p>写多了nodejs再回来写python提笔就忘，说出来还被人说代码量少……嗯，无法反驳。<br>仔细想了下，徒手写代码到底困难在哪儿，想来大概是数据结构和基本语法了。<br>把这两种语言放一块儿对比着来总结下，主要就数据结构和基本语法两部分，备忘。<br><a id="more"></a></p>
-<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="js"><a href="#js" class="headerlink" title="js"></a>js</h2><p>六大基本类型以及引用类型</p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="js"><a href="#js" class="headerlink" title="js"></a>js</h3><p>六大基本类型以及引用类型</p>
 <p>基本类型：number, string, boolean(true/false), null, undefined, Symbol<br>引用类型：Object</p>
 <p>对象还可细分为 <code>Array</code>, <code>Functio</code>n, <code>Date</code>, <code>Math</code>等</p>
 <p>ES6新增了<code>Set</code>和<code>Map</code>对象等</p>
-<h2 id="py"><a href="#py" class="headerlink" title="py"></a>py</h2><p>基本类型和集合</p>
+<h3 id="py"><a href="#py" class="headerlink" title="py"></a>py</h3><p>基本类型和集合</p>
 <p>基本类型：number, string, boolean(True/False), None(空值)<br>集合：list, tuple, set, dictionary</p>
 <h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="py-1"><a href="#py-1" class="headerlink" title="py"></a>py</h3><p>python的变量不用特殊声明，除非在局部作用域使用全局变量需要使用<code>global</code>声明</p>
 <p>另外，python里一切皆对象，变量的赋值相当于将name和object绑定在一起<br><figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a= <span class="number">3</span></div></pre></td></tr></table></figure></p>
@@ -117,7 +117,8 @@
 <p>python的对象包含三要素:id，type，value</p>
 <ul>
 <li><code>is</code>，id和value都相等</li>
-<li><code>==</code>，value相等<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">a = b = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">c = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">d = &#123;<span class="string">'a'</span>:<span class="number">1</span>&#125; </div><div class="line">e = &#123;<span class="string">'a'</span>:<span class="number">1</span>&#125; </div><div class="line"></div><div class="line"><span class="keyword">print</span> a == b  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> a == c  <span class="comment"># True !!!</span></div><div class="line"><span class="keyword">print</span> a <span class="keyword">is</span> b  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> a <span class="keyword">is</span> c  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> d == e  <span class="comment"># True !!!</span></div></pre></td></tr></table></figure>
+<li><code>==</code>，value相等</li>
+<li><code>!=</code>，value不相等<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">a = b = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">c = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">d = &#123;<span class="string">'a'</span>:<span class="number">1</span>&#125; </div><div class="line">e = &#123;<span class="string">'a'</span>:<span class="number">1</span>&#125; </div><div class="line"></div><div class="line"><span class="keyword">print</span> a == b  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> a == c  <span class="comment"># True !!!</span></div><div class="line"><span class="keyword">print</span> a <span class="keyword">is</span> b  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> a <span class="keyword">is</span> c  <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> d == e  <span class="comment"># True !!!</span></div><div class="line"><span class="keyword">print</span> <span class="keyword">None</span> <span class="keyword">is</span> <span class="keyword">None</span> <span class="comment"># True</span></div><div class="line"><span class="keyword">print</span> <span class="keyword">None</span> == <span class="keyword">None</span> <span class="comment"># True</span></div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>这里主要说明了<code>is</code>和<code>==</code>的区别。同时也引出了第二个问题，对象相等</p>
@@ -1238,7 +1239,7 @@
     <entry>
       <title><![CDATA[RobotFramework Library API]]></title>
       <url>/2017/rf-library/</url>
-      <content type="html"><![CDATA[<p>RF本身是用Python写的，它的扩展库也可以用Python来写。如果是跑在Jython上，也是可以用java来扩展。<br>纯python的扩展具备通用性，本文也主要总结基于python的RF扩展库的API，RF版本为V3.0.2<br><a id="more"></a></p>
+      <content type="html"><![CDATA[<p>RF本身是用Python写的，它的扩展库也可以用Python来写。<br>如果是跑在Jython上，也是可以用java来扩展。<br>纯python的扩展具备通用性，本文也主要总结基于python的RF扩展库的API，RF版本为截止到当前最新的V3.0.2<br><a id="more"></a></p>
 <h2 id="API-分类"><a href="#API-分类" class="headerlink" title="API 分类"></a>API 分类</h2><p>RF有三种不同的库API:</p>
 <ul>
 <li>静态API, 最常用的。提供一个包或者一个类，里面的公有方法名会被映射为<code>关键字名</code></li>
