@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>http://xu-li.cn/2017/python-metaclass/</loc>
+    <lastmod>2018-04-07T02:36:40.361Z</lastmod>
+    <data>
+        <display>
+        <title>Python中的元类</title>
+        <pubTime>2017-08-01T13:05:27.000Z</pubTime>
+        
+        <tag>python</tag>
+         
+        <tag>metaclass</tag>
+         
+         
+           
+             
+              <breadCrumb title="Python" url="http://xu-li.cn/categories/Python/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://xu-li.cn/2018/async-await/</loc>
     <lastmod>2018-03-31T14:17:28.038Z</lastmod>
     <data>
@@ -101,9 +123,9 @@
         
         <tag>python</tag>
          
-        <tag>module</tag>
-         
         <tag>node.js</tag>
+         
+        <tag>module</tag>
          
          
            
@@ -261,9 +283,9 @@
         <title>Bootstrap</title>
         <pubTime>2017-05-23T13:05:27.000Z</pubTime>
         
-        <tag>bootstrap</tag>
-         
         <tag>css</tag>
+         
+        <tag>bootstrap</tag>
          
          
            
