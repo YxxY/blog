@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xu-li.cn/"/>
-  <updated>2018-03-31T14:17:28.038Z</updated>
+  <updated>2018-04-12T15:53:13.544Z</updated>
   <id>http://xu-li.cn/</id>
   
   <author>
@@ -14,6 +14,133 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>记一次面试总结</title>
+    <link href="http://xu-li.cn/2018/an-interview-summary/"/>
+    <id>http://xu-li.cn/2018/an-interview-summary/</id>
+    <published>2018-04-12T14:50:38.000Z</published>
+    <updated>2018-04-12T15:53:13.544Z</updated>
+    
+    <content type="html"><![CDATA[<p>嗯，最近出去面试了……说了很多即兴不过脑子的回答，可能给人留下一种很不靠谱的感觉吧。不过这都不是最重点，重点是面试中被问到了一个很有“想法”的问题，当时我没能捋清思路，回答的不是很完美。但在我回来研究了一下之后，发现面试官给的答案其实也不对……whatever，我只想总结下这次值得学习的经历。<br><a id="more"></a></p>
+<h2 id="问题回顾"><a href="#问题回顾" class="headerlink" title="问题回顾"></a>问题回顾</h2><p>印象中记得<code>document ready</code>是网页加载完成的标志事件。一般借助<code>jQuery</code>实现应用，常见的三种语法是：</p>
+<ul>
+<li><code>$(document).ready(callback)</code></li>
+<li><code>$().ready(callback)</code></li>
+<li><code>$(callback)</code></li>
+</ul>
+<p>作用是监听文档加载状态，在加载完成时调用回调函数做一些操作。</p>
+<p>由于没有深入总结过，我的认知只停留在这个层次，直到我在面试中被问到这样一个问题</p>
+<pre><code>如何判断一个页面完全加载完成?
+</code></pre><ul>
+<li>我的回答是通过<code>seleniumLibrary</code>的库关键字<code>确认页面title</code>以及<code>定位一个已知页面元素</code>是否存在</li>
+<li>这个回答被质疑，定位页面中的一个元素的存在就能确认整个页面加载完成么？</li>
+<li>质疑很合理，页面中会有异步数据请求然后重新渲染DOM的操作，如何确认异步请求完成？</li>
+<li>我继续回答异步请求拿AJAX举例，成功或失败时都会用回调函数，可以做一些操作当作完成标志，比如弹个窗</li>
+<li>虽然回答没有大的问题，但还不是提问者心里的答案</li>
+<li>我想了一会儿又补充了一个方法，在文档最后追加一个<code>script</code>，里面append一个隐藏元素，然后定位该元素的存在</li>
+<li>这个答案也被否定，现在想想确实风马牛不相及，当时脑子一定短路了</li>
+</ul>
+<p>最后我询问提问者能否给出好的解决方法，他说的是<code>document ready</code>。</p>
+<p>说实话当时只感觉没get到提问者的问题点，翻译下他的问题应该是<code>页面加载完成有什么标志?</code>。</p>
+<p>如果能get到这个点的话，我应该能反应过来。</p>
+<p>甚至还能说一下<code>$(document).ready(callback)</code> 和 <code>window.onload = callback</code>的区别</p>
+<p>不过回来后仍给我带来了一些思考？</p>
+<ul>
+<li><code>document ready</code>是文档同步加载完成（仅指页面内<code>&lt;html</code>&gt;标签所包含的元素）的标志没问题，也能监听异步的文档渲染么？</li>
+<li>浏览器拿到服务端的html是如何完成解析的</li>
+</ul>
+<p>以下主要探讨这两个问题</p>
+<h2 id="document-ready"><a href="#document-ready" class="headerlink" title="$(document).ready"></a>$(document).ready</h2><p>先说结论，<code>jquery ready</code>只是文档同步加载完成的标志，它并不能监测到<code>异步的文档渲染</code>。</p>
+<p>实例验证如下：</p>
+<p>延迟3秒向页面中添加一个<code>p</code>元素，并监听<code>document.ready</code>事件。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./js/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">      $(document).ready(function () &#123;</div><div class="line">          alert('document is ready')</div><div class="line">      &#125;);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">      this is a div</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span>&gt;</span>button<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="xml"></span></div><div class="line">      setTimeout(() =&gt; &#123;</div><div class="line">        $('body').append("<span class="tag">&lt;<span class="name">p</span>&gt;</span>You can't see me<span class="tag">&lt;/<span class="name">p</span>&gt;</span>")</div><div class="line">      &#125;, 3000);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>由于<code>alert</code>有中断浏览器渲染的作用，所以<code>alert</code>出现时，观察页面元素即可得出结论。</p>
+<p>结果是:</p>
+<ul>
+<li>页面立即显示<code>alert</code>的内容</li>
+<li>出现<code>alert</code>时，<code>&lt;div&gt;</code>和<code>&lt;button&gt;</code>元素已经存在，说明确实是加载完成才触发的<code>ready</code>事件。</li>
+<li>点击alert的确认，三秒后添加的<code>&lt;p&gt;</code>元素出现，说明<code>alert</code>的中断确实起作用，且异步文档渲染不在<code>ready</code>事件监控范围内。</li>
+</ul>
+<p>如果觉得样例不够还可自行验证，我结合后端模拟了ajax请求，结论也是如此。</p>
+<p>这里不再重复举例，因为原理都是一样的，异步的文档操作都是对文档的重绘或者重画，不算在当前页面加载的范围内。</p>
+<p><code>jQuery ready</code>只是同步文档加载完成的标志，不参与异步的监听。</p>
+<h2 id="文档渲染流程"><a href="#文档渲染流程" class="headerlink" title="文档渲染流程"></a>文档渲染流程</h2><p>根据<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState" target="_blank" rel="external">Web API</a><br>文档的加载状态 <code>Document.readyState</code> 分三个阶段</p>
+<ul>
+<li><code>loading</code>, 仍在加载</li>
+<li><code>interactive</code>， 文档已经完成加载并解析完成，但例如图片，样式文件、子窗口等子资源仍在加载中。对应<code>jquery ready</code>事件，同步文档已经渲染完成，可以获取DOM。</li>
+<li><code>complete</code>，所有子资源均加载完成，触发<code>load</code>事件。如果此时注册<code>window.onload</code>回调函数，则会被调用</li>
+</ul>
+<p>eg：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">switch</span> (<span class="built_in">document</span>.readyState) &#123;</div><div class="line">  <span class="keyword">case</span> <span class="string">"loading"</span>:</div><div class="line">    <span class="comment">// The document is still loading.</span></div><div class="line">    <span class="keyword">break</span>;</div><div class="line">  <span class="keyword">case</span> <span class="string">"interactive"</span>:</div><div class="line">    <span class="comment">// The document has finished loading.</span></div><div class="line">    <span class="comment">// We can now access the DOM elements.</span></div><div class="line">    <span class="keyword">var</span> span = <span class="built_in">document</span>.createElement(<span class="string">"span"</span>);</div><div class="line">    span.textContent = <span class="string">"A &lt;span&gt; element."</span>;</div><div class="line">    <span class="built_in">document</span>.body.appendChild(span);</div><div class="line">    <span class="keyword">break</span>;</div><div class="line">  <span class="keyword">case</span> <span class="string">"complete"</span>:</div><div class="line">    <span class="comment">// The page is fully loaded.</span></div><div class="line">    <span class="keyword">let</span> CSS_rule = <span class="built_in">document</span>.styleSheets[<span class="number">0</span>].cssRules[<span class="number">0</span>].cssText;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`The first CSS rule is: <span class="subst">$&#123;CSS_rule &#125;</span>`</span>);</div><div class="line">    <span class="keyword">break</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>总结来说，我们日常说的页面加载完成，基本指的是同步过程。</p>
+<p>渲染会经历三个阶段：</p>
+<ul>
+<li>loading，加载中</li>
+<li>interactive，加载完成（除了图片、样式、子窗口等元素），可以访问DOM元素，触发<code>jQuery ready</code>事件。</li>
+<li>complete, 完全加载（不包括异步的DOM操作），样式也有了，触发<code>load</code>事件，调用注册的<code>window.onload</code>函数</li>
+</ul>
+<h2 id="More-Details"><a href="#More-Details" class="headerlink" title="More Details"></a>More Details</h2><p>前两部分的总结，基本清楚了html文档的整体加载过程，知道了大体分三个阶段，每个阶段都有哪些标志，但还不够具体。</p>
+<p>查阅资料得知页面的渲染机制如下：</p>
+<p><img src="http://opxo4bto2.bkt.clouddn.com/html_parsing.png" alt="html_parsing"></p>
+<p>以webkit内核的渲染流程举例来说：</p>
+<p><img src="http://opxo4bto2.bkt.clouddn.com/webkit-render-flow.png" alt="webkit-render-flow"></p>
+<p>浏览器拿到html的解析由渲染引擎来做，这部分是不同于网络资源加载时的多线程，而是单线程的</p>
+<ul>
+<li>从<code>&lt;html&gt;</code>节点开始分析，从上到下</li>
+<li>遇到<code>&lt;script&gt;</code>,对于外链的JavaScript文件，需要先加载该文件内容，再进行解析，然后立即执行。这整个过程都会<code>阻塞文档解析</code>，直到脚本执行完才会继续解析文档节点。所以一般<code>&lt;script&gt;</code>标签都建议放在最后的<code>&lt;/body&gt;</code>元素之前，HTML5提供<code>defer</code>和<code>async</code>两个属性支持延迟和异步加载JavaScript文件</li>
+<li>针对上文说的脚本阻塞文档解析，主流浏览器如Chrome和FireFox等都有一些优化。<br>比如在执行脚本时，开启另外的线程(一般限制在2-6个)解析剩余的文档以找出并加载其他的待下载外部资源（不改变主线程的DOM树，仅优化加载外部资源）。</li>
+<li>对样式的处理也会阻塞文档解析，加载外部样式时后续js和文档解析都不会继续进行</li>
+<li>在脚本中请求样式信息，如果样式尚未加载或解析，将会得到<code>错误信息</code></li>
+<li>为了更友好的用户体验，浏览器会尽可能快的展现内容，而不会等到文档所有内容到达才开始解析和构建/布局渲染树，而是每次处理一部分，并展现在屏幕上，这也是为什么我们经常可以看到页面加载的时候内容是从上到下一点一点展现的。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>现在在让我回答</p>
+<ul>
+<li><p>如何确定一个页面完全加载完成？</p>
+<ul>
+<li>我的回答依然会是确认页面title以及确认页面是否包含一个或一些目标元素（熟悉seleniumLibray的同学应该清楚，有两个库关键字来做这个工作，<code>Title Should Be</code>和<code>Element Should Contain</code>，当然还有一个<code>Wait Until Element Contains</code>会更合适)<br>这里就算是考虑异步加载数据并重新渲染文档的情况，也可以把要加载的元素当做定位元素去确认。<br>如果非要纠结异步结束的标志，这题根本没法答。因为页面上如果存在10个异步操作，怎么确认谁是最后完成的那个呢？</li>
+</ul>
+</li>
+<li><p>如何确定异步请求的结束？</p>
+<ul>
+<li>只能通过异步请求自身的消息监听，外部无法获取它的状态变化</li>
+</ul>
+</li>
+<li><p><code>document ready</code>事件和<code>window load</code>事件分别是什么动作完成的标志</p>
+<ul>
+<li>前者是<code>当前文档内</code>（异步DOM操作不包含在内）的DOM树构建完成的标志，可以进行DOM操作了，但是还没有完成渲染</li>
+<li>后者是整个页面加载并渲染完成的标志</li>
+</ul>
+</li>
+<li><p>js的下载和执行顺序能保证么？</p>
+<ul>
+<li>js的下载顺序不能保证，因为网络部分是多线程下载的；执行顺序是可以保证的，会按照页面<code>&lt;script&gt;</code>标签出现的顺序执行内部同步代码（异步操作加入事件循环），因为渲染引擎是单线程的</li>
+</ul>
+</li>
+<li><p>页面的加载流程？</p>
+<ul>
+<li>从html头开始，一边解析一边渲染，主线程会被外部资源的加载以及js的执行阻塞，因此资源放置的位置以及顺序是有影响的</li>
+</ul>
+</li>
+</ul>
+<p>参考：</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState" target="_blank" rel="external">Web API</a></li>
+<li>《WebKit技术内幕》</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;嗯，最近出去面试了……说了很多即兴不过脑子的回答，可能给人留下一种很不靠谱的感觉吧。不过这都不是最重点，重点是面试中被问到了一个很有“想法”的问题，当时我没能捋清思路，回答的不是很完美。但在我回来研究了一下之后，发现面试官给的答案其实也不对……whatever，我只想总结下这次值得学习的经历。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="common-sense" scheme="http://xu-li.cn/categories/common-sense/"/>
+    
+    
+      <category term="DOM" scheme="http://xu-li.cn/tags/DOM/"/>
+    
+  </entry>
   
   <entry>
     <title>async/await</title>
@@ -71,7 +198,7 @@
     <link href="http://xu-li.cn/2018/datatype-py-vs-js/"/>
     <id>http://xu-li.cn/2018/datatype-py-vs-js/</id>
     <published>2018-02-22T13:35:27.000Z</published>
-    <updated>2018-03-31T14:16:53.352Z</updated>
+    <updated>2018-04-07T02:45:15.019Z</updated>
     
     <content type="html"><![CDATA[<p>写多了nodejs再回来写python提笔就忘，说出来还被人说代码量少……嗯，无法反驳。<br>仔细想了下，徒手写代码到底困难在哪儿，想来大概是数据结构和基本语法了。<br>把这两种语言放一块儿对比着来总结下，主要就数据结构和基本语法两部分，备忘。<br><a id="more"></a></p>
 <h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="js"><a href="#js" class="headerlink" title="js"></a>js</h3><p>六大基本类型以及引用类型</p>
@@ -249,7 +376,7 @@
     <link href="http://xu-li.cn/2018/package-in-python-and-nodejs/"/>
     <id>http://xu-li.cn/2018/package-in-python-and-nodejs/</id>
     <published>2018-01-31T12:45:27.000Z</published>
-    <updated>2018-03-28T14:03:45.036Z</updated>
+    <updated>2018-04-07T02:44:50.720Z</updated>
     
     <content type="html"><![CDATA[<p>专注在nodejs上有一段时间了，回头看看python发现忘得差不多了，还是得多做做总结加强记忆啊。<br>先从包机制入手，对比来看下python和nodejs的异同<br><a id="more"></a></p>
 <h2 id="python-package"><a href="#python-package" class="headerlink" title="python package"></a>python package</h2><h3 id="导出模块"><a href="#导出模块" class="headerlink" title="导出模块"></a>导出模块</h3><p>python将一个文件或一个文件夹视为一个模块</p>
@@ -297,12 +424,16 @@
     
       <category term="package" scheme="http://xu-li.cn/categories/package/"/>
     
+      <category term="Python" scheme="http://xu-li.cn/categories/package/Python/"/>
+    
+      <category term="Node.js" scheme="http://xu-li.cn/categories/package/Python/Node-js/"/>
+    
     
       <category term="python" scheme="http://xu-li.cn/tags/python/"/>
     
-      <category term="node.js" scheme="http://xu-li.cn/tags/node-js/"/>
-    
       <category term="module" scheme="http://xu-li.cn/tags/module/"/>
+    
+      <category term="node.js" scheme="http://xu-li.cn/tags/node-js/"/>
     
   </entry>
   
@@ -1434,7 +1565,7 @@
     <link href="http://xu-li.cn/2017/rf-library/"/>
     <id>http://xu-li.cn/2017/rf-library/</id>
     <published>2017-07-22T13:45:27.000Z</published>
-    <updated>2018-03-31T14:16:39.323Z</updated>
+    <updated>2018-04-07T02:44:32.175Z</updated>
     
     <content type="html"><![CDATA[<p>RF本身是用Python写的，它的扩展库也可以用Python来写。<br>如果是跑在Jython上，也是可以用java来扩展。<br>纯python的扩展具备通用性，本文也主要总结基于python的RF扩展库的API，RF版本为截止到当前最新的V3.0.2<br><a id="more"></a></p>
 <h2 id="API-分类"><a href="#API-分类" class="headerlink" title="API 分类"></a>API 分类</h2><p>RF有三种不同的库API:</p>
@@ -1529,6 +1660,8 @@
     </summary>
     
       <category term="RobotFramework" scheme="http://xu-li.cn/categories/RobotFramework/"/>
+    
+      <category term="Python" scheme="http://xu-li.cn/categories/RobotFramework/Python/"/>
     
     
       <category term="RobotFramework" scheme="http://xu-li.cn/tags/RobotFramework/"/>
@@ -1756,74 +1889,6 @@ ES5对参数不是一个对象会报错，ES6则不会，返回输入值。
       <category term="JavaScript" scheme="http://xu-li.cn/tags/JavaScript/"/>
     
       <category term="Object" scheme="http://xu-li.cn/tags/Object/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>消息队列之RabbitMQ</title>
-    <link href="http://xu-li.cn/2017/rabbitmq/"/>
-    <id>http://xu-li.cn/2017/rabbitmq/</id>
-    <published>2017-06-30T12:11:38.000Z</published>
-    <updated>2017-09-20T11:54:42.517Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近项目上开始部署了消息队列，手头的工作基本围绕着它展开。消息队列已经是比较成熟的技术了，例如使用中我们最终选择的rabbitMQ，已经诞生10年了。那这是我们选择它的原因吗？不全是，还因为它的库多……总结下这块内容以备忘！<br><a id="more"></a></p>
-<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>我工作中的使用主要是使用MQ重构了原来的需求，改进的主要是</p>
-<ul>
-<li>和其他各个子模块之间的通信接口更加清晰，不再是只有主动发和被动收，而是收发都是主动。</li>
-<li>去掉了一些中间消息的存库，改为请求后直接监听响应，减少了MongoDB的读写压力。</li>
-</ul>
-<p>仿佛和主流描述的使用场景刚好相反，他们说的是立即返回响应，节省请求响应时间，让MQ去处理异步事件，而我是在等异步结果回来再响应……不过工具终究是为解决实际问题的，MQ的引入确实解耦了系统，降低了复杂度，对于一些不需要二次处理结果的事件我也的确是提前给它返回了响应，这是最理想的情况，只是并非所有使用场景都是如此。</p>
-<h2 id="名词介绍"><a href="#名词介绍" class="headerlink" title="名词介绍"></a>名词介绍</h2><ul>
-<li><code>broker</code>: 按官网说法<code>RabbitMQ is the most widely deployed open source message broker</code>, 简单来说 <code>rabbitMQ &lt;= broker</code>, 即我们通常说的broker指的是rabbitMQ服务器本身。</li>
-<li><code>exchange</code>: 消息交换机，消息发送者消息都是发到交换机，由交换机根据规则转发到队列，如果没有对应队列消息会被丢弃</li>
-<li><code>routing key</code>: 消息发送者指定的规则，告诉交换机如何转发消息, 有时未显性展示，routing key其实为队列名</li>
-<li><code>binding key</code>: 队列和交换机之间建立的规则，只有当routing key的规则符合该规则，交换机才会把消息转发至该队列</li>
-<li><code>queue</code>: 队列，消息接收载体，是交换机和消息接收者之间的中间件，和交换机按照binding key的规则连接，如未显性展示，一般是绑定默认交换机，binding key为队列名，一个队列可以有多个消息接收者，这个时候的消息分配是round-table形式循环的。</li>
-<li><code>producer</code>：消息生产者，就是投递消息的程序。</li>
-<li><code>consumer</code>：消息消费者，就是接受消息的程序。</li>
-<li><code>vhost</code>: broker的最小组成粒度，一个broker可以有多个vhost</li>
-<li><code>connection</code>: 程序和broker之间的TCP连接，最大连接数取决于系统能够接受的socket连接数</li>
-<li><code>channel</code>: 基于connection的虚拟连接，断开重连不需要重新建立TCP连接，减少了开销。一个connection里能建的最大channel数可以设置，服务端默认128，设为0代表无限制。channel是消息真正的操作载体，绝大多数操作都是基于channel的。</li>
-<li><code>heartbeat</code>: 用于检测客户端与服务端之间的tcp链接是否正常的发包间隔，服务端默认600秒，客户端如果设置，双方会连接后会协定以客户端为主，如果客户端设置为0表示不启用该功能。</li>
-</ul>
-<h2 id="结构图"><a href="#结构图" class="headerlink" title="结构图"></a>结构图</h2><p><img src="http://opxo4bto2.bkt.clouddn.com/rabbitmq.png" alt="rabbitmq"></p>
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>rabbitMQ官网以6个例子当做入门教程，详见<a href="http://www.rabbitmq.com/getstarted.html" target="_blank" rel="external">RabbitMQ Tutorials</a>，提供多种客户端接口，跟着走一遍就能入门了。</p>
-<p>官方的六个实例基本概括了rabbitMQ的使用场景，熟悉以后我觉得总的来说可以分为两部分，即生产者和消费者。<br>生产者不用管自己发出的消息被谁处理，怎么处理，只需要发给按约定规则（routing key）发到指定exchange即可，消费者按照自己的需求去订阅消息，不用关心消息的来源。让双线联系变成和MQ的单线联系，从而达到解耦的目的。大部分场景只要分清当前程序是producer还是consumer，逻辑就能变得简单。<br>有时需要consumer返回处理完消息的结果，即consumer需要动态的切换成producer，这个就是RPC的应用场景了，重点还是分清自己的角色就好了。</p>
-<h3 id="Producer"><a href="#Producer" class="headerlink" title="Producer"></a>Producer</h3><pre><code>如果当前程序是Producer，那么只需关心自己和`exchange`之间的交互即可。
-</code></pre><p>exchange 有四种类型，分别对应不同的使用场景，</p>
-<ul>
-<li><code>direct</code>: 一对一模式，一般以queue的名字作为key，向指定queue转发消息</li>
-<li><code>fanout</code>: 广播模式，向所有绑定的queue转发消息</li>
-<li><code>topic</code>:  匹配模式，binding key可以使用通配符去匹配routing key，从而获得转发消息。<code>*</code>匹配一个关键字，<code>#</code>匹配多个关键字</li>
-<li><code>header</code>: 一种类似topic的扩展，完全可以用topic取代</li>
-</ul>
-<p>需注意的是，发送时一般会先确认exchange存在，如果传递的exchange option和实际不符会引发错误，导致channel关闭</p>
-<h3 id="Consumer"><a href="#Consumer" class="headerlink" title="Consumer"></a>Consumer</h3><pre><code>当前程序是Consumer，监听`queue`即可。
-</code></pre><p>queue的创建和绑定可以协商由谁来完成，二次确认时主要保持参数一致，否则也会产生错误，导致channel关闭。<br>RPC模式我认为更像是消费者模式的一种。<br>消息处理程序监听在一个协定好的队列(queue1)上，收到消息时处理完之后，发送结果到消息里指定的队列(queue2)。<br>对于消息的发送者，先将消息发出,保证消息能被转发至queue1，随后监听在队列queue2，等待处理结果返回。<br>这里涉及到的两个队列，queue1和queue2的创建和绑定由谁来做都可以，一般为了方便就直接采取direct的消息转发机制了。</p>
-<h2 id="API使用"><a href="#API使用" class="headerlink" title="API使用"></a>API使用</h2><p>我选用的是javascript客户端，用的包是<a href="https://github.com/squaremo/amqp.node" target="_blank" rel="external">amqplib</a>, API参考<a href="http://www.squaremobius.net/amqp.node/channel_api.html#channel_bindExchange" target="_blank" rel="external">AMQP 0-9-1 library and client for Node.JS</a><br>总结使用中遇到的一些坑：</p>
-<ul>
-<li>最容易出现是exchange和queue二次确认时，参数不一致导致channel关闭</li>
-<li>queue的exclusive参数，表示的是该队列是此次连接私有，一旦启用其他的channel消费该队列会出错。往该队列发送消息没有问题，因为发送是通过exchange的</li>
-<li>主动删除队列时，监听队列会收到一条null消息，需特殊处理</li>
-<li>consumer其实就是一个注册回调函数，它是一直都在的，并不是一次消费就失效，除非channel关闭，连接断开。避免在不知情的情况下给队列绑定多个consumer</li>
-<li>多个consumer绑定同一队列时，消息的分配是round-table形式的，当被分到不是自己的消息或处理失败时需要nack来决定重新分配还是丢弃</li>
-<li>确定需要一个queue多个consumer时记得使用<code>prefetch</code>参数，确保消息不会在一个节点累积</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我对rabbitMQ 学习也是一个从0到1的过程，入门很快，这也得益于它的良好API设计，一切都十分合理，是一个天然的编程模型。但项目上涉及的使用都很基础，暂时没遇到什么性能问题，估计遇到也不一定能解决……所以没啥可深入写的了，只能对一些概念性的东西作总结，方便以后能快速捡起来。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近项目上开始部署了消息队列，手头的工作基本围绕着它展开。消息队列已经是比较成熟的技术了，例如使用中我们最终选择的rabbitMQ，已经诞生10年了。那这是我们选择它的原因吗？不全是，还因为它的库多……总结下这块内容以备忘！&lt;br&gt;
-    
-    </summary>
-    
-      <category term="RabbitMQ" scheme="http://xu-li.cn/categories/RabbitMQ/"/>
-    
-    
-      <category term="Node.js" scheme="http://xu-li.cn/tags/Node-js/"/>
-    
-      <category term="RabbitMQ" scheme="http://xu-li.cn/tags/RabbitMQ/"/>
     
   </entry>
   
