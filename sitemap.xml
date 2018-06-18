@@ -2,30 +2,177 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://xu-li.cn/2018/middleware/</loc>
+    
+    <lastmod>2018-06-18T08:11:51.910Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/js-this/</loc>
+    
+    <lastmod>2018-06-18T08:11:17.919Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/js-Object/</loc>
+    
+    <lastmod>2018-06-18T08:11:11.705Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/cross-origin/</loc>
+    
+    <lastmod>2018-06-18T08:10:49.072Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/bootstrap/</loc>
+    
+    <lastmod>2018-06-18T08:10:39.297Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2018/async-await/</loc>
+    
+    <lastmod>2018-06-18T08:10:30.390Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/arrow_function/</loc>
+    
+    <lastmod>2018-06-18T08:10:12.083Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://xu-li.cn/2018/an-interview-summary/</loc>
     
-    <lastmod>2018-04-12T16:06:39.385Z</lastmod>
+    <lastmod>2018-06-18T08:09:58.949Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://xu-li.cn/2018/datatype-py-vs-js/</loc>
     
-    <lastmod>2018-04-07T02:45:15.019Z</lastmod>
+    <lastmod>2018-06-18T08:09:44.410Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/events-Source/</loc>
+    
+    <lastmod>2018-06-18T08:09:16.774Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/events-final/</loc>
+    
+    <lastmod>2018-06-18T08:09:08.825Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/events-API/</loc>
+    
+    <lastmod>2018-06-18T08:09:01.937Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/module/</loc>
+    
+    <lastmod>2018-06-18T08:08:50.738Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/mongoose/</loc>
+    
+    <lastmod>2018-06-18T08:08:36.999Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/robotframework/</loc>
+    
+    <lastmod>2018-06-18T08:05:40.625Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/xhr/</loc>
+    
+    <lastmod>2018-06-18T08:02:51.893Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/shell/</loc>
+    
+    <lastmod>2018-06-18T08:02:45.530Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://xu-li.cn/2018/package-in-python-and-nodejs/</loc>
     
-    <lastmod>2018-04-07T02:44:50.720Z</lastmod>
+    <lastmod>2018-06-18T08:02:12.338Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2018/express-object-inheritance/</loc>
+    
+    <lastmod>2018-06-18T08:01:13.771Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/express-basic/</loc>
+    
+    <lastmod>2018-06-18T08:01:09.235Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/express_framework/</loc>
+    
+    <lastmod>2018-06-18T08:01:03.488Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2018/markdown/</loc>
+    
+    <lastmod>2018-06-18T07:59:01.507Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://xu-li.cn/2017/rf-library/</loc>
     
-    <lastmod>2018-04-07T02:44:32.175Z</lastmod>
+    <lastmod>2018-06-18T07:50:19.730Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/promise/</loc>
+    
+    <lastmod>2018-06-18T07:50:00.016Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2017/ubuntu/</loc>
+    
+    <lastmod>2018-06-17T08:49:25.268Z</lastmod>
     
   </url>
   
@@ -33,69 +180,6 @@
     <loc>http://xu-li.cn/2017/python-metaclass/</loc>
     
     <lastmod>2018-04-07T02:36:40.361Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2018/async-await/</loc>
-    
-    <lastmod>2018-03-31T14:17:28.038Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/promise/</loc>
-    
-    <lastmod>2018-03-28T14:25:30.544Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/robotframework/</loc>
-    
-    <lastmod>2018-03-28T12:23:33.661Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/xhr/</loc>
-    
-    <lastmod>2018-02-25T04:05:03.216Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/cross-origin/</loc>
-    
-    <lastmod>2018-02-25T04:00:05.014Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2018/express-object-inheritance/</loc>
-    
-    <lastmod>2018-02-09T13:35:23.130Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2018/middleware/</loc>
-    
-    <lastmod>2018-02-08T14:44:09.757Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/module/</loc>
-    
-    <lastmod>2017-12-27T13:55:00.370Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/bootstrap/</loc>
-    
-    <lastmod>2017-12-24T14:17:18.670Z</lastmod>
     
   </url>
   
@@ -114,79 +198,9 @@
   </url>
   
   <url>
-    <loc>http://xu-li.cn/2017/mongoose/</loc>
-    
-    <lastmod>2017-11-15T11:36:54.867Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/shell/</loc>
-    
-    <lastmod>2017-11-11T12:17:08.952Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/js-this/</loc>
-    
-    <lastmod>2017-10-12T12:00:05.547Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/js-Object/</loc>
-    
-    <lastmod>2017-09-20T12:34:08.434Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/events-final/</loc>
-    
-    <lastmod>2017-09-20T11:55:22.909Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/ubuntu/</loc>
-    
-    <lastmod>2017-09-20T11:55:15.752Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/express-basic/</loc>
-    
-    <lastmod>2017-09-20T11:55:10.215Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/events-API/</loc>
-    
-    <lastmod>2017-09-20T11:55:03.124Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/express_framework/</loc>
-    
-    <lastmod>2017-09-20T11:54:50.256Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://xu-li.cn/2017/rabbitmq/</loc>
     
     <lastmod>2017-09-20T11:54:42.517Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/arrow_function/</loc>
-    
-    <lastmod>2017-09-20T11:54:37.828Z</lastmod>
     
   </url>
   
@@ -201,13 +215,6 @@
     <loc>http://xu-li.cn/2017/node_encoding/</loc>
     
     <lastmod>2017-09-20T11:54:25.532Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/events-Source/</loc>
-    
-    <lastmod>2017-09-20T11:54:08.709Z</lastmod>
     
   </url>
   

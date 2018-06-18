@@ -92,7 +92,7 @@
 <meta property="og:description" content="嗯，最近出去面试了(嘘……看到了保密)，说下最近的一次，本来以为挺有希望的，但还是准备不充分，说了很多即兴不过脑子的回答，可能给人留下一种很不靠谱的感觉吧。不过这都不是最重点，重点是面试中被问到了一个很有“想法”的问题，当时我没能捋清思路，回答的不是很完美。但在我回来研究了一下之后，发现面试官给的答案其实也不对……whatever，我只想总结下这次值得学习的经历。">
 <meta property="og:image" content="http://opxo4bto2.bkt.clouddn.com/html_parsing.png">
 <meta property="og:image" content="http://opxo4bto2.bkt.clouddn.com/webkit-render-flow.png">
-<meta property="og:updated_time" content="2018-04-12T16:06:39.385Z">
+<meta property="og:updated_time" content="2018-06-18T08:09:58.949Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次面试总结">
 <meta name="twitter:description" content="嗯，最近出去面试了(嘘……看到了保密)，说下最近的一次，本来以为挺有希望的，但还是准备不充分，说了很多即兴不过脑子的回答，可能给人留下一种很不靠谱的感觉吧。不过这都不是最重点，重点是面试中被问到了一个很有“想法”的问题，当时我没能捋清思路，回答的不是很完美。但在我回来研究了一下之后，发现面试官给的答案其实也不对……whatever，我只想总结下这次值得学习的经历。">
@@ -362,8 +362,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/common-sense/" itemprop="url" rel="index">
-                    <span itemprop="name">common-sense</span>
+                  <a href="/categories/Common-sense/" itemprop="url" rel="index">
+                    <span itemprop="name">Common-sense</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Common-sense/Summary/" itemprop="url" rel="index">
+                    <span itemprop="name">Summary</span>
                   </a>
                 </span>
 
@@ -467,7 +478,7 @@
 <h2 id="document-ready"><a href="#document-ready" class="headerlink" title="$(document).ready"></a>$(document).ready</h2><p>先说结论，<code>jquery ready</code>只是文档同步加载完成的标志，它并不能监测到<code>异步的文档渲染</code>。</p>
 <p>实例验证如下：</p>
 <p>延迟3秒向页面中添加一个<code>p</code>元素，并监听<code>document.ready</code>事件。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./js/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">      $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">          alert(<span class="string">'document is ready'</span>)</div><div class="line">      &#125;);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">      this is a div</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span>&gt;</span>button<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">      setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        $(<span class="string">'body'</span>).append(<span class="string">"&lt;p&gt;You can't see me&lt;/p&gt;"</span>)</div><div class="line">      &#125;, <span class="number">3000</span>);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./js/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">      $(document).ready(function () &#123;</div><div class="line">          alert('document is ready')</div><div class="line">      &#125;);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">      this is a div</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span>&gt;</span>button<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="xml"></span></div><div class="line">      setTimeout(() =&gt; &#123;</div><div class="line">        $('body').append("<span class="tag">&lt;<span class="name">p</span>&gt;</span>You can't see me<span class="tag">&lt;/<span class="name">p</span>&gt;</span>")</div><div class="line">      &#125;, 3000);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>由于<code>alert</code>有中断浏览器渲染的作用，所以<code>alert</code>出现时，观察页面元素即可得出结论。</p>
 <p>结果是:</p>
 <ul>
@@ -594,6 +605,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/markdown/" rel="prev" title="markdown 总结">
+                markdown 总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -676,7 +691,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -687,7 +702,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -698,7 +713,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -806,7 +821,7 @@
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
     <span title="Site words total count">
-      54.5k
+      56.6k
     </span>
   
 </div>

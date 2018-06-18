@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xu-li.cn/"/>
-  <updated>2018-04-12T16:06:39.385Z</updated>
+  <updated>2018-06-18T07:59:01.507Z</updated>
   <id>http://xu-li.cn/</id>
   
   <author>
@@ -16,11 +16,211 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>markdown 总结</title>
+    <link href="http://xu-li.cn/2018/markdown/"/>
+    <id>http://xu-li.cn/2018/markdown/</id>
+    <published>2018-06-17T12:30:38.000Z</published>
+    <updated>2018-06-18T07:59:01.507Z</updated>
+    
+    <content type="html"><![CDATA[<p>md也写了很久了，最近想倒腾一个自定义渲染风格的md解析器，所以回过头写一篇基础总结，确实发现了一些之前不知道的细节，就当一篇markdown的语法备忘。<br><a id="more"></a></p>
+<h2 id="语法导航"><a href="#语法导航" class="headerlink" title="语法导航"></a>语法导航</h2><p>翻译自<a href="https://spec.commonmark.org/0.28" target="_blank" rel="external">官方标准V0.28</a>，<br>官网举例非常详细，我仅翻译一个我觉得够用的版本。</p>
+<h3 id="Space"><a href="#Space" class="headerlink" title="Space"></a>Space</h3><ul>
+<li>多个空格会被视为一个空格</li>
+<li>多个空行也会被渲染为一个（因此换行需要两个回车）</li>
+</ul>
+<h4 id="Tabs"><a href="#Tabs" class="headerlink" title="Tabs"></a>Tabs</h4><ul>
+<li><p>根据空格的规则，一般情况下的tab键只会被渲染为一个空格</p>
+<p>  但在块结构中会被解析为4个空格，比如代码块</p>
+</li>
+<li><p>和<code>列表标签</code>组合使用时，</p>
+<ul>
+<li>换行+<code>tab</code>+列表标签，产生子列表效果</li>
+<li>换行+一个<code>tab</code>能产生<code>缩进</code>效果</li>
+<li><p>换行+两个<code>tab</code>能产生<code>引用块</code>的效果</p>
+<pre><code>block quote context
+</code></pre></li>
+<li><p>列表标签直接跟两个<code>tab</code>同样产生<code>引用块</code>的效果</p>
+</li>
+</ul>
+</li>
+<li><p>和<code>&gt;</code>符号组合使用，<code>&gt;</code>+两个<code>tab</code>，能产生缩进两格的代码块效果</p>
+<blockquote>
+<pre><code>an indented code block starting with two spaces.
+</code></pre></blockquote>
+</li>
+<li><p>和<code>*</code>符号组合，<code>*   *   *</code>为<code>分割线</code>效果</p>
+<hr>
+</li>
+<li>和<code>#</code>符合组合产生标题</li>
+</ul>
+<h3 id="Blocks-and-inlines"><a href="#Blocks-and-inlines" class="headerlink" title="Blocks-and-inlines"></a>Blocks-and-inlines</h3><ul>
+<li>块元素的渲染优先级高于行元素</li>
+<li><p>块元素分为两种，一种继续包含其他块元素，称为<code>container-blocks</code></p>
+<p>  另外一种不能，称为<code>leaf blocks</code></p>
+</li>
+</ul>
+<h4 id="Leaf-blocks"><a href="#Leaf-blocks" class="headerlink" title="Leaf-blocks"></a>Leaf-blocks</h4><h5 id="Thematic-breaks"><a href="#Thematic-breaks" class="headerlink" title="Thematic-breaks"></a>Thematic-breaks</h5><p>一行包括<code>0-3</code>个缩进，跟着连续的三个或者更多的 <code>“*”</code>， <code>“_”</code>，<code>“-”</code> 其中任意一个字符，中间和结尾都可以有任意数量空格，后续不可再跟其他非空白字符。即组成了专题隔断（<code>Thematic breaks</code>），也就是通常所说的<code>分割线</code></p>
+<blockquote>
+<pre><code>***
+---
+___
+</code></pre></blockquote>
+<ul>
+<li>必须是三个或更多的相同字符，不可任意组合</li>
+<li>分割线前后不需要空白行</li>
+<li>分割线能分割段落</li>
+<li>当使用<code>破折号</code>分隔符<code>&quot;-&quot;</code>分割段落时，会将前面的内容渲染成<a href="#setext-headings">Setext heading</a></li>
+<li><p>使用<code>&quot;*&quot;</code>符号组成分隔符，如果遇到<code>*</code>开头的列表符号，分隔符优先级更高</p>
+<p>  列表中使用分隔符需要使用不一样的符号，例如</p>
+<pre><code>- Foo
+- * * *
+</code></pre></li>
+</ul>
+<h5 id="ATX-headings"><a href="#ATX-headings" class="headerlink" title="ATX-headings"></a>ATX-headings</h5><p>标题行也是一种<code>leaf blocks</code>，组成规则如下：</p>
+<ul>
+<li><code>0-3</code>个空格缩进</li>
+<li>组成标题行的符号为<code>#</code>, 根据标题级数可由<code>1-6</code>个组成</li>
+<li><code>#</code>符号之后<code>必须有至少一个空格或者换行符</code>，然后才跟标题内容</li>
+<li>结尾可选跟任意数量的<code>#</code>符号作为结束标志</li>
+<li><code>#</code>符号前加<code>\</code>会被转义</li>
+<li>标题内容安装普通文本解析</li>
+<li>前后空白字符在解析时会被忽略</li>
+<li>标题前后不需要空白行分割，会自动分割段落</li>
+<li>标题可以为空 <code># #</code></li>
+</ul>
+<h5 id="Setext-headings"><a href="#Setext-headings" class="headerlink" title="Setext-headings"></a>Setext-headings</h5><p>setext(Structure Enhanced Text) heading，强调标题</p>
+<ul>
+<li>由一行或多行文本组成,每一行至少包含一个非空字符</li>
+<li>每行可有0-3个空格缩进</li>
+<li>文本行的最后跟<code>setext heading underline</code>(强调标题下划线符号)：<code>“=”</code>或<code>“-”</code></li>
+<li>去掉<code>setext heading underline</code>符号时，文本应该翻译为一个段落，因此使用的场景<code>不包括</code>代码块、标题、引用块、分割线、列表和html段落等</li>
+<li>如果使用<code>=</code>，文本会被渲染为一级标题的格式</li>
+<li>如果使用<code>-</code>，文本会被渲染为二级标题的格式</li>
+<li>可以使用任意数量的<code>setext heading underline</code>，但中间不能有空格</li>
+<li>使用<code>-</code>时，需要和<code>列表</code>的使用区分开</li>
+</ul>
+<p>example<br><figure class="highlight md"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="section">Setext-headings level 1</span></div><div class="line">===</div><div class="line"><span class="section">Setext-headings level 2</span></div><div class="line">---</div></pre></td></tr></table></figure></p>
+<h5 id="Indented-code-blocks"><a href="#Indented-code-blocks" class="headerlink" title="Indented-code-blocks"></a>Indented-code-blocks</h5><ul>
+<li>一个缩进的代码块由一个或多个缩进块（indented chunks）组成</li>
+<li>缩进块（indented chunks）是由一组非空行组成，每一行至少有<code>4空格</code>缩进</li>
+<li>缩进块的内容就是输入的文字内容。行尾需要换行，行首的4空格缩进不会被渲染</li>
+<li>当<code>缩进块</code>和<code>列表</code>同时出现时，列表的渲染级别更高</li>
+</ul>
+<h5 id="Fenced-code-blocks"><a href="#Fenced-code-blocks" class="headerlink" title="Fenced-code-blocks"></a>Fenced-code-blocks</h5><ul>
+<li>由至少三个连续的反引号字符包裹, 行首可选不超过3个空格的缩进</li>
+<li>围栏头部可选一个信息字符串(info string)，第一个单词表明代码的类型</li>
+</ul>
+<h4 id="Container-blocks"><a href="#Container-blocks" class="headerlink" title="Container-blocks"></a>Container-blocks</h4><p>容器块，就是可以将其他块当做它的内容，这里有两种基本的容器块</p>
+<ul>
+<li>块引用（block quotes）</li>
+<li>列表（list items）</li>
+</ul>
+<h5 id="Block-quotes"><a href="#Block-quotes" class="headerlink" title="Block-quotes"></a>Block-quotes</h5><p>块引用的组成为：0-3个缩进，加上一个<code>&quot;&gt;&quot;</code>符号，再加可选的空格</p>
+<ul>
+<li><code>&gt;</code>可单独一行</li>
+<li><code>&gt;</code>和引用内容之间的内容可省略</li>
+<li>多个<code>&gt;</code>代表多级引用</li>
+<li>引用可和其他渲染格式组合使用，比如<code>&gt;</code>+两个<code>tab</code>，形成引用代码块</li>
+</ul>
+<h5 id="List-items"><a href="#List-items" class="headerlink" title="List-items"></a>List-items</h5><p>分为有序和项目标记列表</p>
+<ul>
+<li>项目标记列表的组成符号为<code>&quot;*&quot;</code>, <code>&quot;-&quot;</code>或 <code>&quot;+&quot;</code>三种</li>
+<li>有序列表的组成为<code>0-9</code>数字，跟着一个点号或者反括号</li>
+<li>列表符号和内容之间的至少有一个空格</li>
+<li>多级列表相对上一级需要增加<code>多个</code>缩进</li>
+<li><p>项目标记符号不同是中间会新增一个空行</p>
+<pre><code>- one
+- two
++ three
+</code></pre><p>  相当于如下代码：</p>
+<pre><code>- one
+- two
+&lt;!-- --&gt;
+- three
+</code></pre></li>
+<li>存在多级标题时，上下级之间增加空行能增加行距</li>
+</ul>
+<h4 id="Inlines"><a href="#Inlines" class="headerlink" title="Inlines"></a>Inlines</h4><h5 id="Backslash-escapes"><a href="#Backslash-escapes" class="headerlink" title="Backslash-escapes"></a>Backslash-escapes</h5><p>任何的ASCII 符号字符都能被反斜杠转义，必要的时候使用</p>
+<h5 id="Entity-and-numeric-character-references"><a href="#Entity-and-numeric-character-references" class="headerlink" title="Entity-and-numeric-character-references"></a>Entity-and-numeric-character-references</h5><p>所有的合法HTML实体引用以及数字符号引用，只要不是出现在代码块或者代码域中，都能被识别为对应的unicode字符。</p>
+<p>常见的引用有：</p>
+<ul>
+<li><code>&amp;nbsp;</code> 代表空格</li>
+</ul>
+<ul>
+<li><p>&amp; &copy; &AElig; &Dcaron;<br>&frac34; &HilbertSpace; &DifferentialD;<br>&ClockwiseContourIntegral; &ngE; 的表示依次如下</p>
+<pre><code>&amp;amp; &amp;copy; &amp;AElig; &amp;Dcaron;
+&amp;frac34; &amp;HilbertSpace; &amp;DifferentialD;
+&amp;ClockwiseContourIntegral; &amp;ngE;
+</code></pre></li>
+</ul>
+<h5 id="Code-spans"><a href="#Code-spans" class="headerlink" title="Code-spans"></a>Code-spans</h5><p>由反引号包裹的字符串称之为<code>code span</code>, 中文翻译成“代码域”似乎有点别扭，将就吧，知道是啥就行。这个用的很多，通常用作单词的高亮处理</p>
+<h5 id="Emphasis-and-strong-emphasis"><a href="#Emphasis-and-strong-emphasis" class="headerlink" title="Emphasis-and-strong-emphasis"></a>Emphasis-and-strong-emphasis</h5><p>强调和着重强调，在markdown中由<code>*</code>和<code>_</code>标识符引导</p>
+<p>这里面的细节规则很多，但普通用户掌握最基本的用法就好</p>
+<ul>
+<li><p>示例：<em>普通强调</em> </p>
+<pre><code>*普通强调*
+</code></pre></li>
+<li><p>示例：<strong>着重强调</strong></p>
+<pre><code>**着重强调**
+</code></pre></li>
+<li><p>示例：<strong><em>着重强调</em></strong></p>
+<pre><code>***着重强调***
+</code></pre></li>
+</ul>
+<h5 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h5><p>链接的规则为</p>
+<ul>
+<li><p><code>[link_text](url &quot;title&quot;)</code>, title可省略</p>
+<p>  eg：</p>
+<pre><code>[link](#fragment) 页面内跳转（全小写字母）
+[link](http://example.com#fragment)
+</code></pre></li>
+<li><p>当不需要说明，仅展示url文本的链接,由尖括号包裹链接即可</p>
+<p>  <code>&lt;whatever-url-it-is&gt;</code></p>
+</li>
+</ul>
+<h5 id="Images"><a href="#Images" class="headerlink" title="Images"></a>Images</h5><p>图片的引用和链接非常像, 前面多一个感叹号</p>
+<ul>
+<li><code>![foo](/url &quot;title&quot;)</code></li>
+</ul>
+<h2 id="More"><a href="#More" class="headerlink" title="More"></a>More</h2><p>markdown是一种类似html的标记语言，让使用者更加专注于内容的编写，而不关心样式。但它仍然是一门<code>语言</code>。</p>
+<p>之前介绍的都是语法。语法虽然简单，但使用时依然会遇到一些问题。</p>
+<h3 id="语法渲染差异"><a href="#语法渲染差异" class="headerlink" title="语法渲染差异"></a>语法渲染差异</h3><p>常见的场景就是选择了不同的markdown编辑器，在这个里面打开视图没问题，去另外的就会出现渲染问题。</p>
+<ul>
+<li>比如标题符号<code>#</code>后面要不要紧跟空格<br>eg:  <code>## 我是二级标题</code><br><code>haroopad</code>的语法可带可不带，而<code>vscode</code>必须带空格</li>
+<li>haroopad支持高亮语法<br>eg: <code>==highlight==</code><br>vscode没有</li>
+</ul>
+<p>这些看起来是编辑器差异，其实是markdown规范实现的差异</p>
+<h3 id="markdown规范"><a href="#markdown规范" class="headerlink" title="markdown规范"></a>markdown规范</h3><p>啰嗦几句规范的意义。</p>
+<p>语言规范就是标准的定义。</p>
+<p>只要符合这个标准，具体的实现不限，当然还可以自行添加新特性。</p>
+<p>markdown的基本规范是<a href="http://commonmark.org/help/" target="_blank" rel="external">CommonMark </a></p>
+<p>规范也是可以不断更新，版本迭代的，截止到本文编写的时间，CommonMark的最新版本是<code>v0.28, 2017-08-01</code></p>
+<p>历史版本见<a href="https://spec.commonmark.org/" target="_blank" rel="external">历史版本列表</a></p>
+<p>规范只有一个，但实现可以有多种，markdown的实现也是一样，根据<code>commonMark</code>的官方统计，目前在册的已经有几十种了。具体可参考<br><a href="https://github.com/commonmark/CommonMark/wiki/Markdown-Flavors" target="_blank" rel="external">规范实现列表</a></p>
+<p>之前的语法渲染问题的原因就是，vscode支持的markdown语法只是最基本标准的实现，haroopad根据规范有一套自己的实现，也就是<a href="http://pad.haroopress.com/page.html?f=haroopad-flavored-markdown" target="_blank" rel="external">Haroopad Flavored Markdown</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>因此，编辑器的选择只是表象。<br>如果只是编写标准的markdown，那用什么编辑器都一样。<br>然而如果选择的是某一特定版本的实现，则需要参考相对应的使用说明，以及选择对应的渲染方式</p>
+<p>当写markdown时，一定要清楚自己写的是哪一种实现，一般来说写标准的肯定没错，但一些有特色的特性也很有吸引力，如果使用时务必要使用对应的解析和渲染手段才能达到预期效果。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;md也写了很久了，最近想倒腾一个自定义渲染风格的md解析器，所以回过头写一篇基础总结，确实发现了一些之前不知道的细节，就当一篇markdown的语法备忘。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Markdown" scheme="http://xu-li.cn/categories/Markdown/"/>
+    
+    
+      <category term="markdown" scheme="http://xu-li.cn/tags/markdown/"/>
+    
+  </entry>
+  
+  <entry>
     <title>记一次面试总结</title>
     <link href="http://xu-li.cn/2018/an-interview-summary/"/>
     <id>http://xu-li.cn/2018/an-interview-summary/</id>
     <published>2018-04-12T14:50:38.000Z</published>
-    <updated>2018-04-12T16:06:39.385Z</updated>
+    <updated>2018-06-18T08:09:58.949Z</updated>
     
     <content type="html"><![CDATA[<p>嗯，最近出去面试了(嘘……看到了保密)，说下最近的一次，本来以为挺有希望的，但还是准备不充分，说了很多即兴不过脑子的回答，可能给人留下一种很不靠谱的感觉吧。不过这都不是最重点，重点是面试中被问到了一个很有“想法”的问题，当时我没能捋清思路，回答的不是很完美。但在我回来研究了一下之后，发现面试官给的答案其实也不对……whatever，我只想总结下这次值得学习的经历。<br><a id="more"></a></p>
 <h2 id="问题回顾"><a href="#问题回顾" class="headerlink" title="问题回顾"></a>问题回顾</h2><p>印象中记得<code>document ready</code>是网页加载完成的标志事件。一般借助<code>jQuery</code>实现应用，常见的三种语法是：</p>
@@ -54,7 +254,7 @@
 <h2 id="document-ready"><a href="#document-ready" class="headerlink" title="$(document).ready"></a>$(document).ready</h2><p>先说结论，<code>jquery ready</code>只是文档同步加载完成的标志，它并不能监测到<code>异步的文档渲染</code>。</p>
 <p>实例验证如下：</p>
 <p>延迟3秒向页面中添加一个<code>p</code>元素，并监听<code>document.ready</code>事件。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./js/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">      $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">          alert(<span class="string">'document is ready'</span>)</div><div class="line">      &#125;);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">      this is a div</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span>&gt;</span>button<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">      setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        $(<span class="string">'body'</span>).append(<span class="string">"&lt;p&gt;You can't see me&lt;/p&gt;"</span>)</div><div class="line">      &#125;, <span class="number">3000</span>);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./js/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">      $(document).ready(function () &#123;</div><div class="line">          alert('document is ready')</div><div class="line">      &#125;);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">      this is a div</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span>&gt;</span>button<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="xml"></span></div><div class="line">      setTimeout(() =&gt; &#123;</div><div class="line">        $('body').append("<span class="tag">&lt;<span class="name">p</span>&gt;</span>You can't see me<span class="tag">&lt;/<span class="name">p</span>&gt;</span>")</div><div class="line">      &#125;, 3000);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>由于<code>alert</code>有中断浏览器渲染的作用，所以<code>alert</code>出现时，观察页面元素即可得出结论。</p>
 <p>结果是:</p>
 <ul>
@@ -135,7 +335,9 @@
     
     </summary>
     
-      <category term="common-sense" scheme="http://xu-li.cn/categories/common-sense/"/>
+      <category term="Common-sense" scheme="http://xu-li.cn/categories/Common-sense/"/>
+    
+      <category term="Summary" scheme="http://xu-li.cn/categories/Common-sense/Summary/"/>
     
     
       <category term="DOM" scheme="http://xu-li.cn/tags/DOM/"/>
@@ -147,7 +349,7 @@
     <link href="http://xu-li.cn/2018/async-await/"/>
     <id>http://xu-li.cn/2018/async-await/</id>
     <published>2018-02-28T13:15:27.000Z</published>
-    <updated>2018-03-31T14:17:28.038Z</updated>
+    <updated>2018-06-18T08:10:30.390Z</updated>
     
     <content type="html"><![CDATA[<p>async/await, 号称js异步的终极方案……虽然似乎只是语法糖，但确实减少了代码量，让代码同步化，一直拖着没用，但不学不行啊<br><a id="more"></a></p>
 <h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><ul>
@@ -184,6 +386,8 @@
     
       <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
     
+      <category term="Async-await" scheme="http://xu-li.cn/categories/JavaScript/Async-await/"/>
+    
     
       <category term="javaScript" scheme="http://xu-li.cn/tags/javaScript/"/>
     
@@ -198,7 +402,7 @@
     <link href="http://xu-li.cn/2018/datatype-py-vs-js/"/>
     <id>http://xu-li.cn/2018/datatype-py-vs-js/</id>
     <published>2018-02-22T13:35:27.000Z</published>
-    <updated>2018-04-07T02:45:15.019Z</updated>
+    <updated>2018-06-18T08:09:44.410Z</updated>
     
     <content type="html"><![CDATA[<p>写多了nodejs再回来写python提笔就忘，说出来还被人说代码量少……嗯，无法反驳。<br>仔细想了下，徒手写代码到底困难在哪儿，想来大概是数据结构和基本语法了。<br>把这两种语言放一块儿对比着来总结下，主要就数据结构和基本语法两部分，备忘。<br><a id="more"></a></p>
 <h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="js"><a href="#js" class="headerlink" title="js"></a>js</h3><p>六大基本类型以及引用类型</p>
@@ -362,7 +566,9 @@
     
     </summary>
     
-      <category term="common-sense" scheme="http://xu-li.cn/categories/common-sense/"/>
+      <category term="Common-sense" scheme="http://xu-li.cn/categories/Common-sense/"/>
+    
+      <category term="Data-structure" scheme="http://xu-li.cn/categories/Common-sense/Data-structure/"/>
     
     
       <category term="javaScript" scheme="http://xu-li.cn/tags/javaScript/"/>
@@ -376,7 +582,7 @@
     <link href="http://xu-li.cn/2018/package-in-python-and-nodejs/"/>
     <id>http://xu-li.cn/2018/package-in-python-and-nodejs/</id>
     <published>2018-01-31T12:45:27.000Z</published>
-    <updated>2018-04-07T02:44:50.720Z</updated>
+    <updated>2018-06-18T08:02:12.338Z</updated>
     
     <content type="html"><![CDATA[<p>专注在nodejs上有一段时间了，回头看看python发现忘得差不多了，还是得多做做总结加强记忆啊。<br>先从包机制入手，对比来看下python和nodejs的异同<br><a id="more"></a></p>
 <h2 id="python-package"><a href="#python-package" class="headerlink" title="python package"></a>python package</h2><h3 id="导出模块"><a href="#导出模块" class="headerlink" title="导出模块"></a>导出模块</h3><p>python将一个文件或一个文件夹视为一个模块</p>
@@ -422,11 +628,7 @@
     
     </summary>
     
-      <category term="package" scheme="http://xu-li.cn/categories/package/"/>
-    
-      <category term="Python" scheme="http://xu-li.cn/categories/package/Python/"/>
-    
-      <category term="Node.js" scheme="http://xu-li.cn/categories/package/Python/Node-js/"/>
+      <category term="Python" scheme="http://xu-li.cn/categories/Python/"/>
     
     
       <category term="python" scheme="http://xu-li.cn/tags/python/"/>
@@ -442,7 +644,7 @@
     <link href="http://xu-li.cn/2018/express-object-inheritance/"/>
     <id>http://xu-li.cn/2018/express-object-inheritance/</id>
     <published>2018-01-10T13:50:38.000Z</published>
-    <updated>2018-02-09T13:35:23.130Z</updated>
+    <updated>2018-06-18T08:01:13.771Z</updated>
     
     <content type="html"><![CDATA[<p>nodejs web框架<code>express</code>源码中, 多处封装涉及到了对象继承，单独拿出来总结下它们的特点，参考学习<br><a id="more"></a></p>
 <h2 id="对象继承方式"><a href="#对象继承方式" class="headerlink" title="对象继承方式"></a>对象继承方式</h2><p>简单阅读源码所看到的对象继承方式有三种</p>
@@ -496,6 +698,8 @@
     
       <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
     
+      <category term="Express" scheme="http://xu-li.cn/categories/JavaScript/Express/"/>
+    
     
       <category term="express" scheme="http://xu-li.cn/tags/express/"/>
     
@@ -508,7 +712,7 @@
     <link href="http://xu-li.cn/2018/middleware/"/>
     <id>http://xu-li.cn/2018/middleware/</id>
     <published>2018-01-08T12:50:38.000Z</published>
-    <updated>2018-02-08T14:44:09.757Z</updated>
+    <updated>2018-06-18T08:11:51.910Z</updated>
     
     <content type="html"><![CDATA[<p>nodejs的经典web框架中很多均实现了中间件系统，设计合理，使用也十分方便，本文主要总结这些精简api背后的源码实现<br><a id="more"></a></p>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>nodejs的web框架应该都是基于原生httpServer实现的，先回到原点<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>)</div><div class="line"></div><div class="line">http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;</div><div class="line">    res.end(<span class="string">'hello world'</span>)</div><div class="line">&#125;).listen(<span class="number">3000</span>)</div></pre></td></tr></table></figure></p>
@@ -618,7 +822,7 @@
     <link href="http://xu-li.cn/2017/xhr/"/>
     <id>http://xu-li.cn/2017/xhr/</id>
     <published>2017-12-29T12:50:38.000Z</published>
-    <updated>2018-02-25T04:05:03.216Z</updated>
+    <updated>2018-06-18T08:02:51.893Z</updated>
     
     <content type="html"><![CDATA[<p>据说前端培训班第一课就会讲<code>XMLHttpRequest</code>和<code>AJAX</code>。<br>不说别的，至少能得出结论，这是个很基础，很重要的概念。<br>我没去过培训班，在此总结一下，如果被问到这个问题，我会怎么回答。<br><a id="more"></a></p>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
@@ -743,7 +947,7 @@
     
     </summary>
     
-      <category term="common-sense" scheme="http://xu-li.cn/categories/common-sense/"/>
+      <category term="Common-sense" scheme="http://xu-li.cn/categories/Common-sense/"/>
     
     
       <category term="XMLHttpRequest" scheme="http://xu-li.cn/tags/XMLHttpRequest/"/>
@@ -757,7 +961,7 @@
     <link href="http://xu-li.cn/2017/cross-origin/"/>
     <id>http://xu-li.cn/2017/cross-origin/</id>
     <published>2017-12-25T12:50:38.000Z</published>
-    <updated>2018-02-25T04:00:05.014Z</updated>
+    <updated>2018-06-18T08:10:49.072Z</updated>
     
     <content type="html"><![CDATA[<p>前端跨域(cross-origin)是个应该掌握的基本常识，网上很多资料都有讲，全面总结下加深印象<br><a id="more"></a></p>
 <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>跨域资源共享：<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS" target="_blank" rel="external">Cross origin resource sharing(CORS)</a></p>
@@ -824,7 +1028,9 @@
     
     </summary>
     
-      <category term="common-sense" scheme="http://xu-li.cn/categories/common-sense/"/>
+      <category term="Common-sense" scheme="http://xu-li.cn/categories/Common-sense/"/>
+    
+      <category term="Cross-origin" scheme="http://xu-li.cn/categories/Common-sense/Cross-origin/"/>
     
     
       <category term="Cross-Origin" scheme="http://xu-li.cn/tags/Cross-Origin/"/>
@@ -840,7 +1046,7 @@
     <link href="http://xu-li.cn/2017/promise/"/>
     <id>http://xu-li.cn/2017/promise/</id>
     <published>2017-12-21T13:15:27.000Z</published>
-    <updated>2018-03-28T14:25:30.544Z</updated>
+    <updated>2018-06-18T07:50:00.016Z</updated>
     
     <content type="html"><![CDATA[<p>作为es6的新特性，<code>promise</code>的出现，使得<code>callback hell</code>有了优雅的解决方案，掌握promise的使用无疑是一种技能提升。本文基于《ECMAScript 6 入门》和诸多碎片化的阅读以及实践中遇到的问题做一次全面总结。<br><a id="more"></a></p>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Promise 是异步编程的一种解决方案，比传统的解决方案<code>回调函数和事件</code>更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Promise对象是一个构造函数</span></div><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">res, rej</span>)=&gt;</span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="comment">/* 异步操作成功 */</span>)&#123;</div><div class="line">        res(value);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        rej(error);</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
@@ -943,7 +1149,9 @@
     
     </summary>
     
-      <category term="Promise" scheme="http://xu-li.cn/categories/Promise/"/>
+      <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
+    
+      <category term="Promise" scheme="http://xu-li.cn/categories/JavaScript/Promise/"/>
     
     
       <category term="javaScript" scheme="http://xu-li.cn/tags/javaScript/"/>
@@ -957,7 +1165,7 @@
     <link href="http://xu-li.cn/2017/mongoose/"/>
     <id>http://xu-li.cn/2017/mongoose/</id>
     <published>2017-11-15T10:57:38.000Z</published>
-    <updated>2017-11-15T11:36:54.867Z</updated>
+    <updated>2018-06-18T08:08:36.999Z</updated>
     
     <content type="html"><![CDATA[<p>Mongoose 是一个基于Node.js的MongoDB接口ORM类库，也被称为ODM库。那些高大上的解释就不贴了。我的理解是mongoDB将数据库抽象成文档类型，而mongoose将文档映射到js对象上，让使用者可以使用js对象来操作文档从而实现对数据的增改删查，因此称之为Object Document Model。<br><a id="more"></a></p>
 <h2 id="连接数据库-Connection"><a href="#连接数据库-Connection" class="headerlink" title="连接数据库-Connection"></a>连接数据库-Connection</h2><p>使用数据库之前肯定需要连接上数据库先，Mongoose的API提供了两种方式<code>mongoose.createConnection</code>和<code>mongoose.connect</code>。文档说前者可以连接多个数据库，后者使用默认连接，老实说这个解释没能让我明白区别，还是看源代码吧。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Mongoose</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.connections = [];</div><div class="line">  <span class="keyword">this</span>.models = &#123;&#125;;</div><div class="line">  <span class="keyword">this</span>.modelSchemas = &#123;&#125;;</div><div class="line">  <span class="comment">/* default global options */</span></div><div class="line">  <span class="keyword">this</span>.options = &#123;</div><div class="line">    <span class="attr">pluralization</span>: <span class="literal">true</span></div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">var</span> conn = <span class="keyword">this</span>.createConnection(); <span class="comment">/* default connection */</span></div><div class="line">  conn.models = <span class="keyword">this</span>.models;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> mongoose = <span class="built_in">module</span>.exports = exports = <span class="keyword">new</span> Mongoose;</div></pre></td></tr></table></figure></p>
@@ -1019,7 +1227,9 @@
     
     </summary>
     
-      <category term="mongoose" scheme="http://xu-li.cn/categories/mongoose/"/>
+      <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
+    
+      <category term="Mongoose" scheme="http://xu-li.cn/categories/JavaScript/Mongoose/"/>
     
     
       <category term="mongoose" scheme="http://xu-li.cn/tags/mongoose/"/>
@@ -1033,7 +1243,7 @@
     <link href="http://xu-li.cn/2017/shell/"/>
     <id>http://xu-li.cn/2017/shell/</id>
     <published>2017-11-05T10:57:38.000Z</published>
-    <updated>2017-11-11T12:17:08.952Z</updated>
+    <updated>2018-06-18T08:02:45.530Z</updated>
     
     <content type="html"><![CDATA[<p>总结shell脚本<br><a id="more"></a></p>
 <h2 id="shell-VS-shell-script"><a href="#shell-VS-shell-script" class="headerlink" title="shell VS shell script"></a>shell VS shell script</h2><p>shell 是一种应用程序，负责将指令传达至linux内核。<code>terminl</code> 是一种输入输出的虚拟终端，本身并不会解析输入的命令，真正处理输入命令的是shell。<br><code>shell script</code> 是为shell编写的脚本，本质是命令的集合，相对terminal输入的方式，shell脚本可以批量操作，可以有组合逻辑，能做的事更多，但需要符合一定的代码规范。学习shell脚本本质是掌握shell命令以及shell script的语法规则。本文着重总结后者。</p>
@@ -1133,7 +1343,9 @@
     
     </summary>
     
-      <category term="shell" scheme="http://xu-li.cn/categories/shell/"/>
+      <category term="Linux" scheme="http://xu-li.cn/categories/Linux/"/>
+    
+      <category term="Shell" scheme="http://xu-li.cn/categories/Linux/Shell/"/>
     
     
       <category term="shell-script" scheme="http://xu-li.cn/tags/shell-script/"/>
@@ -1145,7 +1357,7 @@
     <link href="http://xu-li.cn/2017/js-this/"/>
     <id>http://xu-li.cn/2017/js-this/</id>
     <published>2017-10-11T12:30:38.000Z</published>
-    <updated>2017-10-12T12:00:05.547Z</updated>
+    <updated>2018-06-18T08:11:17.919Z</updated>
     
     <content type="html"><![CDATA[<p>发现一个很有意思的现象，js中的<code>this</code>、<code>bind</code>、<code>call</code>、<code>apply</code>单独拿出来都知道用法，但只要两个的组合出现时就有点蒙，三个的组合出现时开始怀疑自己是否还没入门……</p>
 <p>我想大概原因还是没有认真做过总结吧，之前已经总结过一次js中this的用法，不过那次是着重总结箭头函数中的this。这次把这几个经常见到的整合在一起再总结一次。<br><a id="more"></a></p>
@@ -1225,6 +1437,8 @@
     
       <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
     
+      <category term="This" scheme="http://xu-li.cn/categories/JavaScript/This/"/>
+    
     
       <category term="this" scheme="http://xu-li.cn/tags/this/"/>
     
@@ -1235,7 +1449,7 @@
     <link href="http://xu-li.cn/2017/express_framework/"/>
     <id>http://xu-li.cn/2017/express_framework/</id>
     <published>2017-09-19T15:11:38.000Z</published>
-    <updated>2017-09-20T11:54:50.256Z</updated>
+    <updated>2018-06-18T08:01:03.488Z</updated>
     
     <content type="html"><![CDATA[<p>本次总结试图说明express框架运行的原理，结论都是从阅读源码得来，但文中不会提及源代码，仅作总体认知方面进行说明。</p>
 <a id="more"></a>
@@ -1273,7 +1487,9 @@
     
     </summary>
     
-      <category term="express" scheme="http://xu-li.cn/categories/express/"/>
+      <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
+    
+      <category term="Express" scheme="http://xu-li.cn/categories/JavaScript/Express/"/>
     
     
       <category term="Node.js" scheme="http://xu-li.cn/tags/Node-js/"/>
@@ -1287,7 +1503,7 @@
     <link href="http://xu-li.cn/2017/express-basic/"/>
     <id>http://xu-li.cn/2017/express-basic/</id>
     <published>2017-09-04T12:46:55.000Z</published>
-    <updated>2017-09-20T11:55:10.215Z</updated>
+    <updated>2018-06-18T08:01:09.235Z</updated>
     
     <content type="html"><![CDATA[<p>项目中选用的web框架是express，总结下经验<br><a id="more"></a></p>
 <h1 id="express是做什么的"><a href="#express是做什么的" class="headerlink" title="express是做什么的"></a>express是做什么的</h1><p>从官网所得描述是基于node.js的一个简洁灵活的web框架，性能上没有对node进行二次抽象，也就是说express的性能的上限就是node本身的性能。<br>那就先从node本身说起。</p>
@@ -1310,6 +1526,8 @@
     </summary>
     
       <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
+    
+      <category term="Express" scheme="http://xu-li.cn/categories/JavaScript/Express/"/>
     
     
       <category term="Node.js" scheme="http://xu-li.cn/tags/Node-js/"/>
@@ -1369,7 +1587,7 @@
     <link href="http://xu-li.cn/2017/events-final/"/>
     <id>http://xu-li.cn/2017/events-final/</id>
     <published>2017-09-01T12:15:27.000Z</published>
-    <updated>2017-09-20T11:55:22.909Z</updated>
+    <updated>2018-06-18T08:09:08.825Z</updated>
     
     <content type="html"><![CDATA[<p>又一次来看这部分源码了，感觉每次依然有收获，再做一次总结，强行分成上中下三篇，内心毫无波澜，甚至有点想笑<br><a id="more"></a></p>
 <h1 id="关于使用"><a href="#关于使用" class="headerlink" title="关于使用"></a>关于使用</h1><ul>
@@ -1401,6 +1619,8 @@
     </summary>
     
       <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
+    
+      <category term="Events" scheme="http://xu-li.cn/categories/JavaScript/Events/"/>
     
     
       <category term="Node.js" scheme="http://xu-li.cn/tags/Node-js/"/>
@@ -1565,7 +1785,7 @@
     <link href="http://xu-li.cn/2017/rf-library/"/>
     <id>http://xu-li.cn/2017/rf-library/</id>
     <published>2017-07-22T13:45:27.000Z</published>
-    <updated>2018-04-07T02:44:32.175Z</updated>
+    <updated>2018-06-18T07:50:19.730Z</updated>
     
     <content type="html"><![CDATA[<p>RF本身是用Python写的，它的扩展库也可以用Python来写。<br>如果是跑在Jython上，也是可以用java来扩展。<br>纯python的扩展具备通用性，本文也主要总结基于python的RF扩展库的API，RF版本为截止到当前最新的V3.0.2<br><a id="more"></a></p>
 <h2 id="API-分类"><a href="#API-分类" class="headerlink" title="API 分类"></a>API 分类</h2><p>RF有三种不同的库API:</p>
@@ -1659,9 +1879,9 @@
     
     </summary>
     
-      <category term="RobotFramework" scheme="http://xu-li.cn/categories/RobotFramework/"/>
+      <category term="Python" scheme="http://xu-li.cn/categories/Python/"/>
     
-      <category term="Python" scheme="http://xu-li.cn/categories/RobotFramework/Python/"/>
+      <category term="RobotFramework" scheme="http://xu-li.cn/categories/Python/RobotFramework/"/>
     
     
       <category term="RobotFramework" scheme="http://xu-li.cn/tags/RobotFramework/"/>
@@ -1673,7 +1893,7 @@
     <link href="http://xu-li.cn/2017/robotframework/"/>
     <id>http://xu-li.cn/2017/robotframework/</id>
     <published>2017-07-13T13:15:27.000Z</published>
-    <updated>2018-03-28T12:23:33.661Z</updated>
+    <updated>2018-06-18T08:05:40.625Z</updated>
     
     <content type="html"><![CDATA[<p>在我有限的自动化测试经历中，我接触了基于robotframework测试框架+jenkins管理平台的一整套CI测试流程，受益良多。<br>验收测试驱动(ATDD)的思想确实有助于保证产品质量，提高开发效率。总结下这块的学习经验，以后应该还用得上。<br><a id="more"></a></p>
 <h2 id="robotframework"><a href="#robotframework" class="headerlink" title="robotframework"></a>robotframework</h2><p>简称<code>RF</code>,<br>详细介绍可以参考<a href="http://robotframework.org" target="_blank" rel="external">官网</a> </p>
@@ -1752,143 +1972,14 @@
     
     </summary>
     
-      <category term="robotframework" scheme="http://xu-li.cn/categories/robotframework/"/>
+      <category term="Python" scheme="http://xu-li.cn/categories/Python/"/>
     
+      <category term="RobotFramework" scheme="http://xu-li.cn/categories/Python/RobotFramework/"/>
     
-      <category term="python" scheme="http://xu-li.cn/tags/python/"/>
     
       <category term="robotframework" scheme="http://xu-li.cn/tags/robotframework/"/>
     
       <category term="jenkins" scheme="http://xu-li.cn/tags/jenkins/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JavaScript Object</title>
-    <link href="http://xu-li.cn/2017/js-Object/"/>
-    <id>http://xu-li.cn/2017/js-Object/</id>
-    <published>2017-07-11T12:50:38.000Z</published>
-    <updated>2017-09-20T12:34:08.434Z</updated>
-    
-    <content type="html"><![CDATA[<p>javascript里的对象是我一直没认真研究过的，每次看到Object的调用总觉得是高级语法。然而其实它一直都在那里，不难不易，只是我没有去了解。查了下MDN，仍旧是做下API层面的总结。<br><a id="more"></a></p>
-<h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><h2 id="键值对初始化"><a href="#键值对初始化" class="headerlink" title="键值对初始化"></a>键值对初始化</h2><pre><code>@param name String 
-@param value Any
-</code></pre><p>其中对于name参数，必须是String。<br>如果不是String会被转化为String类型。1会转为’1’、null会被转为’null’, undefined 会被转为’undefined’, true将被转为’true’。如果是对象，则调用对象的toString方法返回String。<br>特别说明下<code>__proto__</code>。如果使用它作为name，对象不会创建一个以该字符串命名的属性。因为它存在默认值，指向Object.prototype。除非提供的value是一个对象或者null，否则默认值不会改变。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>: <span class="string">'foo'</span>, <span class="attr">b</span>: <span class="number">42</span>, <span class="attr">c</span>: &#123;&#125;&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="string">'foo'</span>, b = <span class="number">42</span>, c = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>: a, <span class="attr">b</span>: b, <span class="attr">c</span>: c&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">  <span class="attr">test</span>: <span class="number">5</span>;</div><div class="line">  get property() &#123;<span class="keyword">return</span> <span class="keyword">this</span>.test&#125;,</div><div class="line">  set property(value) &#123;<span class="keyword">if</span>(value&gt;<span class="number">10</span>) <span class="keyword">this</span>.test = value&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> obj1 = &#123;&#125;;</div><div class="line">assert(<span class="built_in">Object</span>.getPrototypeOf(obj1) === <span class="built_in">Object</span>.prototype);</div><div class="line"></div><div class="line"><span class="keyword">var</span> obj2 = &#123;<span class="attr">__proto__</span>: <span class="literal">null</span>&#125;;</div><div class="line">assert(<span class="built_in">Object</span>.getPrototypeOf(obj2) === <span class="literal">null</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> protoObj = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> obj3 = &#123;<span class="string">'__proto__'</span>: protoObj&#125;;</div><div class="line">assert(<span class="built_in">Object</span>.getPrototypeOf(obj3) === protoObj);</div><div class="line"></div><div class="line"><span class="keyword">var</span> obj4 = &#123;<span class="attr">__proto__</span>: <span class="string">'not an object or null'</span>&#125;;</div><div class="line">assert(<span class="built_in">Object</span>.getPrototypeOf(obj4) === <span class="built_in">Object</span>.prototype);</div><div class="line">assert(!obj4.hasOwnProperty(<span class="string">'__proto__'</span>));</div></pre></td></tr></table></figure></p>
-<p>除此之外，ES6新增了语法特性<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Shorthand property names */</span></div><div class="line"><span class="keyword">var</span> a = <span class="string">'foo'</span>, b = <span class="number">42</span>, c = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> o = &#123;a, b, c&#125;;</div><div class="line"><span class="comment">/* o.a =&gt; 'foo' */</span></div><div class="line"></div><div class="line"><span class="comment">/* Shorthand method names */</span></div><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">  property([parameters]) &#123;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">/* Computed property names */</span></div><div class="line"><span class="keyword">var</span> prop = <span class="string">'foo'</span>;</div><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">  [prop]: <span class="string">'hey'</span>,</div><div class="line">  [<span class="string">'b'</span> + <span class="string">'ar'</span>]: <span class="string">'there'</span></div><div class="line">&#125;;</div><div class="line"><span class="comment">/* However, JSON.parse() will reject computed property names </span></div><div class="line">and an error will be thrown */</div></pre></td></tr></table></figure></p>
-<p>总之一个对象的初始化就是一个表达式，用来描述一个对象的初始化过程。对象由属性组成，属性是用来描述对象的。对象的属性值可以是基本数据类型值（即js六大基本数据类型，string、number、boolean、undefined、null、symbol），也可以是对象</p>
-<h2 id="用作构造器"><a href="#用作构造器" class="headerlink" title="用作构造器"></a>用作构造器</h2><pre><code>new Object([value])
-根据所给的value，返回一个对象包装器。
-</code></pre><p>如果value的值为null或者undefined，会构造返回一个空对象；如果value是一个对象，则返回value；否则返回所给定value类型对应的对象。</p>
-<h1 id="Object属性"><a href="#Object属性" class="headerlink" title="Object属性"></a>Object属性</h1><h2 id="Object-length"><a href="#Object-length" class="headerlink" title="Object.length"></a>Object.length</h2><pre><code>返回 1
-</code></pre><h2 id="Object-prototype"><a href="#Object-prototype" class="headerlink" title="Object.prototype"></a>Object.prototype</h2><pre><code>返回一个对象，包含的属性被其他对象继承，几乎所有对象都从这里继承。
-Object.prototype对象的属性不可枚举(not enumerable), 不可赋值(not writable), 
-不可更改或删除(not configurable),可通过 `in` 来确定是否存在某一属性。
-</code></pre><h3 id="Object-prototype-constructor"><a href="#Object-prototype-constructor" class="headerlink" title="Object.prototype.constructor"></a>Object.prototype.constructor</h3><pre><code>返回一个访问描述符(accessor property)，对象的构造函数
-</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;&#125;;</div><div class="line">o.constructor === <span class="built_in">Object</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>;</div><div class="line">o.constructor === <span class="built_in">Object</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = [];</div><div class="line">a.constructor === <span class="built_in">Array</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Array</span>;</div><div class="line">a.constructor === <span class="built_in">Array</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> n = <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">3</span>);</div><div class="line">n.constructor === <span class="built_in">Number</span>;</div></pre></td></tr></table></figure>
-<p>其中对象的构造函数可以被改变，<br>但对基本类型数据number、boolean、string的构造函数进行更改不会生效。</p>
-<pre><code>undefined、null不含有constructor属性
-</code></pre><h3 id="Object-prototype-proto"><a href="#Object-prototype-proto" class="headerlink" title="Object.prototype.__proto__"></a><code>Object.prototype.__proto__</code></h3><pre><code>非标准规范，但被广泛实现。返回当前对象的原型对象，也是一个访问描述符，
-可以获取也可以修改，但是修改非常影响性能，不鼓励使用。
-</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> shape = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</div><div class="line"><span class="keyword">let</span> p = &#123;</div><div class="line">    <span class="attr">a</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'aaa'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">shape.prototype.__proto__ = p;</div><div class="line"></div><div class="line"><span class="keyword">let</span> circle = <span class="keyword">new</span> shape();</div><div class="line"></div><div class="line">shape.prototype.a() <span class="comment">/* aaa */</span></div><div class="line"><span class="built_in">console</span>.log(shape.prototype.hasOwnProperty(<span class="string">'a'</span>)); <span class="comment">/* false */</span></div><div class="line">circle.a(); <span class="comment">// aaa</span></div></pre></td></tr></table></figure>
-<h3 id="Object-prototype-defineGetter"><a href="#Object-prototype-defineGetter" class="headerlink" title="Object.prototype.__defineGetter__()"></a><code>Object.prototype.__defineGetter__()</code></h3><h3 id="Object-prototype-defineSetter"><a href="#Object-prototype-defineSetter" class="headerlink" title="Object.prototype.__defineSetter__()"></a><code>Object.prototype.__defineSetter__()</code></h3><pre><code>设置对象的getter和setter，非标准，可以被类方法Object.defineProperty代替
-</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;&#125;;</div><div class="line">o.__defineGetter__(<span class="string">'gimmeFive'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">5</span>; &#125;);</div><div class="line"><span class="built_in">console</span>.log(o.gimmeFive); <span class="comment">/* 5  */</span></div><div class="line">o.gimmeFive = <span class="number">10</span></div><div class="line"><span class="built_in">console</span>.log(o.gimmeFive); <span class="comment">/* 5 */</span></div><div class="line"></div><div class="line">o.__defineSetter__(<span class="string">'value'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;<span class="keyword">this</span>.test = val;&#125;);</div><div class="line">o.value = <span class="number">10</span></div><div class="line"><span class="built_in">console</span>.log(o.value); <span class="comment">/* undefined */</span></div><div class="line"><span class="built_in">console</span>.log(o.test); <span class="comment">/* 10 */</span></div><div class="line"></div><div class="line"><span class="comment">/* Using Object.defineProperty instead */</span></div><div class="line"><span class="keyword">var</span> o = &#123;&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(o, <span class="string">'foo'</span>, &#123;</div><div class="line">  <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.anotherValue;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.anotherValue = val;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(o.foo)          <span class="comment">/* undefined */</span></div><div class="line"><span class="built_in">console</span>.log(o.anotherValue) <span class="comment">/* undefined */</span></div><div class="line">o.foo = <span class="number">10</span></div><div class="line"><span class="built_in">console</span>.log(o.foo)          <span class="comment">/* 10 */</span></div><div class="line"><span class="built_in">console</span>.log(o.anotherValue) <span class="comment">/* 10 */</span></div></pre></td></tr></table></figure>
-<h3 id="Object-prototype-lookupGetter"><a href="#Object-prototype-lookupGetter" class="headerlink" title="Object.prototype.__lookupGetter__()"></a><code>Object.prototype.__lookupGetter__()</code></h3><h3 id="Object-prototype-lookupSetter"><a href="#Object-prototype-lookupSetter" class="headerlink" title="Object.prototype.__lookupSetter__()"></a><code>Object.prototype.__lookupSetter__()</code></h3><pre><code>返回对象的getter和setter函数，非标准，可以被类方法Object.getOwnPropertyDescriptor代替
-</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">  get foo() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.random() &gt; <span class="number">0.5</span> ? <span class="string">'foo'</span> : <span class="string">'bar'</span>;</div><div class="line">  &#125;，</div><div class="line">  set foo(value) &#123;</div><div class="line">    <span class="keyword">this</span>.bar = value;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">/*  Non-standard and deprecated way */</span></div><div class="line">obj.__lookupGetter__(<span class="string">'foo'</span>);</div><div class="line"><span class="comment">/*  (function() &#123; return Math.random() &gt; 0.5 ? 'foo' : 'bar'; &#125;) */</span></div><div class="line">obj.__lookupSetter__(<span class="string">'foo'</span>)</div><div class="line"><span class="comment">/*  (function(value) &#123; this.bar = value; &#125;) */</span></div><div class="line"></div><div class="line"><span class="comment">/*  Standard-compliant way */</span></div><div class="line"><span class="built_in">Object</span>.getOwnPropertyDescriptor(obj, <span class="string">"foo"</span>).get;</div><div class="line"><span class="comment">/*  (function() &#123; return Math.random() &gt; 0.5 ? 'foo' : 'bar'; &#125;) */</span></div><div class="line"><span class="built_in">Object</span>.getOwnPropertyDescriptor(obj, <span class="string">'foo'</span>).set;</div><div class="line"><span class="comment">/*  (function(value) &#123; this.bar = value; &#125;) */</span></div></pre></td></tr></table></figure>
-<h3 id="Object-prototype-hasOwnProperty"><a href="#Object-prototype-hasOwnProperty" class="headerlink" title="Object.prototype.hasOwnProperty()"></a>Object.prototype.hasOwnProperty()</h3><pre><code>@param prop String|Symbol
-返回bool，判断该对象是否有某自定义属性，排除继承选项。
-</code></pre><p>允许对象改写改方法，因此可用下面的方式调用更加安全<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(&#123;&#125;).hasOwnProperty.call(obj, prop)</div><div class="line"><span class="comment">/* or this way */</span></div><div class="line"><span class="built_in">Object</span>.prototype.hasOwnProperty.call(obj, prop);</div></pre></td></tr></table></figure></p>
-<h3 id="Object-prototype-isPrototypeOf"><a href="#Object-prototype-isPrototypeOf" class="headerlink" title="Object.prototype.isPrototypeOf()"></a>Object.prototype.isPrototypeOf()</h3><pre><code>@param object Object
-返回bool，判断函数调用对象是否在参数对象的原型链上
-</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Test = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line"><span class="keyword">var</span> test = <span class="keyword">new</span> Test()</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(Test.prototype.isPrototypeOf(test));</div><div class="line"><span class="comment">/* true /*</span></div><div class="line">console.log(Object.prototype.isPrototypeOf(&#123;&#125;));</div><div class="line">//true</div></pre></td></tr></table></figure>
-<h3 id="Object-prototype-propertyIsEnumerable"><a href="#Object-prototype-propertyIsEnumerable" class="headerlink" title="Object.prototype.propertyIsEnumerable()"></a>Object.prototype.propertyIsEnumerable()</h3><pre><code>obj.propertyIsEnumerable(prop)
-判断对象属性是否可枚举
-</code></pre><h3 id="Object-prototype-toString"><a href="#Object-prototype-toString" class="headerlink" title="Object.prototype.toString()"></a>Object.prototype.toString()</h3><pre><code>返回字符串代表对象，Array, Number, Date 对象重写了该方法
-</code></pre><h3 id="Object-prototype-valueOf"><a href="#Object-prototype-valueOf" class="headerlink" title="Object.prototype.valueOf()"></a>Object.prototype.valueOf()</h3><pre><code>返回对象的基本数据类型值，一般用在需要将对象转换成基本类型值的场景，比如运算操作。
-</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyNumberType</span>(<span class="params">n</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.number = n;</div><div class="line">&#125;</div><div class="line"></div><div class="line">MyNumberType.prototype.valueOf = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.number;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> myObj = <span class="keyword">new</span> MyNumberType(<span class="number">4</span>);</div><div class="line">myObj + <span class="number">3</span>; <span class="comment">// 7</span></div></pre></td></tr></table></figure>
-<h1 id="Object方法"><a href="#Object方法" class="headerlink" title="Object方法"></a>Object方法</h1><p>相当于类方法</p>
-<h2 id="Object-defineProperty"><a href="#Object-defineProperty" class="headerlink" title="Object.defineProperty()"></a>Object.defineProperty()</h2><pre><code>用法：Object.defineProperty(obj, prop, descriptor)
-返回传入的对象
-</code></pre><p>可以给一个对象定义新属性，也可以修改已有属性，返回传入的对象<br>普通的对象属性赋值使得它的属性可以被枚举，属性值可以被修改还可以被delete删除。但该方法允许一些更细节的操作，比如通过该方法增加的属性默认不可枚举也不能删除。<br>@descriptor 参数有两种呈现风格，数据描述符(data descriptors) 和 访问描述符(accessor descriptors)。<br>共同点是，二者都是对象，因此不可缺省。且都有如下属性</p>
-<pre><code>configurable：默认false，只有当为true时，该属性才能被修改和删除,
-            修改指不能二次修改定义，和writeable为true时的修改值不冲突
-enumerable：默认为false，只有当为true时，才会在枚举时出现
-</code></pre><p>数据描述符还有以下可选属性：</p>
-<pre><code>value：属性值，可以是任何合法数据类型，对象或函数等等，默认undefined
-writable：默认false，只有当true时，属性值才能被赋值运算符改变
-</code></pre><p>访问描述符有以下可选属性：</p>
-<pre><code>get：属性的getter函数，函数返回值将作为属性值，默认为undefined
-set：属性的setter函数，默认为undefined
-</code></pre><p>以上可选属性都不是必要的，如果要使用，有且只能使用二者中的一个。定义属性时，也要考虑对象的原型链继承，如需得到一个纯净的对象可以使用<code>Object.create(null)</code></p>
-<h2 id="Object-defineProperties"><a href="#Object-defineProperties" class="headerlink" title="Object.defineProperties()"></a>Object.defineProperties()</h2><pre><code>Object.defineProperties(obj, props)
-</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperties(obj, &#123;</div><div class="line">  <span class="string">'property1'</span>: &#123;</div><div class="line">    <span class="attr">value</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">writable</span>: <span class="literal">true</span></div><div class="line">  &#125;,</div><div class="line">  <span class="string">'property2'</span>: &#123;</div><div class="line">    <span class="attr">value</span>: <span class="string">'Hello'</span>,</div><div class="line">    <span class="attr">writable</span>: <span class="literal">false</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// etc. etc.</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h2 id="Object-create-proto-propertiesObject"><a href="#Object-create-proto-propertiesObject" class="headerlink" title="Object.create(proto[, propertiesObject])"></a>Object.create(proto[, propertiesObject])</h2><pre><code>返回一个新对象，它有着具体的原型和属性
-@param proto Object|null //创建的新对象的prototype
-@param propertiesObject Object|null 
-//可选，如果给定且不为undefined，那么它的值只能个对象，否则会报TypeError。
-该对象的自定义属性会以对应的属性名添加到新建的对象应Object.defineProperties()的第二个参数。
-</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = <span class="built_in">Object</span>.create(<span class="built_in">Object</span>.prototype)  </div><div class="line"><span class="comment">/* equals to: */</span></div><div class="line"><span class="keyword">var</span> o = &#123;&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Constructor</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">o = <span class="keyword">new</span> Constructor();</div><div class="line"><span class="comment">/* is equivalent to: */</span></div><div class="line">o = <span class="built_in">Object</span>.create(Constructor.prototype);</div><div class="line"></div><div class="line">o = <span class="built_in">Object</span>.create(&#123;&#125;, &#123; <span class="attr">p</span>: &#123; <span class="attr">value</span>: <span class="number">42</span> &#125; &#125;);</div><div class="line">o2 = <span class="built_in">Object</span>.create(&#123;&#125;, &#123;</div><div class="line">  <span class="attr">p</span>: &#123;</div><div class="line">    <span class="attr">value</span>: <span class="number">42</span>,</div><div class="line">    <span class="attr">writable</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">enumerable</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">configurable</span>: <span class="literal">true</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>使用场景:</p>
-<ol>
-<li>创建一个空对象，<code>Object.create(null)</code>, 返回的对象无继承属性，连<code>__proto__</code>都没有</li>
-<li>实现对象的继承<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyClass</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  SuperClass.call(<span class="keyword">this</span>);</div><div class="line">  OtherSuperClass.call(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* 从一个类继承 */</span></div><div class="line">MyClass.prototype = <span class="built_in">Object</span>.create(SuperClass.prototype);</div><div class="line"></div><div class="line">MyClass.prototype.myMethod = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// do a thing</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="Object-assign"><a href="#Object-assign" class="headerlink" title="Object.assign()"></a>Object.assign()</h2><pre><code>用法：Object.assign(target, ...sources)
-向target对象上增加一个或多个source对象自身的可枚举属性，
-如果有相同的属性，后续的对象会覆盖前面的属性，返回target对象
-assign的机制是赋值，调用source的getter，调用target的setter。而不是复制或者定义新属性。
-</code></pre><p>assign的赋值不同于深度克隆<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> obj1 = &#123; <span class="attr">a</span>: <span class="number">0</span> , <span class="attr">b</span>: &#123; <span class="attr">c</span>: <span class="number">0</span>&#125;&#125;;</div><div class="line"></div><div class="line"><span class="keyword">let</span> obj2 = <span class="built_in">Object</span>.assign(&#123;&#125;, obj1);</div><div class="line">obj2.a = <span class="number">2</span>;</div><div class="line">obj2.b.c = <span class="number">3</span>;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(obj1)); <span class="comment">/* &#123; a: 0, b: &#123; c: 3&#125;&#125; */</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(obj2)); <span class="comment">/* &#123; a: 2, b: &#123; c: 3&#125;&#125; */</span></div><div class="line"></div><div class="line"><span class="comment">/* Deep Clone */</span></div><div class="line">obj1 = &#123; <span class="attr">a</span>: <span class="number">0</span> , <span class="attr">b</span>: &#123; <span class="attr">c</span>: <span class="number">0</span>&#125;&#125;;</div><div class="line"><span class="keyword">let</span> obj3 = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(obj1));</div><div class="line">obj1.a = <span class="number">4</span>;</div><div class="line">obj1.b.c = <span class="number">4</span>;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(obj1)); <span class="comment">/* &#123; a: 4, b: &#123; c: 4&#125;&#125; */</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(obj3)); <span class="comment">/* &#123; a: 0, b: &#123; c: 0&#125;&#125; */</span></div></pre></td></tr></table></figure></p>
-<p>基本类型会被包装成对象</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> v1 = <span class="string">'abc'</span>;</div><div class="line"><span class="keyword">var</span> v2 = <span class="literal">true</span>;</div><div class="line"><span class="keyword">var</span> v3 = <span class="number">10</span>;</div><div class="line"><span class="keyword">var</span> v4 = <span class="built_in">Symbol</span>(<span class="string">'foo'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> obj = <span class="built_in">Object</span>.assign(&#123;&#125;, v1, <span class="literal">null</span>, v2, <span class="literal">undefined</span>, v3, v4); </div><div class="line"><span class="comment">/* Primitives will be wrapped, null and undefined will be ignored.</span></div><div class="line">   Note, only string wrappers can have own enumerable properties. */</div><div class="line"><span class="built_in">console</span>.log(obj); <span class="comment">// &#123; "0": "a", "1": "b", "2": "c" &#125;</span></div></pre></td></tr></table></figure>
-<h2 id="Object-getOwnPropertyDescriptor"><a href="#Object-getOwnPropertyDescriptor" class="headerlink" title="Object.getOwnPropertyDescriptor()"></a>Object.getOwnPropertyDescriptor()</h2><pre><code>Object.getOwnPropertyDescriptor(obj, prop)
-@return a property descriptor if exists， undefined otherwise
-</code></pre><h2 id="Object-getOwnPropertyDescriptors"><a href="#Object-getOwnPropertyDescriptors" class="headerlink" title="Object.getOwnPropertyDescriptors()"></a>Object.getOwnPropertyDescriptors()</h2><pre><code>Object.getOwnPropertyDescriptors(obj)
-返回对象所有属性描述符
-</code></pre><h2 id="Object-keys"><a href="#Object-keys" class="headerlink" title="Object.keys()"></a>Object.keys()</h2><pre><code>Object.keys(obj)
-返回数组，存储着对象自身的可枚举属性
-</code></pre><h2 id="Object-getOwnPropertyNames"><a href="#Object-getOwnPropertyNames" class="headerlink" title="Object.getOwnPropertyNames()"></a>Object.getOwnPropertyNames()</h2><pre><code>Object.getOwnPropertyNames(obj)
-返回一个数组，包含所有自身的属性名，包括不可枚举的属性
-</code></pre><p>如果是数组对象，则返回所有的key以及’length’</p>
-<h2 id="Object-getOwnPropertySymbols"><a href="#Object-getOwnPropertySymbols" class="headerlink" title="Object.getOwnPropertySymbols()"></a>Object.getOwnPropertySymbols()</h2><p>同上，只是返回的是symbol</p>
-<h2 id="Object-getPrototypeOf"><a href="#Object-getPrototypeOf" class="headerlink" title="Object.getPrototypeOf()"></a>Object.getPrototypeOf()</h2><pre><code>Object.getPrototypeOf(obj)
-返回对象的原型对象，是相对于`__proto__`的正规用法
-</code></pre><p>ES5里参数如果不是对象会报TypeError,ES6会将参数包装成对象，并返回其原型对象</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Proto = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> Proto();</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(obj) === Proto.prototype); <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(obj) === obj.__proto__); <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="built_in">Object</span>.getPrototypeOf(<span class="string">'foo'</span>);</div><div class="line"><span class="comment">// TypeError: "foo" is not an object (ES5 code)</span></div><div class="line"><span class="built_in">Object</span>.getPrototypeOf(<span class="string">'foo'</span>);</div><div class="line"><span class="comment">// String.prototype                  (ES6 code)</span></div></pre></td></tr></table></figure>
-<h2 id="Object-setPrototypeOf"><a href="#Object-setPrototypeOf" class="headerlink" title="Object.setPrototypeOf()"></a>Object.setPrototypeOf()</h2><pre><code>Object.setPrototypeOf(obj, prototype);
-修改对象的原型对象，返回该对象。
-</code></pre><p>修改对象原型存在性能问题，应尽量避免，可以使用Object.create()创建一个新对象</p>
-<h2 id="Object-is"><a href="#Object-is" class="headerlink" title="Object.is()"></a>Object.is()</h2><pre><code>Object.is(value1, value2);
-@return bool 判断两个值是否为同一个值，和`==`、`===`均不同
-</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.is(<span class="string">'foo'</span>, <span class="string">'foo'</span>);     <span class="comment">// true</span></div><div class="line"><span class="built_in">Object</span>.is(<span class="built_in">window</span>, <span class="built_in">window</span>);   <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="built_in">Object</span>.is([], []);           <span class="comment">// false</span></div><div class="line"><span class="built_in">Object</span>.is(&#123;&#125;, &#123;&#125;);           <span class="comment">// false</span></div><div class="line"><span class="keyword">var</span> test = &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;;</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.is(test, test);       <span class="comment">// true</span></div><div class="line"><span class="built_in">Object</span>.is(<span class="literal">null</span>, <span class="literal">null</span>);       <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="built_in">Object</span>.is(<span class="literal">NaN</span>, <span class="number">0</span>/<span class="number">0</span>);         <span class="comment">// true</span></div><div class="line"><span class="built_in">Object</span>.is(<span class="literal">NaN</span>, <span class="literal">NaN</span>);         <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<h2 id="Object-freeze"><a href="#Object-freeze" class="headerlink" title="Object.freeze()"></a>Object.freeze()</h2><pre><code>用法：Object.freeze(obj)
-返回一个对象处于不可修改的状态。修改不会生效，在Strict模式下会报错
-ES5对参数不是一个对象会报错，ES6则不会，返回输入值。
-</code></pre><p>然而freeze对子对象的修改并不生效</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">obj1 = &#123;</div><div class="line">  <span class="attr">internal</span>: &#123;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.freeze(obj1);</div><div class="line">obj1.internal.a = <span class="string">'aValue'</span>;</div><div class="line"></div><div class="line">obj1.internal.a <span class="comment">// 'aValue'</span></div></pre></td></tr></table></figure>
-<p>当然也是有办法做到递归freeze<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* To do so, we use this function. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepFreeze</span>(<span class="params">obj</span>) </span>&#123;</div><div class="line">  <span class="comment">/* Retrieve the property names defined on obj */</span></div><div class="line">  <span class="keyword">var</span> propNames = <span class="built_in">Object</span>.getOwnPropertyNames(obj);</div><div class="line">  <span class="comment">/*  Freeze properties before freezing self */</span></div><div class="line">  propNames.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> prop = obj[name];</div><div class="line">    <span class="comment">/*  Freeze prop if it is an object */</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> prop == <span class="string">'object'</span> &amp;&amp; prop !== <span class="literal">null</span>)</div><div class="line">      deepFreeze(prop);</div><div class="line">  &#125;);</div><div class="line">  <span class="comment">/*  Freeze self (no-op if already frozen) */</span></div><div class="line">  <span class="keyword">return</span> <span class="built_in">Object</span>.freeze(obj);</div><div class="line">&#125;</div><div class="line"></div><div class="line">obj2 = &#123;</div><div class="line">  <span class="attr">internal</span>: &#123;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">deepFreeze(obj2);</div><div class="line">obj2.internal.a = <span class="string">'anotherValue'</span>;</div><div class="line">obj2.internal.a; <span class="comment">// undefined</span></div></pre></td></tr></table></figure></p>
-<h2 id="Object-seal"><a href="#Object-seal" class="headerlink" title="Object.seal()"></a>Object.seal()</h2><pre><code>Object.seal(obj)
-返回被封装的对象，阻止增加新属性，并将已有属性改成non-configurable，如果writable为true则属性值仍旧可以修改
-</code></pre><h2 id="Object-preventExtensions"><a href="#Object-preventExtensions" class="headerlink" title="Object.preventExtensions()"></a>Object.preventExtensions()</h2><pre><code>Object.preventExtensions(obj)
-返回被禁止增加新属性的对象，不影响对现在属性的修改
-</code></pre><h2 id="Object-isExtensible"><a href="#Object-isExtensible" class="headerlink" title="Object.isExtensible()"></a>Object.isExtensible()</h2><pre><code>Object.isExtensible(obj)
-@return bool 判断一个对象是否可扩展
-</code></pre><p>一般对象都是默认可扩展的，能增加新属性，也能被修改，但通过一些方法可禁止这些特性，如Object.preventExtensions(), Object.seal(), or Object.freeze().</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>没啥可说的，理解了就不会觉得神奇。</p>
-<p>参考：<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank" rel="external">Object</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;javascript里的对象是我一直没认真研究过的，每次看到Object的调用总觉得是高级语法。然而其实它一直都在那里，不难不易，只是我没有去了解。查了下MDN，仍旧是做下API层面的总结。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="http://xu-li.cn/categories/JavaScript/"/>
-    
-    
-      <category term="JavaScript" scheme="http://xu-li.cn/tags/JavaScript/"/>
-    
-      <category term="Object" scheme="http://xu-li.cn/tags/Object/"/>
     
   </entry>
   
