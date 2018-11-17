@@ -4,6 +4,50 @@
 
     
   <url>
+    <loc>http://xu-li.cn/2018/latest/</loc>
+    <lastmod>2018-11-17T13:43:00.946Z</lastmod>
+    <data>
+        <display>
+        <title>近况</title>
+        <pubTime>2018-11-17T11:55:38.000Z</pubTime>
+        
+        <tag>summary</tag>
+         
+         
+           
+             
+              <breadCrumb title="life" url="http://xu-li.cn/categories/life/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://xu-li.cn/2018/an-interview-summary/</loc>
+    <lastmod>2018-11-17T11:36:10.953Z</lastmod>
+    <data>
+        <display>
+        <title>记一次面试总结</title>
+        <pubTime>2018-04-12T14:50:38.000Z</pubTime>
+        
+        <tag>DOM</tag>
+         
+         
+           
+             
+              <breadCrumb title="Common-sense" url="http://xu-li.cn/categories/Common-sense/"/>
+          
+             
+              <breadCrumb title="Summary" url="http://xu-li.cn/categories/Common-sense/Summary/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://xu-li.cn/2018/middleware/</loc>
     <lastmod>2018-06-18T08:11:51.910Z</lastmod>
     <data>
@@ -173,29 +217,6 @@
           
              
               <breadCrumb title="Arrow-function" url="http://xu-li.cn/categories/JavaScript/Arrow-function/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xu-li.cn/2018/an-interview-summary/</loc>
-    <lastmod>2018-06-18T08:09:58.949Z</lastmod>
-    <data>
-        <display>
-        <title>记一次面试总结</title>
-        <pubTime>2018-04-12T14:50:38.000Z</pubTime>
-        
-        <tag>DOM</tag>
-         
-         
-           
-             
-              <breadCrumb title="Common-sense" url="http://xu-li.cn/categories/Common-sense/"/>
-          
-             
-              <breadCrumb title="Summary" url="http://xu-li.cn/categories/Common-sense/Summary/"/>
           
         </display>
     </data>
@@ -746,7 +767,6 @@
     </data>
     </url>
 
-    
     
     
     

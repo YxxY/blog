@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://xu-li.cn/2018/latest/</loc>
+    
+    <lastmod>2018-11-17T13:43:00.946Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/about/index.html</loc>
+    
+    <lastmod>2018-11-17T13:03:38.335Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://xu-li.cn/2018/an-interview-summary/</loc>
+    
+    <lastmod>2018-11-17T11:36:10.953Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://xu-li.cn/2018/middleware/</loc>
     
     <lastmod>2018-06-18T08:11:51.910Z</lastmod>
@@ -47,13 +68,6 @@
     <loc>http://xu-li.cn/2017/arrow_function/</loc>
     
     <lastmod>2018-06-18T08:10:12.083Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2018/an-interview-summary/</loc>
-    
-    <lastmod>2018-06-18T08:09:58.949Z</lastmod>
     
   </url>
   
@@ -229,13 +243,6 @@
     <loc>http://xu-li.cn/categories/index.html</loc>
     
     <lastmod>2017-09-19T13:24:43.604Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/about/index.html</loc>
-    
-    <lastmod>2017-06-15T14:05:16.966Z</lastmod>
     
   </url>
   
