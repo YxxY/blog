@@ -1,0 +1,12 @@
+{
+    "avatar": "http://opxo4bto2.bkt.clouddn.com/me.jpg",
+    "name": "pandaQ",
+	"tag": "Coder/API搬运工",
+    "desc": "Life is hard, talk is cheap.",
+    "skills": {
+        "javaScript": 5,
+        "Python": 5,
+        "invisible-split-line-1": -1,
+        "Node.js": 6
+    }
+}

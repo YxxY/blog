@@ -1,0 +1,19 @@
+[{
+    "image": "http://opxo4bto2.bkt.clouddn.com/cat-slider1.jpg",
+    "align": "center",
+    "title": "下面我简单说两句",
+    "subtitle": "",
+	"link": "/"
+}, {
+    "image": "http://opxo4bto2.bkt.clouddn.com/cat-slider2.jpg",
+    "align": "left",
+    "title": "包括这一句和下一句",
+    "subtitle": "",
+	"link": null
+}, {
+    "image": "http://opxo4bto2.bkt.clouddn.com/cat-slider03.jpg",
+    "align": "right",
+    "title": "好，我说完了",
+    "subtitle": "谢谢！",
+	"link": null
+}]

@@ -1,0 +1,11 @@
+# hexo robots.txt
+User-agent: * Allow: /
+Allow: /archives/
+Disallow: /vendors/
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+Disallow: /vendors/
+
+Sitemap: http://xu-li.cn/sitemap.xml
+Sitemap: http://xu-li.cn/baidusitemap.xml
