@@ -2,24 +2,22 @@
 title: async/await
 date: 2018-2-28 21:15:27
 categories:
-- JavaScript
-- Async-await
+- javascript
 tags: 
-- javaScript
+- node.js
 - async
 - await
 ---
 
-async/await, 号称js异步的终极方案……虽然似乎只是语法糖，但确实减少了代码量，让代码同步化，一直拖着没用，但不学不行啊
+async/await, 号称js异步的终极方案……虽然似乎只是语法糖，但确实减少了代码量，总结一下
 <!--more-->
 
 ## 基本语法
-### tips
 - `async`修饰放在函数声明前，表示函数里有异步操作
-- `async`函数的返回值会被封装为`promise`对象
-- `await`只能出现在`async`函数中，表示后面的表达式需要等待结果，
-- `await`后面的返回值一般是promise对象，如果不是也会被`Promise.resolve()`转换
-- `await`后面的promise对象状态如果变为`reject`,会有`return` 的效果，不再执行后续语句
+- `async`函数的返回值会被封装为 `promise`对象
+- `await`只能出现在async 函数中，表示后面的表达式需要等待结果，
+- `await`后面的返回值是 promise对象，如果不是也会被`Promise.resolve()`转换
+- `await`后面的promise 对象状态如果变为`reject`,会有`return` 的效果，**不再执行后续语句**
 - 如果希望前一个异步失败不影响后面的状态，需要将`await`语句用`try...catch`包裹
 
 基本示例：
@@ -131,7 +129,7 @@ async function test(){
 虽然也没有多高级，但显然比`try...catch`要优雅的多……
 
 ## 总结
-本来想从ES6的generator开始总结起，然而ES6规范还没普及就被ES7的async/await干掉了……
+本来想从ES6的generator开始总结起，然而ES6规范还没普及就被ES7的 async/await干掉了……
 
 不存在兼容性问题的情况下，直接使用async/await能让语义更清晰，也能减少代码量，值得学习和使用
 

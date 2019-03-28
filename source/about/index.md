@@ -1,5 +1,6 @@
 title: 关于
 layout: about
+commens: false
 ---
 Welcome！欢迎来到我的个人博客。
 
