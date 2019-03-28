@@ -83,17 +83,17 @@
 
 
 
-<meta name="description" content="md也写了很久了，最近想倒腾一个自定义渲染风格的md解析器，所以回过头写一篇基础总结，确实发现了一些之前不知道的细节，就当一篇markdown的语法备忘。">
+<meta name="description" content="md也写了很久了，最近想倒腾一个自定义渲染风格的md解析器，研究的时候发现了很多之前根本没用到的语法，于是动手写这么一篇语法备忘">
 <meta name="keywords" content="markdown">
 <meta property="og:type" content="article">
 <meta property="og:title" content="markdown 总结">
 <meta property="og:url" content="http://xu-li.cn/2018/markdown/index.html">
 <meta property="og:site_name" content="pandaQ&#39;s Site">
-<meta property="og:description" content="md也写了很久了，最近想倒腾一个自定义渲染风格的md解析器，所以回过头写一篇基础总结，确实发现了一些之前不知道的细节，就当一篇markdown的语法备忘。">
-<meta property="og:updated_time" content="2018-06-18T07:59:01.507Z">
+<meta property="og:description" content="md也写了很久了，最近想倒腾一个自定义渲染风格的md解析器，研究的时候发现了很多之前根本没用到的语法，于是动手写这么一篇语法备忘">
+<meta property="og:updated_time" content="2019-03-28T14:19:44.892Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="markdown 总结">
-<meta name="twitter:description" content="md也写了很久了，最近想倒腾一个自定义渲染风格的md解析器，所以回过头写一篇基础总结，确实发现了一些之前不知道的细节，就当一篇markdown的语法备忘。">
+<meta name="twitter:description" content="md也写了很久了，最近想倒腾一个自定义渲染风格的md解析器，研究的时候发现了很多之前根本没用到的语法，于是动手写这么一篇语法备忘">
 
 
 
@@ -352,8 +352,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Markdown/" itemprop="url" rel="index">
-                    <span itemprop="name">Markdown</span>
+                  <a href="/categories/tools/" itemprop="url" rel="index">
+                    <span itemprop="name">tools</span>
                   </a>
                 </span>
 
@@ -383,7 +383,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,173
+                  2,169
                 </span>
               
 
@@ -420,8 +420,8 @@
       
 
       
-        <p>md也写了很久了，最近想倒腾一个自定义渲染风格的md解析器，所以回过头写一篇基础总结，确实发现了一些之前不知道的细节，就当一篇markdown的语法备忘。<br><a id="more"></a></p>
-<h2 id="语法导航"><a href="#语法导航" class="headerlink" title="语法导航"></a>语法导航</h2><p>翻译自<a href="https://spec.commonmark.org/0.28" target="_blank" rel="external">官方标准V0.28</a>，<br>官网举例非常详细，我仅翻译一个我觉得够用的版本。</p>
+        <p>md也写了很久了，最近想倒腾一个自定义渲染风格的md解析器，<br>研究的时候发现了很多之前根本没用到的语法，于是动手写这么一篇语法备忘<br><a id="more"></a></p>
+<h2 id="语法导航"><a href="#语法导航" class="headerlink" title="语法导航"></a>语法导航</h2><p>翻译自<a href="https://spec.commonmark.org/0.28" target="_blank" rel="external">官方标准V0.28</a>，<br>官网举例非常详细，我仅翻译一个自己觉得够用的版本。</p>
 <h3 id="Space"><a href="#Space" class="headerlink" title="Space"></a>Space</h3><ul>
 <li>多个空格会被视为一个空格</li>
 <li>多个空行也会被渲染为一个（因此换行需要两个回车）</li>
@@ -596,8 +596,7 @@ ___
 <p>历史版本见<a href="https://spec.commonmark.org/" target="_blank" rel="external">历史版本列表</a></p>
 <p>规范只有一个，但实现可以有多种，markdown的实现也是一样，根据<code>commonMark</code>的官方统计，目前在册的已经有几十种了。具体可参考<br><a href="https://github.com/commonmark/CommonMark/wiki/Markdown-Flavors" target="_blank" rel="external">规范实现列表</a></p>
 <p>之前的语法渲染问题的原因就是，vscode支持的markdown语法只是最基本标准的实现，haroopad根据规范有一套自己的实现，也就是<a href="http://pad.haroopress.com/page.html?f=haroopad-flavored-markdown" target="_blank" rel="external">Haroopad Flavored Markdown</a></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>因此，编辑器的选择只是表象。<br>如果只是编写标准的markdown，那用什么编辑器都一样。<br>然而如果选择的是某一特定版本的实现，则需要参考相对应的使用说明，以及选择对应的渲染方式</p>
-<p>当写markdown时，一定要清楚自己写的是哪一种实现，一般来说写标准的肯定没错，但一些有特色的特性也很有吸引力，如果使用时务必要使用对应的解析和渲染手段才能达到预期效果。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>markdown并没有绑定编辑器使用，如果只是编写标准的markdown，那用什么编辑器都一样。<br>然而如果选择的是某一特定版本的实现，则需要参考相对应的使用说明，以及选择对应的渲染方式。<br>写markdown时，最好是要弄清楚自己写的是哪一种实现，<br>一般来说写标准的肯定没错，但一些有特色的特性也很有吸引力。<br>但使用时务必要使用对应的解析和渲染手段才能达到预期效果。</p>
 
       
     </div>
@@ -642,8 +641,8 @@ ___
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/an-interview-summary/" rel="next" title="记一次面试总结">
-                <i class="fa fa-chevron-left"></i> 记一次面试总结
+              <a href="/2018/document-ready/" rel="next" title="浏览器事件 ready vs load">
+                <i class="fa fa-chevron-left"></i> 浏览器事件 ready vs load
               </a>
             
           </div>
@@ -651,10 +650,6 @@ ___
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/latest/" rel="prev" title="近况">
-                近况 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -738,7 +733,7 @@ ___
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -749,7 +744,7 @@ ___
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -839,7 +834,7 @@ ___
         <div class="copyright" >
   
   &copy;  2016 &mdash; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -854,7 +849,7 @@ ___
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
     <span title="Site words total count">
-      58.0k
+      54.6k
     </span>
   
 </div>

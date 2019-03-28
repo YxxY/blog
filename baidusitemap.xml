@@ -4,48 +4,73 @@
 
     
   <url>
-    <loc>http://xu-li.cn/2018/latest/</loc>
-    <lastmod>2018-11-17T13:43:00.946Z</lastmod>
+    <loc>http://xu-li.cn/2018/document-ready/</loc>
+    <lastmod>2019-03-28T14:29:01.358Z</lastmod>
     <data>
         <display>
-        <title>近况</title>
-        <pubTime>2018-11-17T11:55:38.000Z</pubTime>
-        
-        <tag>summary</tag>
-         
-         
-           
-             
-              <breadCrumb title="life" url="http://xu-li.cn/categories/life/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-    
-  <url>
-    <loc>http://xu-li.cn/2018/an-interview-summary/</loc>
-    <lastmod>2018-11-17T11:36:10.953Z</lastmod>
-    <data>
-        <display>
-        <title>记一次面试总结</title>
+        <title>浏览器事件 ready vs load</title>
         <pubTime>2018-04-12T14:50:38.000Z</pubTime>
         
-        <tag>DOM</tag>
+        <tag>document</tag>
+         
+        <tag>ready</tag>
+         
+        <tag>jquery</tag>
          
          
            
              
-              <breadCrumb title="Common-sense" url="http://xu-li.cn/categories/Common-sense/"/>
-          
-             
-              <breadCrumb title="Summary" url="http://xu-li.cn/categories/Common-sense/Summary/"/>
+              <breadCrumb title="front-end" url="http://xu-li.cn/categories/front-end/"/>
           
         </display>
     </data>
     </url>
 
+    
+  <url>
+    <loc>http://xu-li.cn/2018/async-await/</loc>
+    <lastmod>2019-03-28T14:23:53.491Z</lastmod>
+    <data>
+        <display>
+        <title>async/await</title>
+        <pubTime>2018-02-28T13:15:27.000Z</pubTime>
+        
+        <tag>node.js</tag>
+         
+        <tag>async</tag>
+         
+        <tag>await</tag>
+         
+         
+           
+             
+              <breadCrumb title="javascript" url="http://xu-li.cn/categories/javascript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xu-li.cn/2018/markdown/</loc>
+    <lastmod>2019-03-28T14:19:44.892Z</lastmod>
+    <data>
+        <display>
+        <title>markdown 总结</title>
+        <pubTime>2018-06-17T12:30:38.000Z</pubTime>
+        
+        <tag>markdown</tag>
+         
+         
+           
+             
+              <breadCrumb title="tools" url="http://xu-li.cn/categories/tools/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>http://xu-li.cn/2018/middleware/</loc>
@@ -163,33 +188,6 @@
           
              
               <breadCrumb title="Bootstrap" url="http://xu-li.cn/categories/CSS/Bootstrap/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xu-li.cn/2018/async-await/</loc>
-    <lastmod>2018-06-18T08:10:30.390Z</lastmod>
-    <data>
-        <display>
-        <title>async/await</title>
-        <pubTime>2018-02-28T13:15:27.000Z</pubTime>
-        
-        <tag>javaScript</tag>
-         
-        <tag>async</tag>
-         
-        <tag>await</tag>
-         
-         
-           
-             
-              <breadCrumb title="JavaScript" url="http://xu-li.cn/categories/JavaScript/"/>
-          
-             
-              <breadCrumb title="Async-await" url="http://xu-li.cn/categories/JavaScript/Async-await/"/>
           
         </display>
     </data>
@@ -459,11 +457,11 @@
         <title>包机制：Python vs Node.js</title>
         <pubTime>2018-01-31T12:45:27.000Z</pubTime>
         
+        <tag>node.js</tag>
+         
         <tag>python</tag>
          
         <tag>module</tag>
-         
-        <tag>node.js</tag>
          
          
            
@@ -544,26 +542,6 @@
           
              
               <breadCrumb title="Express" url="http://xu-li.cn/categories/JavaScript/Express/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xu-li.cn/2018/markdown/</loc>
-    <lastmod>2018-06-18T07:59:01.507Z</lastmod>
-    <data>
-        <display>
-        <title>markdown 总结</title>
-        <pubTime>2018-06-17T12:30:38.000Z</pubTime>
-        
-        <tag>markdown</tag>
-         
-         
-           
-             
-              <breadCrumb title="Markdown" url="http://xu-li.cn/categories/Markdown/"/>
           
         </display>
     </data>
@@ -676,26 +654,6 @@
            
              
               <breadCrumb title="CSS" url="http://xu-li.cn/categories/CSS/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xu-li.cn/2017/html/</loc>
-    <lastmod>2017-12-24T13:51:10.097Z</lastmod>
-    <data>
-        <display>
-        <title>HTML</title>
-        <pubTime>2017-05-21T13:15:27.000Z</pubTime>
-        
-        <tag>html</tag>
-         
-         
-           
-             
-              <breadCrumb title="HTML" url="http://xu-li.cn/categories/HTML/"/>
           
         </display>
     </data>

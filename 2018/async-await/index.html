@@ -65,7 +65,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="javaScript,async,await," />
+  <meta name="keywords" content="node.js,async,await," />
 
 
 
@@ -83,17 +83,17 @@
 
 
 
-<meta name="description" content="async/await, 号称js异步的终极方案……虽然似乎只是语法糖，但确实减少了代码量，让代码同步化，一直拖着没用，但不学不行啊">
-<meta name="keywords" content="javaScript,async,await">
+<meta name="description" content="async/await, 号称js异步的终极方案……虽然似乎只是语法糖，但确实减少了代码量，总结一下">
+<meta name="keywords" content="node.js,async,await">
 <meta property="og:type" content="article">
 <meta property="og:title" content="async&#x2F;await">
 <meta property="og:url" content="http://xu-li.cn/2018/async-await/index.html">
 <meta property="og:site_name" content="pandaQ&#39;s Site">
-<meta property="og:description" content="async/await, 号称js异步的终极方案……虽然似乎只是语法糖，但确实减少了代码量，让代码同步化，一直拖着没用，但不学不行啊">
-<meta property="og:updated_time" content="2018-06-18T08:10:30.390Z">
+<meta property="og:description" content="async/await, 号称js异步的终极方案……虽然似乎只是语法糖，但确实减少了代码量，总结一下">
+<meta property="og:updated_time" content="2019-03-28T14:23:53.491Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="async&#x2F;await">
-<meta name="twitter:description" content="async/await, 号称js异步的终极方案……虽然似乎只是语法糖，但确实减少了代码量，让代码同步化，一直拖着没用，但不学不行啊">
+<meta name="twitter:description" content="async/await, 号称js异步的终极方案……虽然似乎只是语法糖，但确实减少了代码量，总结一下">
 
 
 
@@ -352,19 +352,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/Async-await/" itemprop="url" rel="index">
-                    <span itemprop="name">Async-await</span>
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
                   </a>
                 </span>
 
@@ -394,7 +383,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  601
+                  588
                 </span>
               
 
@@ -431,13 +420,13 @@
       
 
       
-        <p>async/await, 号称js异步的终极方案……虽然似乎只是语法糖，但确实减少了代码量，让代码同步化，一直拖着没用，但不学不行啊<br><a id="more"></a></p>
-<h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><ul>
+        <p>async/await, 号称js异步的终极方案……虽然似乎只是语法糖，但确实减少了代码量，总结一下<br><a id="more"></a></p>
+<h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><ul>
 <li><code>async</code>修饰放在函数声明前，表示函数里有异步操作</li>
-<li><code>async</code>函数的返回值会被封装为<code>promise</code>对象</li>
-<li><code>await</code>只能出现在<code>async</code>函数中，表示后面的表达式需要等待结果，</li>
-<li><code>await</code>后面的返回值一般是promise对象，如果不是也会被<code>Promise.resolve()</code>转换</li>
-<li><code>await</code>后面的promise对象状态如果变为<code>reject</code>,会有<code>return</code> 的效果，不再执行后续语句</li>
+<li><code>async</code>函数的返回值会被封装为 <code>promise</code>对象</li>
+<li><code>await</code>只能出现在async 函数中，表示后面的表达式需要等待结果，</li>
+<li><code>await</code>后面的返回值是 promise对象，如果不是也会被<code>Promise.resolve()</code>转换</li>
+<li><code>await</code>后面的promise 对象状态如果变为<code>reject</code>,会有<code>return</code> 的效果，<strong>不再执行后续语句</strong></li>
 <li>如果希望前一个异步失败不影响后面的状态，需要将<code>await</code>语句用<code>try...catch</code>包裹</li>
 </ul>
 <p>基本示例：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">timeout</span>(<span class="params">ms</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</div><div class="line">    setTimeout(resolve, ms);</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncPrint</span>(<span class="params">value, ms</span>) </span>&#123;</div><div class="line">  <span class="keyword">await</span> timeout(ms);</div><div class="line">  <span class="built_in">console</span>.log(value);</div><div class="line">  <span class="keyword">return</span> <span class="string">'bye'</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">asyncPrint(<span class="string">'hello world'</span>, <span class="number">2000</span>).then(<span class="function"><span class="params">ret</span>=&gt;</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(ret);</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
@@ -449,7 +438,7 @@
 <p>那就是<code>try...catch</code>,但每个await写个<code>try...catch</code>实在是不够优雅</p>
 <p>那就简单写个封装<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">to</span>(<span class="params">promise</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> promise.then(<span class="function"><span class="params">ret</span>=&gt;</span>&#123;</div><div class="line">        <span class="keyword">return</span> [<span class="literal">null</span>, ret]</div><div class="line">    &#125;).catch(<span class="function"><span class="params">err</span>=&gt;</span>[err])</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    [err, ret] = <span class="keyword">await</span> to(getFoo())</div><div class="line">    <span class="keyword">if</span>(err)&#123;</div><div class="line">        <span class="comment">//do something</span></div><div class="line">    &#125;</div><div class="line">    [err, ret] = <span class="keyword">await</span> to(getBar())</div><div class="line">    <span class="keyword">if</span>(err)&#123;</div><div class="line">        <span class="comment">//do something</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>虽然也没有多高级，但显然比<code>try...catch</code>要优雅的多……</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本来想从ES6的generator开始总结起，然而ES6规范还没普及就被ES7的async/await干掉了……</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本来想从ES6的generator开始总结起，然而ES6规范还没普及就被ES7的 async/await干掉了……</p>
 <p>不存在兼容性问题的情况下，直接使用async/await能让语义更清晰，也能减少代码量，值得学习和使用</p>
 <p>参考资料：</p>
 <ul>
@@ -487,7 +476,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/javaScript/" <i class="fa fa-tag"></i> javaScript</a>
+            <a href="/tags/node-js/" <i class="fa fa-tag"></i> node.js</a>
           
             <a href="/tags/async/" <i class="fa fa-tag"></i> async</a>
           
@@ -514,8 +503,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/an-interview-summary/" rel="prev" title="记一次面试总结">
-                记一次面试总结 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/document-ready/" rel="prev" title="浏览器事件 ready vs load">
+                浏览器事件 ready vs load <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -600,7 +589,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -611,7 +600,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -678,7 +667,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本语法"><span class="nav-number">1.</span> <span class="nav-text">基本语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tips"><span class="nav-number">1.1.</span> <span class="nav-text">tips</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#同时执行"><span class="nav-number">1.2.</span> <span class="nav-text">同时执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#await与for循环"><span class="nav-number">1.3.</span> <span class="nav-text">await与for循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误处理"><span class="nav-number">1.4.</span> <span class="nav-text">错误处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本语法"><span class="nav-number">1.</span> <span class="nav-text">基本语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同时执行"><span class="nav-number">1.1.</span> <span class="nav-text">同时执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#await与for循环"><span class="nav-number">1.2.</span> <span class="nav-text">await与for循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误处理"><span class="nav-number">1.3.</span> <span class="nav-text">错误处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
@@ -701,7 +690,7 @@
         <div class="copyright" >
   
   &copy;  2016 &mdash; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -716,7 +705,7 @@
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
     <span title="Site words total count">
-      58.0k
+      54.6k
     </span>
   
 </div>
