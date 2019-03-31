@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>http://xu-li.cn/2017/python-metaclass/</loc>
+    <lastmod>2019-03-31T12:37:31.082Z</lastmod>
+    <data>
+        <display>
+        <title>Python中的元类</title>
+        <pubTime>2017-08-01T13:05:27.000Z</pubTime>
+        
+        <tag>python</tag>
+         
+        <tag>metaclass</tag>
+         
+         
+           
+             
+              <breadCrumb title="Python" url="http://xu-li.cn/categories/Python/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://xu-li.cn/2018/document-ready/</loc>
     <lastmod>2019-03-28T14:29:01.358Z</lastmod>
     <data>
@@ -457,9 +479,9 @@
         <title>包机制：Python vs Node.js</title>
         <pubTime>2018-01-31T12:45:27.000Z</pubTime>
         
-        <tag>node.js</tag>
-         
         <tag>python</tag>
+         
+        <tag>node.js</tag>
          
         <tag>module</tag>
          
@@ -612,28 +634,6 @@
            
              
               <breadCrumb title="Linux" url="http://xu-li.cn/categories/Linux/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xu-li.cn/2017/python-metaclass/</loc>
-    <lastmod>2018-04-07T02:36:40.361Z</lastmod>
-    <data>
-        <display>
-        <title>Python中的元类</title>
-        <pubTime>2017-08-01T13:05:27.000Z</pubTime>
-        
-        <tag>python</tag>
-         
-        <tag>metaclass</tag>
-         
-         
-           
-             
-              <breadCrumb title="Python" url="http://xu-li.cn/categories/Python/"/>
           
         </display>
     </data>

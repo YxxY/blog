@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://xu-li.cn/2017/python-metaclass/</loc>
+    
+    <lastmod>2019-03-31T12:37:31.082Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://xu-li.cn/2018/document-ready/</loc>
     
     <lastmod>2019-03-28T14:29:01.358Z</lastmod>
@@ -180,13 +187,6 @@
     <loc>http://xu-li.cn/2017/ubuntu/</loc>
     
     <lastmod>2018-06-17T08:49:25.268Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://xu-li.cn/2017/python-metaclass/</loc>
-    
-    <lastmod>2018-04-07T02:36:40.361Z</lastmod>
     
   </url>
   

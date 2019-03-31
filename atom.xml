@@ -611,9 +611,9 @@ ___
       <category term="Python" scheme="http://xu-li.cn/categories/Python/"/>
     
     
-      <category term="node.js" scheme="http://xu-li.cn/tags/node-js/"/>
-    
       <category term="python" scheme="http://xu-li.cn/tags/python/"/>
+    
+      <category term="node.js" scheme="http://xu-li.cn/tags/node-js/"/>
     
       <category term="module" scheme="http://xu-li.cn/tags/module/"/>
     
@@ -1616,7 +1616,7 @@ ___
     <link href="http://xu-li.cn/2017/python-metaclass/"/>
     <id>http://xu-li.cn/2017/python-metaclass/</id>
     <published>2017-08-01T13:05:27.000Z</published>
-    <updated>2018-04-07T02:36:40.361Z</updated>
+    <updated>2019-03-31T12:37:31.082Z</updated>
     
     <content type="html"><![CDATA[<p>python中的元类在大多数场景里是用不到的，但理解元类有助于深入理解python面向对象编程中实例的创建过程，应该当做基础知识掌握。</p>
 <a id="more"></a>
@@ -1674,13 +1674,16 @@ ___
 该静态方法接受一个`需要返回的对象的类`cls作为第一个参数，剩余参数都会被传递给对象构造表达式。
 返回值应该是一个新的对象实例（通常是cls的实例）
 
-典型用法是，以合适的参数调用超类的`__new__`方法`super(currentclass, cls).__new__(cls[, ...])`创建一个类的新实例，然后可以做一些修改，最后返回该实例
+典型用法是，以合适的参数调用超类的`__new__`方法`super(currentclass, cls).__new__(cls[, ...])`
+创建一个类的新实例，然后可以做一些修改，最后返回该实例
 
-如果`__new__`返回的是cls的实例，这个实例的`__init__()`会以`__init__(self[,...])`的形式调用，`self`即新创建的对象，后续的参数即是之前传给`__new__`的剩余参数
+如果`__new__`返回的是cls的实例，这个实例的`__init__()`会以`__init__(self[,...])`的形式调用，
+`self`即新创建的对象，后续的参数即是之前传给`__new__`的剩余参数
 
 如果`__new__`返回的不是cls的实例，那么实例的`__init__()`将不会被调用
 
-`__new__`主要意图是那些让不可变类型（例如 int, str, tuple）的子类可以自定义实例的创建。通常也会在自定义元类中被重写，从而达到自定义类的创建
+`__new__`主要意图是那些让不可变类型（例如 int, str, tuple）的子类可以自定义实例的创建。
+通常也会在自定义元类中被重写，从而达到自定义类的创建
 </code></pre><p>这一段我自行翻译如上，原文见 <a href="https://docs.python.org/2.7/reference/datamodel.html?highlight=__new__#object.__new__" target="_blank" rel="external"><code>object.__new__(cls[, ...])</code></a></p>
 <h3 id="init"><a href="#init" class="headerlink" title="__init__"></a><code>__init__</code></h3><p><a href="https://docs.python.org/2.7/reference/datamodel.html?highlight=__new__#object.__init__" target="_blank" rel="external">官方文档</a> 翻译如下：</p>
 <pre><code>在实例被(`__new__`)创建后调用，参数均将被传递给类构造表达式。
@@ -1700,9 +1703,9 @@ ___
 <li>如果返回的实对象是cls的实例，且定义了<code>__init__()</code>方法，随后该实例对象会被继续加工</li>
 </ul>
 <h4 id="实例小结"><a href="#实例小结" class="headerlink" title="实例小结"></a>实例小结</h4><ul>
-<li>类创建时<code>MyClass(&#39;hello&#39;)</code>, 传递给<code>__new__()</code>的参数是当前类和后续参数，传递给<code>__init__()</code>的参数是创建的实例和之前的后续参数</li>
+<li>类创建时<code>MyClass(&#39;hello&#39;)</code>, 传递给<code>__new__()</code>的参数是<strong>当前类</strong>和后续参数，传递给<code>__init__()</code>的参数是<strong>创建的实例</strong>和之前的后续参数</li>
 <li><code>object.__new__(cls[, ...args])</code>会返回cls的实例</li>
-<li><code>__init__()</code>方法只是接受实例对象做加工，并不创建也不返回该对象。</li>
+<li><code>__init__()</code>方法只是接受实例对象做加工，<strong>并不创建也不返回该对象</strong></li>
 <li>由上一条可知，如果创建的对象是不可变对象，那么<code>__init__</code>方法将完全不起作用</li>
 </ul>
 <p>大多数情况下，是不需要使用到<code>__new__</code>方法的，它的应用场景如官方所言主要是两个</p>
@@ -1732,7 +1735,7 @@ ___
 <p>除此之外，<code>__new__</code>最常用的的用法是实现一个单例类<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls)</span>:</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> hasattr(cls, <span class="string">'instance'</span>):</div><div class="line">            cls.instance = object.__new__(cls)</div><div class="line">        <span class="keyword">return</span> cls.instance</div><div class="line"></div><div class="line">obj1 = Singleton()</div><div class="line">obj2 = Singleton()</div><div class="line"></div><div class="line">obj1.key = <span class="string">'value'</span></div><div class="line"><span class="keyword">print</span> obj1.key, obj2.key</div><div class="line"></div><div class="line"><span class="keyword">print</span> obj1 <span class="keyword">is</span> obj2</div></pre></td></tr></table></figure></p>
 <h4 id="自定义元类"><a href="#自定义元类" class="headerlink" title="自定义元类"></a>自定义元类</h4><p>自定义元类, 以type元类为基类即可<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyMetachass</span><span class="params">(type)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls, name, base, attrs)</span>:</span></div><div class="line">        print(attrs[<span class="string">'slogan'</span>])</div><div class="line">        attrs[<span class="string">'slogan'</span>] = <span class="string">'guess what'</span></div><div class="line">        <span class="keyword">return</span> type.__new__(cls, name, base, attrs)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span><span class="params">(object)</span>:</span></div><div class="line">    __metaclass__ = MyMetachass</div><div class="line">    slogan = <span class="string">"you can't see me"</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line">print(Foo.slogan)</div><div class="line"></div><div class="line">foo = Foo()</div><div class="line"></div><div class="line">print(foo.slogan)</div></pre></td></tr></table></figure></p>
 <p>效果和最开始的例子相同，也更符合面向对象的写法</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这一篇的内容有点多，本来也是想到哪儿写到哪儿，本来只想写metaclass的，一不小心没把持住……当然也还有很多没有展开，我猜太长自己都没耐心看，再次提炼一下本文中心思想。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这一篇的内容有点多，本来只想写metaclass的，一不小心没把持住……当然也还有很多没有展开，我猜太长自己都没耐心看，再次提炼一下本文中心思想。</p>
 <ul>
 <li>元类(metaclass)就是实例为class的class</li>
 <li>type接收一个参数时是返回对象类型，接收三个参数时是一个元类。两种情况下的返回值均为type类</li>
